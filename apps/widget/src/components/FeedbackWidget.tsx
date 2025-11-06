@@ -36,8 +36,8 @@ export function FeedbackWidget({ config }: FeedbackWidgetProps) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-API-Key": config.apiKey,
-          "X-Project-Id": config.projectId,
+          "x-api-key": config.apiKey,
+          "x-project-id": config.projectId,
         },
         body: JSON.stringify(validatedData),
       });

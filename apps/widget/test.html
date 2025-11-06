@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reactly Widget Test</title>
+  <style>
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+
+    h1 {
+      color: #1a202c;
+      margin-top: 0;
+      font-size: 2.5rem;
+    }
+
+    .intro {
+      color: #4a5568;
+      font-size: 1.125rem;
+      line-height: 1.75;
+      margin-bottom: 30px;
+    }
+
+    .config-section {
+      background: #f7fafc;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 30px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .config-section h2 {
+      margin-top: 0;
+      color: #2d3748;
+      font-size: 1.25rem;
+    }
+
+    .config-item {
+      margin-bottom: 10px;
+      font-family: 'Courier New', monospace;
+      background: white;
+      padding: 8px 12px;
+      border-radius: 4px;
+      font-size: 0.875rem;
+    }
+
+    .config-label {
+      font-weight: 600;
+      color: #4a5568;
+    }
+
+    .config-value {
+      color: #805ad5;
+    }
+
+    .instructions {
+      background: #fffaf0;
+      border-left: 4px solid #ed8936;
+      padding: 20px;
+      border-radius: 4px;
+      margin-bottom: 30px;
+    }
+
+    .instructions h3 {
+      margin-top: 0;
+      color: #c05621;
+    }
+
+    .instructions ol {
+      margin: 10px 0;
+      padding-left: 20px;
+    }
+
+    .instructions li {
+      margin: 8px 0;
+      color: #744210;
+    }
+
+    .demo-content {
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 2px solid #e2e8f0;
+    }
+
+    .demo-content h2 {
+      color: #2d3748;
+    }
+
+    .demo-content p {
+      color: #4a5568;
+      line-height: 1.75;
+    }
+
+    .cta-box {
+      background: #ebf8ff;
+      border: 2px solid #3182ce;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .cta-box p {
+      margin: 0;
+      color: #2c5282;
+      font-weight: 600;
+      font-size: 1.125rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🎨 Reactly Feedback Widget Test</h1>
+
+    <p class="intro">
+      This page demonstrates the Reactly feedback widget in action.
+      The widget will appear in the bottom-right corner of your screen.
+    </p>
+
+    <div class="instructions">
+      <h3>📋 How to Test</h3>
+      <ol>
+        <li><strong>Create a Project:</strong> Go to <a href="http://localhost:3000/dashboard/projects" target="_blank">Dashboard</a> and create a new project</li>
+        <li><strong>Copy API Key:</strong> Copy the API key and project ID from your project</li>
+        <li><strong>Update Widget Config:</strong> Replace the placeholders below with your actual values</li>
+        <li><strong>Reload Page:</strong> Refresh this page to load the widget with your credentials</li>
+        <li><strong>Test Widget:</strong> Click the feedback button (💬) in the bottom-right corner</li>
+        <li><strong>Submit Feedback:</strong> Fill out the form and submit</li>
+        <li><strong>Check Dashboard:</strong> View the feedback in your <a href="http://localhost:3000/dashboard/feedback" target="_blank">Feedback Dashboard</a></li>
+      </ol>
+    </div>
+
+    <div class="config-section">
+      <h2>⚙️ Current Widget Configuration</h2>
+      <div class="config-item">
+        <span class="config-label">API URL:</span>
+        <span class="config-value">http://localhost:3001/api</span>
+      </div>
+      <div class="config-item">
+        <span class="config-label">API Key:</span>
+        <span class="config-value" id="current-api-key">YOUR_API_KEY_HERE</span>
+      </div>
+      <div class="config-item">
+        <span class="config-label">Project ID:</span>
+        <span class="config-value" id="current-project-id">YOUR_PROJECT_ID_HERE</span>
+      </div>
+      <div class="config-item">
+        <span class="config-label">Position:</span>
+        <span class="config-value">bottom-right</span>
+      </div>
+      <div class="config-item">
+        <span class="config-label">Theme Color:</span>
+        <span class="config-value">#3b82f6</span>
+      </div>
+    </div>
+
+    <div class="demo-content">
+      <h2>About This Demo</h2>
+      <p>
+        This is a test environment for the Reactly feedback widget. The widget is a lightweight,
+        embeddable component that you can add to any website to collect user feedback.
+      </p>
+
+      <p>
+        The widget includes:
+      </p>
+      <ul>
+        <li>⭐ 5-star rating system</li>
+        <li>📝 Text feedback input</li>
+        <li>🏷️ Category selection (bug, feature, improvement, etc.)</li>
+        <li>🤖 AI-powered sentiment analysis</li>
+        <li>🎨 Customizable theme and positioning</li>
+        <li>📱 Responsive design that works on all devices</li>
+      </ul>
+
+      <div class="cta-box">
+        <p>👉 Look for the feedback button in the bottom-right corner! 💬</p>
+      </div>
+
+      <h2 style="margin-top: 40px;">How to Embed in Your Site</h2>
+      <p>
+        Once you've tested the widget and it's working, you can embed it on your own website:
+      </p>
+
+      <div class="config-section">
+        <h3>Method 1: Script Tag (Easiest)</h3>
+        <pre style="background: #2d3748; color: #68d391; padding: 15px; border-radius: 4px; overflow-x: auto;"><code>&lt;script src="http://localhost:5173/dist/widget.umd.js"
+        data-reactly-api-key="YOUR_API_KEY"
+        data-reactly-project-id="YOUR_PROJECT_ID"
+        data-position="bottom-right"&gt;
+&lt;/script&gt;</code></pre>
+      </div>
+
+      <div class="config-section">
+        <h3>Method 2: NPM Package</h3>
+        <pre style="background: #2d3748; color: #68d391; padding: 15px; border-radius: 4px; overflow-x: auto;"><code>import { initFeedbackWidget } from '@reactly/feedback-widget';
+
+initFeedbackWidget({
+  apiKey: 'YOUR_API_KEY',
+  projectId: 'YOUR_PROJECT_ID',
+  apiUrl: 'http://localhost:3001/api',
+  position: 'bottom-right',
+  theme: {
+    primaryColor: '#3b82f6',
+  }
+});</code></pre>
+      </div>
+    </div>
+  </div>
+
+  <!-- Widget Script - Update these values with your actual API key and project ID -->
+  <script type="module">
+    import { initFeedbackWidget } from './src/embed.ts';
+
+    // REPLACE THESE VALUES WITH YOUR ACTUAL API KEY AND PROJECT ID
+    const API_KEY = 'rly_ryib8Mn1Tj4L3ttR5Wap7UFWZSO3Wf6h';
+    const PROJECT_ID = '0b6374a2-efe2-4e1e-9d9b-9238c25a4fe7';
+
+    // Update the display
+    document.getElementById('current-api-key').textContent = API_KEY;
+    document.getElementById('current-project-id').textContent = PROJECT_ID;
+
+    // Initialize the widget
+    initFeedbackWidget({
+      apiKey: API_KEY,
+      projectId: PROJECT_ID,
+      apiUrl: 'http://localhost:3001/api',
+      position: 'bottom-right',
+      theme: {
+        primaryColor: '#3b82f6',
+        backgroundColor: '#ffffff',
+        textColor: '#000000',
+      },
+      labels: {
+        title: 'Share Your Feedback',
+        placeholder: 'We\'d love to hear from you...',
+        submitButton: 'Send Feedback',
+        thankYouMessage: 'Thank you for your feedback! 🎉',
+      },
+    });
+  </script>
+</body>
+</html>

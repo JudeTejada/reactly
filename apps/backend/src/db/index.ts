@@ -1,8 +1,18 @@
-import { drizzle } from "drizzle-orm/postgres-js";
-import postgres from "postgres";
+import { drizzle } from "drizzle-orm/neon-serverless";
 import * as schema from "./schema";
+import { Pool } from "@neondatabase/serverless";
+import * as dotenv from "dotenv";
+import ws from "ws";
 
-const connectionString = process.env.DATABASE_URL!;
+dotenv.config();
 
-const client = postgres(connectionString);
-export const db = drizzle(client, { schema });
+const connectionString = process.env.DATABASE_URL;
+
+if (!connectionString) {
+  throw new Error(
+    "DATABASE_URL is not defined. Please check your .env file."
+  );
+}
+
+const pool = new Pool({ connectionString });
+export const db = drizzle(pool, { schema });

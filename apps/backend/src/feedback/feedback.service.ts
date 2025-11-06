@@ -1,6 +1,6 @@
 import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { db } from "../db";
-import { feedback, projects } from "../db/schema";
+import { feedback, projects, users } from "../db/schema";
 import { AiService } from "../ai/ai.service";
 import { WebhookService } from "../webhook/webhook.service";
 import type { SubmitFeedbackDto, PaginatedResponse } from "@reactly/shared";
@@ -15,6 +15,20 @@ export class FeedbackService {
     private readonly aiService: AiService,
     private readonly webhookService: WebhookService
   ) {}
+
+  private async getUserInternalId(clerkUserId: string): Promise<string> {
+    const user = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.clerkUserId, clerkUserId))
+      .limit(1);
+
+    if (user.length === 0) {
+      throw new NotFoundException("User not found");
+    }
+
+    return user[0].id;
+  }
 
   async submitFeedback(
     projectId: string,
@@ -58,7 +72,7 @@ export class FeedbackService {
   }
 
   async findAll(
-    userId: string,
+    clerkUserId: string,
     options: {
       projectId?: string;
       sentiment?: string;
@@ -70,6 +84,7 @@ export class FeedbackService {
       pageSize?: number;
     }
   ): Promise<PaginatedResponse<Feedback>> {
+    const internalUserId = await this.getUserInternalId(clerkUserId);
     const page = options.page || 1;
     const pageSize = Math.min(options.pageSize || 20, 100);
     const offset = (page - 1) * pageSize;
@@ -77,7 +92,7 @@ export class FeedbackService {
     const userProjects = await db
       .select({ id: projects.id })
       .from(projects)
-      .where(eq(projects.userId, userId));
+      .where(eq(projects.userId, internalUserId));
 
     const projectIds = userProjects.map((p) => p.id);
 
@@ -142,12 +157,14 @@ export class FeedbackService {
     };
   }
 
-  async findOne(id: string, userId: string): Promise<Feedback> {
+  async findOne(id: string, clerkUserId: string): Promise<Feedback> {
+    const internalUserId = await this.getUserInternalId(clerkUserId);
+    
     const [item] = await db
       .select()
       .from(feedback)
       .innerJoin(projects, eq(feedback.projectId, projects.id))
-      .where(and(eq(feedback.id, id), eq(projects.userId, userId)))
+      .where(and(eq(feedback.id, id), eq(projects.userId, internalUserId)))
       .limit(1);
 
     if (!item) {
@@ -157,8 +174,8 @@ export class FeedbackService {
     return item.feedback;
   }
 
-  async deleteFeedback(id: string, userId: string): Promise<void> {
-    const feedbackItem = await this.findOne(id, userId);
+  async deleteFeedback(id: string, clerkUserId: string): Promise<void> {
+    const feedbackItem = await this.findOne(id, clerkUserId);
 
     await db.delete(feedback).where(eq(feedback.id, feedbackItem.id));
 

@@ -20,7 +20,7 @@ export class AnalyticsController {
     @Query("endDate") endDate?: string
   ) {
     const stats = await this.analyticsService.getOverview(
-      user.userId,
+      user.clerkUserId,
       projectId,
       startDate ? new Date(startDate) : undefined,
       endDate ? new Date(endDate) : undefined
@@ -40,7 +40,7 @@ export class AnalyticsController {
     @Query("days") days?: string
   ) {
     const trends = await this.analyticsService.getTrends(
-      user.userId,
+      user.clerkUserId,
       projectId,
       days ? parseInt(days) : 30
     );
@@ -59,7 +59,7 @@ export class AnalyticsController {
     @Query("limit") limit?: string
   ) {
     const recent = await this.analyticsService.getRecentFeedback(
-      user.userId,
+      user.clerkUserId,
       projectId,
       limit ? parseInt(limit) : 10
     );

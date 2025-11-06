@@ -73,7 +73,7 @@ export class FeedbackController {
     @Query("page") page?: string,
     @Query("pageSize") pageSize?: string
   ) {
-    const result = await this.feedbackService.findAll(user.userId, {
+    const result = await this.feedbackService.findAll(user.clerkUserId, {
       projectId,
       sentiment,
       category,
@@ -95,7 +95,7 @@ export class FeedbackController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Get single feedback by ID" })
   async getFeedback(@Param("id") id: string, @CurrentUser() user: any) {
-    const feedback = await this.feedbackService.findOne(id, user.userId);
+    const feedback = await this.feedbackService.findOne(id, user.clerkUserId);
 
     return {
       success: true,
@@ -108,7 +108,7 @@ export class FeedbackController {
   @ApiBearerAuth()
   @ApiOperation({ summary: "Delete feedback by ID" })
   async deleteFeedback(@Param("id") id: string, @CurrentUser() user: any) {
-    await this.feedbackService.deleteFeedback(id, user.userId);
+    await this.feedbackService.deleteFeedback(id, user.clerkUserId);
 
     return {
       success: true,

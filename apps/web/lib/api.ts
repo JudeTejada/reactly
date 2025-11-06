@@ -9,6 +9,13 @@ import type {
   FeedbackCategory,
 } from "@reactly/shared";
 
+// Token provider - set by the app
+let tokenProvider: (() => Promise<string | null>) | null = null;
+
+export function setTokenProvider(provider: () => Promise<string | null>) {
+  tokenProvider = provider;
+}
+
 class ApiClient {
   private baseUrl: string;
 
@@ -20,20 +27,34 @@ class ApiClient {
     endpoint: string,
     options: RequestInit = {}
   ): Promise<T> {
+    const token = tokenProvider ? await tokenProvider() : null;
+    
+    console.log('[API] Request:', {
+      endpoint,
+      hasToken: !!token,
+      tokenPreview: token ? `${token.substring(0, 20)}...` : 'none'
+    });
+    
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       ...options,
       headers: {
         "Content-Type": "application/json",
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
         ...options.headers,
       },
     });
 
     if (!response.ok) {
       const error = await response.json().catch(() => ({ message: response.statusText }));
-      throw new Error(error.message || "API request failed");
+      console.error('[API] Error:', error);
+      throw new Error(error.message || error.error || "API request failed");
     }
 
-    return response.json();
+    const data = await response.json();
+    console.log('[API] Response:', { endpoint, success: data.success });
+    
+    // Unwrap the backend response format { success: true, data: ... }
+    return data.data !== undefined ? data.data : data;
   }
 
   // Projects

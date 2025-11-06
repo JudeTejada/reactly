@@ -31,7 +31,7 @@ export class ProjectsController {
     const validated = createProjectSchema.parse(dto);
 
     const project = await this.projectsService.createProject(
-      user.userId,
+      user.clerkUserId,
       user.email || "user@example.com",
       validated
     );
@@ -46,7 +46,7 @@ export class ProjectsController {
   @Get()
   @ApiOperation({ summary: "Get all projects for authenticated user" })
   async getAllProjects(@CurrentUser() user: any) {
-    const projects = await this.projectsService.findAll(user.userId);
+    const projects = await this.projectsService.findAll(user.clerkUserId);
 
     return {
       success: true,
@@ -57,7 +57,7 @@ export class ProjectsController {
   @Get(":id")
   @ApiOperation({ summary: "Get single project by ID" })
   async getProject(@Param("id") id: string, @CurrentUser() user: any) {
-    const project = await this.projectsService.findOne(id, user.userId);
+    const project = await this.projectsService.findOne(id, user.clerkUserId);
 
     return {
       success: true,
@@ -74,7 +74,7 @@ export class ProjectsController {
   ) {
     const project = await this.projectsService.updateProject(
       id,
-      user.userId,
+      user.clerkUserId,
       dto
     );
 
@@ -90,7 +90,7 @@ export class ProjectsController {
   async regenerateApiKey(@Param("id") id: string, @CurrentUser() user: any) {
     const project = await this.projectsService.regenerateApiKey(
       id,
-      user.userId
+      user.clerkUserId
     );
 
     return {
@@ -105,7 +105,7 @@ export class ProjectsController {
   async toggleActive(@Param("id") id: string, @CurrentUser() user: any) {
     const project = await this.projectsService.toggleActive(
       id,
-      user.userId
+      user.clerkUserId
     );
 
     return {
@@ -118,7 +118,7 @@ export class ProjectsController {
   @Delete(":id")
   @ApiOperation({ summary: "Delete project" })
   async deleteProject(@Param("id") id: string, @CurrentUser() user: any) {
-    await this.projectsService.deleteProject(id, user.userId);
+    await this.projectsService.deleteProject(id, user.clerkUserId);
 
     return {
       success: true,

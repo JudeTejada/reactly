@@ -1,6 +1,6 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { db } from "../db";
-import { feedback, projects } from "../db/schema";
+import { feedback, projects, users } from "../db/schema";
 import { eq, and, gte, lte, sql } from "drizzle-orm";
 import type {
   FeedbackStats,
@@ -12,16 +12,32 @@ import type {
 export class AnalyticsService {
   private readonly logger = new Logger(AnalyticsService.name);
 
+  private async getUserInternalId(clerkUserId: string): Promise<string> {
+    const user = await db
+      .select({ id: users.id })
+      .from(users)
+      .where(eq(users.clerkUserId, clerkUserId))
+      .limit(1);
+
+    if (user.length === 0) {
+      throw new NotFoundException("User not found");
+    }
+
+    return user[0].id;
+  }
+
   async getOverview(
-    userId: string,
+    clerkUserId: string,
     projectId?: string,
     startDate?: Date,
     endDate?: Date
   ): Promise<FeedbackStats> {
+    const internalUserId = await this.getUserInternalId(clerkUserId);
+
     const userProjects = await db
       .select({ id: projects.id })
       .from(projects)
-      .where(eq(projects.userId, userId));
+      .where(eq(projects.userId, internalUserId));
 
     const projectIds = userProjects.map((p) => p.id);
 
@@ -89,7 +105,7 @@ export class AnalyticsService {
   }
 
   async getTrends(
-    userId: string,
+    clerkUserId: string,
     projectId?: string,
     days: number = 30
   ): Promise<
@@ -101,13 +117,14 @@ export class AnalyticsService {
       total: number;
     }[]
   > {
+    const internalUserId = await this.getUserInternalId(clerkUserId);
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
 
     const userProjects = await db
       .select({ id: projects.id })
       .from(projects)
-      .where(eq(projects.userId, userId));
+      .where(eq(projects.userId, internalUserId));
 
     const projectIds = userProjects.map((p) => p.id);
 
@@ -182,14 +199,16 @@ export class AnalyticsService {
   }
 
   async getRecentFeedback(
-    userId: string,
+    clerkUserId: string,
     projectId?: string,
     limit: number = 10
   ) {
+    const internalUserId = await this.getUserInternalId(clerkUserId);
+    
     const userProjects = await db
       .select({ id: projects.id })
       .from(projects)
-      .where(eq(projects.userId, userId));
+      .where(eq(projects.userId, internalUserId));
 
     const projectIds = userProjects.map((p) => p.id);
 

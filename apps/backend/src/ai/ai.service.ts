@@ -1,47 +1,49 @@
 import { Injectable, Logger } from "@nestjs/common";
-import OpenAI from "openai";
+import { GoogleGenerativeAI } from "@google/generative-ai";
 import type { SentimentResult, SentimentType } from "@reactly/shared";
 
 @Injectable()
 export class AiService {
   private readonly logger = new Logger(AiService.name);
-  private openai: OpenAI;
+  private genAI: GoogleGenerativeAI;
+  private model: any;
 
   constructor() {
-    this.openai = new OpenAI({
-      apiKey: process.env.OPENAI_API_KEY,
-    });
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (apiKey) {
+      this.genAI = new GoogleGenerativeAI(apiKey);
+      this.model = this.genAI.getGenerativeModel({ model: "gemini-pro" });
+    }
   }
 
   async analyzeSentiment(text: string): Promise<SentimentResult> {
+    if (!this.model) {
+      this.logger.warn("Gemini API key not configured, using fallback");
+      return this.fallbackSentimentAnalysis(text);
+    }
+
     try {
-      const completion = await this.openai.chat.completions.create({
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "system",
-            content:
-              "You are a sentiment analysis assistant. Analyze the sentiment of user feedback and respond with a JSON object containing: sentiment (positive, negative, or neutral) and score (0-1 representing confidence). Only respond with valid JSON.",
-          },
-          {
-            role: "user",
-            content: `Analyze the sentiment of this feedback: "${text}"`,
-          },
-        ],
-        temperature: 0.3,
-        max_tokens: 100,
-      });
+      const prompt = `Analyze the sentiment of this user feedback and respond with ONLY a JSON object (no markdown, no extra text) containing: sentiment (must be exactly "positive", "negative", or "neutral") and score (a number between 0 and 1 representing confidence).
 
-      const response = completion.choices[0]?.message?.content;
-      if (!response) {
-        throw new Error("No response from OpenAI");
-      }
+Feedback: "${text}"
 
-      const parsed = JSON.parse(response);
+Response format: {"sentiment": "positive|negative|neutral", "score": 0.8}`;
+
+      const result = await this.model.generateContent(prompt);
+      const response = await result.response;
+      const responseText = response.text();
+
+      // Clean up the response (remove markdown code blocks if present)
+      const cleanResponse = responseText
+        .replace(/```json\n?/g, "")
+        .replace(/```\n?/g, "")
+        .trim();
+
+      const parsed = JSON.parse(cleanResponse);
       const sentiment: SentimentType = parsed.sentiment || "neutral";
       const score = parsed.score || 0.5;
 
-      this.logger.log(`Analyzed sentiment: ${sentiment} (score: ${score})`);
+      this.logger.log(`Analyzed sentiment with Gemini: ${sentiment} (score: ${score})`);
 
       return {
         sentiment,
@@ -49,7 +51,7 @@ export class AiService {
         confidence: score,
       };
     } catch (error) {
-      this.logger.error("Failed to analyze sentiment with OpenAI", error);
+      this.logger.error("Failed to analyze sentiment with Gemini", error);
       return this.fallbackSentimentAnalysis(text);
     }
   }

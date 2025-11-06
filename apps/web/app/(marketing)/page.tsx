@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -11,8 +13,28 @@ import {
   Star,
   CheckCircle2
 } from "lucide-react";
+import { useEffect } from "react";
 
 export default function LandingPage() {
+  useEffect(() => {
+    // Load the widget script
+    const script = document.createElement("script");
+    script.src = "http://localhost:5173/dist/widget.umd.js";
+    script.async = true;
+    script.setAttribute("data-reactly-api-key", "demo-api-key");
+    script.setAttribute("data-reactly-project-id", "demo-project");
+    script.setAttribute("data-position", "bottom-right");
+    
+    document.head.appendChild(script);
+
+    return () => {
+      // Clean up the script when component unmounts
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+    };
+  }, []);
+
   return (
     <div className="flex flex-col">
       {/* Hero Section */}
@@ -227,8 +249,8 @@ export default function LandingPage() {
                     ))}
                   </div>
                   <CardDescription className="text-base">
-                    "Reactly has completely transformed how we handle user feedback. 
-                    The AI sentiment analysis saves us hours every week."
+                    &quot;Reactly has completely transformed how we handle user feedback. 
+                    The AI sentiment analysis saves us hours every week.&quot;
                   </CardDescription>
                 </CardHeader>
                 <CardContent>

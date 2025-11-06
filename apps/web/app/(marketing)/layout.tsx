@@ -23,6 +23,9 @@ export default function MarketingLayout({
             <Link href="/pricing" className="text-sm font-medium transition-colors hover:text-primary">
               Pricing
             </Link>
+            <Link href="/demo" className="text-sm font-medium transition-colors hover:text-primary">
+              Demo
+            </Link>
             <SignedOut>
               <Link href="/sign-in">
                 <Button variant="ghost" size="sm">Sign In</Button>

@@ -1,9 +1,74 @@
 import { Injectable, Logger } from "@nestjs/common";
+import { eq } from "drizzle-orm";
 import type { Feedback } from "../db/schema";
+import { db } from "../db";
+import { users } from "../db/schema";
 
 @Injectable()
 export class WebhookService {
   private readonly logger = new Logger(WebhookService.name);
+
+  async handleUserCreated(data: any): Promise<void> {
+    try {
+      const email =
+        data.email_addresses?.find((e: any) => e.id === data.primary_email_address_id)
+          ?.email_address || data.email_addresses?.[0]?.email_address;
+
+      if (!email) {
+        this.logger.error("No email found in user data");
+        return;
+      }
+
+      const name = data.first_name
+        ? `${data.first_name} ${data.last_name || ""}`.trim()
+        : data.username || email;
+
+      await db.insert(users).values({
+        clerkUserId: data.id,
+        email,
+        name,
+        plan: "free",
+      });
+
+      this.logger.log(`User created: ${email} (Clerk ID: ${data.id})`);
+    } catch (error) {
+      this.logger.error("Failed to create user", error);
+    }
+  }
+
+  async handleUserUpdated(data: any): Promise<void> {
+    try {
+      const email =
+        data.email_addresses?.find((e: any) => e.id === data.primary_email_address_id)
+          ?.email_address || data.email_addresses?.[0]?.email_address;
+
+      const name = data.first_name
+        ? `${data.first_name} ${data.last_name || ""}`.trim()
+        : data.username || email;
+
+      await db
+        .update(users)
+        .set({
+          email,
+          name,
+          updatedAt: new Date(),
+        })
+        .where(eq(users.clerkUserId, data.id));
+
+      this.logger.log(`User updated: ${email} (Clerk ID: ${data.id})`);
+    } catch (error) {
+      this.logger.error("Failed to update user", error);
+    }
+  }
+
+  async handleUserDeleted(data: any): Promise<void> {
+    try {
+      await db.delete(users).where(eq(users.clerkUserId, data.id));
+      this.logger.log(`User deleted: Clerk ID ${data.id}`);
+    } catch (error) {
+      this.logger.error("Failed to delete user", error);
+    }
+  }
 
   async sendDiscordNotification(
     feedback: Feedback,
