@@ -1,0 +1,36 @@
+{
+  "name": "@reactly/feedback-widget",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "./dist/widget.umd.js",
+  "module": "./dist/widget.es.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/widget.es.js",
+      "require": "./dist/widget.umd.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "type-check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "@reactly/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.5",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "typescript": "^5.5.4",
+    "vite": "^5.4.4",
+    "vite-plugin-css-injected-by-js": "^3.5.1"
+  }
+}
