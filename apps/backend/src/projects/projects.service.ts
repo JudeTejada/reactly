@@ -2,13 +2,12 @@ import {
   Injectable,
   Logger,
   NotFoundException,
-  ConflictException,
   Inject,
 } from "@nestjs/common";
 import { projects, users } from "../db/schema";
 import { eq, and } from "drizzle-orm";
 import type { CreateProjectDto } from "@reactly/shared";
-import type { Project } from "../db/schema";
+import type { Project, ProjectWithApiKey } from "../db/schema";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import * as sc from "../db/schema";
 import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
@@ -27,7 +26,7 @@ export class ProjectsService {
   async createProject(
     clerkUserId: string,
     dto: CreateProjectDto
-  ): Promise<Project> {
+  ): Promise<ProjectWithApiKey> {
 
     // Find user by Clerk ID to get internal UUID
     const [user] = await this.db
@@ -40,15 +39,18 @@ export class ProjectsService {
       throw new NotFoundException("User not found");
     }
 
-    const { plainKey: apiKey, hashedKey: hashedApiKey } = await this.apiKeyService.generateApiKeyPair();
+    // Generate random API key with encryption for secure storage
+    const { plainKey: apiKey, hashedKey: hashedApiKey, encryptedKey: encryptedApiKey } = await this.apiKeyService.generateApiKeyPairWithEncryption();
 
+    // Create project with both hashed and encrypted API key in single operation
     const [project] = await this.db
       .insert(projects)
       .values({
         name: dto.name,
-        apiKey,
         hashedApiKey,
-        userId: user.id, // Use internal UUID, not Clerk ID
+        encryptedApiKey,
+        keyVersion: 1,
+        userId: user.id,
         allowedDomains: dto.allowedDomains || [],
         webhookUrl: dto.webhookUrl,
         isActive: true,
@@ -56,10 +58,10 @@ export class ProjectsService {
       .returning();
 
     this.logger.log(`Created project: ${project.id}`);
-    return project;
+    return { ...project, apiKey };
   }
 
-  async findAll(clerkUserId: string): Promise<Project[]> {
+  async findAll(clerkUserId: string): Promise<ProjectWithApiKey[]> {
     const [user] = await this.db
       .select()
       .from(users)
@@ -70,14 +72,20 @@ export class ProjectsService {
       return [];
     }
 
-    return this.db
+    const projectsWithEncryptedKeys = await this.db
       .select()
       .from(projects)
       .where(eq(projects.userId, user.id))
       .orderBy(projects.createdAt);
+
+    // Decrypt API keys for each project
+    return projectsWithEncryptedKeys.map(project => ({
+      ...project,
+      apiKey: project.encryptedApiKey ? this.apiKeyService.decryptApiKey(project.encryptedApiKey) : ''
+    }));
   }
 
-  async findOne(id: string, clerkUserId: string): Promise<Project> {
+  async findOne(id: string, clerkUserId: string): Promise<ProjectWithApiKey> {
     const [user] = await this.db
       .select()
       .from(users)
@@ -98,14 +106,17 @@ export class ProjectsService {
       throw new NotFoundException("Project not found");
     }
 
-    return project;
+    return {
+      ...project,
+      apiKey: project.encryptedApiKey ? this.apiKeyService.decryptApiKey(project.encryptedApiKey) : ''
+    };
   }
 
   async updateProject(
     id: string,
     clerkUserId: string,
     updates: Partial<CreateProjectDto>
-  ): Promise<Project> {
+  ): Promise<ProjectWithApiKey> {
     const project = await this.findOne(id, clerkUserId);
 
     const [updated] = await this.db
@@ -123,29 +134,34 @@ export class ProjectsService {
       .returning();
 
     this.logger.log(`Updated project: ${id}`);
-    return updated;
+    return {
+      ...updated,
+      apiKey: updated.encryptedApiKey ? this.apiKeyService.decryptApiKey(updated.encryptedApiKey) : ''
+    };
   }
 
-  async regenerateApiKey(id: string, clerkUserId: string): Promise<Project> {
-    const project = await this.findOne(id, clerkUserId);
+  async regenerateApiKey(id: string, clerkUserId: string): Promise<ProjectWithApiKey> {
+    // Verify project exists and user has access
+    await this.findOne(id, clerkUserId);
 
-    const { plainKey: newApiKey, hashedKey: newHashedApiKey } = await this.apiKeyService.generateApiKeyPair();
+    // Generate new random API key with encryption
+    const { plainKey: newApiKey, hashedKey: newHashedApiKey, encryptedKey: newEncryptedKey } = await this.apiKeyService.generateApiKeyPairWithEncryption();
 
     const [updated] = await this.db
       .update(projects)
       .set({
-        apiKey: newApiKey,
         hashedApiKey: newHashedApiKey,
+        encryptedApiKey: newEncryptedKey,
         updatedAt: new Date(),
       })
       .where(eq(projects.id, id))
       .returning();
 
     this.logger.log(`Regenerated API key for project: ${id}`);
-    return updated;
+    return { ...updated, apiKey: newApiKey };
   }
 
-  async toggleActive(id: string, clerkUserId: string): Promise<Project> {
+  async toggleActive(id: string, clerkUserId: string): Promise<ProjectWithApiKey> {
     const project = await this.findOne(id, clerkUserId);
 
     const [updated] = await this.db
@@ -160,7 +176,10 @@ export class ProjectsService {
     this.logger.log(
       `Toggled active status for project: ${id} to ${updated.isActive}`
     );
-    return updated;
+    return {
+      ...updated,
+      apiKey: updated.encryptedApiKey ? this.apiKeyService.decryptApiKey(updated.encryptedApiKey) : ''
+    };
   }
 
   async deleteProject(id: string, clerkUserId: string): Promise<void> {

@@ -27,8 +27,9 @@ export const users = pgTable(TABLE_NAMES.USERS, {
 export const projects = pgTable(TABLE_NAMES.PROJECTS, {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
-  apiKey: text("api_key").notNull().unique(),
   hashedApiKey: text("hashed_api_key").notNull(),
+  encryptedApiKey: text("encrypted_api_key"), // For secure storage and retrieval
+  keyVersion: integer("key_version").notNull().default(1),
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -40,7 +41,6 @@ export const projects = pgTable(TABLE_NAMES.PROJECTS, {
 
 }, (table) => ({
   userIdIdx: index("idx_projects_user_id").on(table.userId),
-  apiKeyIdx: index("idx_projects_api_key").on(table.apiKey),
   hashedApiKeyIdx: index("idx_projects_hashed_api_key").on(table.hashedApiKey),
 }));
 
@@ -71,6 +71,9 @@ export type NewUser = typeof users.$inferInsert;
 
 export type Project = typeof projects.$inferSelect;
 export type NewProject = typeof projects.$inferInsert;
+export type ProjectWithApiKey = Project & {
+  apiKey: string;
+};
 
 export type Feedback = typeof feedback.$inferSelect;
 export type NewFeedback = typeof feedback.$inferInsert;
