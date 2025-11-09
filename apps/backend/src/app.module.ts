@@ -10,6 +10,7 @@ import { HealthController } from "./health.controller";
 import { DatabaseModule } from "./db/db.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { envValidationSchema } from "./config/env.validation";
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -39,6 +40,7 @@ import { envValidationSchema } from "./config/env.validation";
     AnalyticsModule,
     AiModule,
     WebhookModule,
+    UserModule,
   ],
   controllers: [HealthController],
 })
