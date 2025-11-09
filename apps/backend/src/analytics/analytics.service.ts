@@ -1,5 +1,9 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { feedback, projects, users } from "../db/schema";
+import { feedback, projects } from "../db/schema";
+import {
+  GET_USER_INTERNAL_ID,
+  GET_USER_PROJECTS
+} from "../user/providers";
 import { eq, and, gte, lte, sql } from "drizzle-orm";
 import type {
   FeedbackStats,
@@ -14,23 +18,13 @@ import { DRIZZLE_ASYNC_PROVIDER } from "src/db/providers/drizzle.provider";
 export class AnalyticsService {
   constructor(
     @Inject(DRIZZLE_ASYNC_PROVIDER)
-    private db: NodePgDatabase<typeof sc>
+    private db: NodePgDatabase<typeof sc>,
+    @Inject(GET_USER_INTERNAL_ID)
+    private readonly getUserInternalId: any,
+    @Inject(GET_USER_PROJECTS)
+    private readonly getUserProjects: any
   ) {}
   private readonly logger = new Logger(AnalyticsService.name);
-
-  private async getUserInternalId(clerkUserId: string): Promise<string> {
-    const user = await this.db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.clerkUserId, clerkUserId))
-      .limit(1);
-
-    if (user.length === 0) {
-      throw new NotFoundException("User not found");
-    }
-
-    return user[0].id;
-  }
 
   async getOverview(
     clerkUserId: string,
@@ -38,13 +32,9 @@ export class AnalyticsService {
     startDate?: Date,
     endDate?: Date
   ): Promise<FeedbackStats> {
-    const internalUserId = await this.getUserInternalId(clerkUserId);
-
-    const userProjects = await this.db
-      .select({ id: projects.id })
-      .from(projects)
-      .where(eq(projects.userId, internalUserId));
-
+    // Use centralized service to get user's project IDs
+    const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    const userProjects = await this.getUserProjects.execute(internalUserId);
     const projectIds = userProjects.map((p) => p.id);
 
     if (projectIds.length === 0) {
@@ -120,15 +110,12 @@ export class AnalyticsService {
       total: number;
     }[]
   > {
-    const internalUserId = await this.getUserInternalId(clerkUserId);
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
 
-    const userProjects = await this.db
-      .select({ id: projects.id })
-      .from(projects)
-      .where(eq(projects.userId, internalUserId));
-
+    // Use centralized service to get user's project IDs
+    const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    const userProjects = await this.getUserProjects.execute(internalUserId);
     const projectIds = userProjects.map((p) => p.id);
 
     if (projectIds.length === 0) {
@@ -206,13 +193,9 @@ export class AnalyticsService {
     projectId?: string,
     limit: number = 10
   ) {
-    const internalUserId = await this.getUserInternalId(clerkUserId);
-
-    const userProjects = await this.db
-      .select({ id: projects.id })
-      .from(projects)
-      .where(eq(projects.userId, internalUserId));
-
+    // Use centralized service to get user's project IDs
+    const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    const userProjects = await this.getUserProjects.execute(internalUserId);
     const projectIds = userProjects.map((p) => p.id);
 
     if (projectIds.length === 0) {

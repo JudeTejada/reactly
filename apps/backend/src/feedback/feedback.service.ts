@@ -1,7 +1,12 @@
 import { Injectable, Logger, NotFoundException, Inject } from "@nestjs/common";
-import { feedback, projects, users } from "../db/schema";
+import { feedback, projects } from "../db/schema";
 import { AiService } from "../ai/ai.service";
 import { WebhookService } from "../webhook/webhook.service";
+import {
+  GET_USER_INTERNAL_ID,
+  GET_USER_PROJECTS,
+  CHECK_PROJECT_OWNERSHIP
+} from "../user/providers";
 import type { SubmitFeedbackDto, PaginatedResponse } from "@reactly/shared";
 import type { Feedback } from "../db/schema";
 import { eq, and, desc, ilike, gte, lte, sql } from "drizzle-orm";
@@ -17,22 +22,14 @@ export class FeedbackService {
     private readonly aiService: AiService,
     private readonly webhookService: WebhookService,
     @Inject(DRIZZLE_ASYNC_PROVIDER)
-    private db: NodePgDatabase<typeof sc>
+    private db: NodePgDatabase<typeof sc>,
+    @Inject(GET_USER_INTERNAL_ID)
+    private readonly getUserInternalId: any,
+    @Inject(GET_USER_PROJECTS)
+    private readonly getUserProjects: any,
+    @Inject(CHECK_PROJECT_OWNERSHIP)
+    private readonly checkProjectOwnership: any
   ) {}
-
-  private async getUserInternalId(clerkUserId: string): Promise<string> {
-    const user = await this.db
-      .select({ id: users.id })
-      .from(users)
-      .where(eq(users.clerkUserId, clerkUserId))
-      .limit(1);
-
-    if (user.length === 0) {
-      throw new NotFoundException("User not found");
-    }
-
-    return user[0].id;
-  }
 
   async submitFeedback(
     projectId: string,
@@ -88,16 +85,13 @@ export class FeedbackService {
       pageSize?: number;
     }
   ): Promise<PaginatedResponse<Feedback>> {
-    const internalUserId = await this.getUserInternalId(clerkUserId);
     const page = options.page || 1;
     const pageSize = Math.min(options.pageSize || 20, 100);
     const offset = (page - 1) * pageSize;
 
-    const userProjects = await this.db
-      .select({ id: projects.id })
-      .from(projects)
-      .where(eq(projects.userId, internalUserId));
-
+    // Use centralized service to get user's project IDs
+    const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    const userProjects = await this.getUserProjects.execute(internalUserId);
     const projectIds = userProjects.map((p) => p.id);
 
     if (projectIds.length === 0) {
@@ -162,16 +156,22 @@ export class FeedbackService {
   }
 
   async findOne(id: string, clerkUserId: string): Promise<Feedback> {
-    const internalUserId = await this.getUserInternalId(clerkUserId);
-
+    // Use centralized service to check feedback ownership
     const [item] = await this.db
       .select()
       .from(feedback)
       .innerJoin(projects, eq(feedback.projectId, projects.id))
-      .where(and(eq(feedback.id, id), eq(projects.userId, internalUserId)))
+      .where(eq(feedback.id, id))
       .limit(1);
 
     if (!item) {
+      throw new NotFoundException("Feedback not found");
+    }
+
+    // Verify user owns the project this feedback belongs to
+    const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    const ownsProject = await this.checkProjectOwnership.execute(internalUserId, item.feedback.projectId);
+    if (!ownsProject) {
       throw new NotFoundException("Feedback not found");
     }
 

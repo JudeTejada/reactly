@@ -4,23 +4,37 @@ import {
   NotFoundException,
   Inject,
 } from "@nestjs/common";
-import { projects, users } from "../db/schema";
-import { eq, and } from "drizzle-orm";
+import { projects } from "../db/schema";
+import { eq } from "drizzle-orm";
 import type { CreateProjectDto } from "@reactly/shared";
 import type { Project, ProjectWithApiKey } from "../db/schema";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import * as sc from "../db/schema";
 import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
 import { ApiKeyService } from "../auth/api-key.service";
+import {
+  GET_USER_INTERNAL_ID,
+  GET_USER_BY_CLERK_ID,
+  GET_USER_PROJECTS,
+  CHECK_PROJECT_OWNERSHIP
+} from "../user/providers";
 
 @Injectable()
 export class ProjectsService {
   private readonly logger = new Logger(ProjectsService.name);
 
   constructor(
-    @Inject(DRIZZLE_ASYNC_PROVIDER)
+    @Inject(DRIZZLE_ASYNC_PROVIDER) 
     private db: NodePgDatabase<typeof sc>,
-    private apiKeyService: ApiKeyService
+    private apiKeyService: ApiKeyService,
+    @Inject(GET_USER_INTERNAL_ID)
+    private readonly getUserInternalId: any,
+    @Inject(GET_USER_BY_CLERK_ID)
+    private readonly getUserByClerkId: any,
+    @Inject(GET_USER_PROJECTS)
+    private readonly getUserProjects: any,
+    @Inject(CHECK_PROJECT_OWNERSHIP)
+    private readonly checkProjectOwnership: any
   ) {}
 
   async createProject(
@@ -28,16 +42,8 @@ export class ProjectsService {
     dto: CreateProjectDto
   ): Promise<ProjectWithApiKey> {
 
-    // Find user by Clerk ID to get internal UUID
-    const [user] = await this.db
-      .select()
-      .from(users)
-      .where(eq(users.clerkUserId, clerkUserId))
-      .limit(1);
-
-    if (!user) {
-      throw new NotFoundException("User not found");
-    }
+    // Get user's internal ID using centralized service
+    const user = await this.getUserByClerkId.execute(clerkUserId);
 
     // Generate random API key with encryption for secure storage
     const { plainKey: apiKey, hashedKey: hashedApiKey, encryptedKey: encryptedApiKey } = await this.apiKeyService.generateApiKeyPairWithEncryption();
@@ -62,21 +68,9 @@ export class ProjectsService {
   }
 
   async findAll(clerkUserId: string): Promise<ProjectWithApiKey[]> {
-    const [user] = await this.db
-      .select()
-      .from(users)
-      .where(eq(users.clerkUserId, clerkUserId))
-      .limit(1);
-
-    if (!user) {
-      return [];
-    }
-
-    const projectsWithEncryptedKeys = await this.db
-      .select()
-      .from(projects)
-      .where(eq(projects.userId, user.id))
-      .orderBy(projects.createdAt);
+    // Get user first, then get projects
+    const user = await this.getUserByClerkId.execute(clerkUserId);
+    const projectsWithEncryptedKeys = await this.getUserProjects.execute(user.id);
 
     // Decrypt API keys for each project
     return projectsWithEncryptedKeys.map(project => ({
@@ -86,20 +80,17 @@ export class ProjectsService {
   }
 
   async findOne(id: string, clerkUserId: string): Promise<ProjectWithApiKey> {
-    const [user] = await this.db
-      .select()
-      .from(users)
-      .where(eq(users.clerkUserId, clerkUserId))
-      .limit(1);
-
-    if (!user) {
-      throw new NotFoundException("User not found");
+    // Get user first, then check project ownership
+    const user = await this.getUserByClerkId.execute(clerkUserId);
+    const ownsProject = await this.checkProjectOwnership.execute(user.id, id);
+    if (!ownsProject) {
+      throw new NotFoundException("Project not found");
     }
 
     const [project] = await this.db
       .select()
       .from(projects)
-      .where(and(eq(projects.id, id), eq(projects.userId, user.id)))
+      .where(eq(projects.id, id))
       .limit(1);
 
     if (!project) {
