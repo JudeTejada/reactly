@@ -1,5 +1,4 @@
-import { Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { db } from "../db";
+import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { feedback, projects, users } from "../db/schema";
 import { eq, and, gte, lte, sql } from "drizzle-orm";
 import type {
@@ -7,13 +6,20 @@ import type {
   SentimentDistribution,
   FeedbackCategory,
 } from "@reactly/shared";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as sc from "../db/schema";
+import { DRIZZLE_ASYNC_PROVIDER } from "src/db/providers/drizzle.provider";
 
 @Injectable()
 export class AnalyticsService {
+  constructor(
+    @Inject(DRIZZLE_ASYNC_PROVIDER)
+    private db: NodePgDatabase<typeof sc>
+  ) {}
   private readonly logger = new Logger(AnalyticsService.name);
 
   private async getUserInternalId(clerkUserId: string): Promise<string> {
-    const user = await db
+    const user = await this.db
       .select({ id: users.id })
       .from(users)
       .where(eq(users.clerkUserId, clerkUserId))
@@ -34,7 +40,7 @@ export class AnalyticsService {
   ): Promise<FeedbackStats> {
     const internalUserId = await this.getUserInternalId(clerkUserId);
 
-    const userProjects = await db
+    const userProjects = await this.db
       .select({ id: projects.id })
       .from(projects)
       .where(eq(projects.userId, internalUserId));
@@ -61,10 +67,7 @@ export class AnalyticsService {
 
     const whereClause = and(...conditions);
 
-    const allFeedback = await db
-      .select()
-      .from(feedback)
-      .where(whereClause);
+    const allFeedback = await this.db.select().from(feedback).where(whereClause);
 
     if (allFeedback.length === 0) {
       return this.emptyStats();
@@ -121,7 +124,7 @@ export class AnalyticsService {
     const startDate = new Date();
     startDate.setDate(startDate.getDate() - days);
 
-    const userProjects = await db
+    const userProjects = await this.db
       .select({ id: projects.id })
       .from(projects)
       .where(eq(projects.userId, internalUserId));
@@ -141,7 +144,7 @@ export class AnalyticsService {
       conditions.push(eq(feedback.projectId, projectId));
     }
 
-    const allFeedback = await db
+    const allFeedback = await this.db
       .select()
       .from(feedback)
       .where(and(...conditions))
@@ -204,8 +207,8 @@ export class AnalyticsService {
     limit: number = 10
   ) {
     const internalUserId = await this.getUserInternalId(clerkUserId);
-    
-    const userProjects = await db
+
+    const userProjects = await this.db
       .select({ id: projects.id })
       .from(projects)
       .where(eq(projects.userId, internalUserId));
@@ -222,7 +225,7 @@ export class AnalyticsService {
       conditions.push(eq(feedback.projectId, projectId));
     }
 
-    return db
+    return this.db
       .select()
       .from(feedback)
       .where(and(...conditions))

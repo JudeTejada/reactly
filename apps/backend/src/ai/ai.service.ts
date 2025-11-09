@@ -60,7 +60,7 @@ Response format: {"sentiment": "positive|negative|neutral", "score": 0.8}`;
   private fallbackSentimentAnalysis(text: string): SentimentResult {
     const lowerText = text.toLowerCase();
 
-    const x  = [
+    const positiveWords  = [
       "good",
       "great",
       "excellent",

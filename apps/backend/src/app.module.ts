@@ -8,10 +8,15 @@ import { WebhookModule } from "./webhook/webhook.module";
 import { AuthModule } from "./auth/auth.module";
 import { HealthController } from "./health.controller";
 import { DatabaseModule } from "./db/db.module";
+import { ConfigModule } from "@nestjs/config";
 
 @Module({
   imports: [
     DatabaseModule,
+    ConfigModule.forRoot({
+      isGlobal: true,
+      envFilePath: '.env.local'
+    }),
     ThrottlerModule.forRoot([
       {
         ttl: 60000,

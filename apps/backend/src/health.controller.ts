@@ -1,16 +1,22 @@
-import { Controller, Get } from "@nestjs/common";
+import { Controller, Get, Inject } from "@nestjs/common";
 import { ApiTags, ApiOperation } from "@nestjs/swagger";
-import { db } from "./db";
 import { sql } from "drizzle-orm";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as sc from "./db/schema";
+import { DRIZZLE_ASYNC_PROVIDER } from "./db/providers/drizzle.provider";
 
 @ApiTags("health")
 @Controller()
 export class HealthController {
+  constructor(
+    @Inject(DRIZZLE_ASYNC_PROVIDER)
+    private db: NodePgDatabase<typeof sc>
+  ) {}
   @Get("health")
   @ApiOperation({ summary: "Health check endpoint" })
   async healthCheck() {
     try {
-      await db.execute(sql`SELECT 1`);
+      await this.db.execute(sql`SELECT 1`);
       return {
         status: "healthy",
         timestamp: new Date().toISOString(),

@@ -1,11 +1,13 @@
-import { Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { db } from "../db";
+import { Injectable, Logger, NotFoundException, Inject } from "@nestjs/common";
 import { feedback, projects, users } from "../db/schema";
 import { AiService } from "../ai/ai.service";
 import { WebhookService } from "../webhook/webhook.service";
 import type { SubmitFeedbackDto, PaginatedResponse } from "@reactly/shared";
 import type { Feedback } from "../db/schema";
 import { eq, and, desc, ilike, gte, lte, sql } from "drizzle-orm";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as sc from "../db/schema";
+import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
 
 @Injectable()
 export class FeedbackService {
@@ -13,12 +15,13 @@ export class FeedbackService {
 
   constructor(
     private readonly aiService: AiService,
-    private readonly webhookService: WebhookService
-    
+    private readonly webhookService: WebhookService,
+    @Inject(DRIZZLE_ASYNC_PROVIDER)
+    private db: NodePgDatabase<typeof sc>
   ) {}
 
   private async getUserInternalId(clerkUserId: string): Promise<string> {
-    const user = await db
+    const user = await this.db
       .select({ id: users.id })
       .from(users)
       .where(eq(users.clerkUserId, clerkUserId))
@@ -40,7 +43,7 @@ export class FeedbackService {
 
     const sentimentResult = await this.aiService.analyzeSentiment(dto.text);
 
-    const [newFeedback] = await db
+    const [newFeedback] = await this.db
       .insert(feedback)
       .values({
         projectId,
@@ -54,7 +57,7 @@ export class FeedbackService {
       .returning();
 
     if (sentimentResult.sentiment === "negative" || dto.rating <= 2) {
-      const [project] = await db
+      const [project] = await this.db
         .select()
         .from(projects)
         .where(eq(projects.id, projectId))
@@ -90,7 +93,7 @@ export class FeedbackService {
     const pageSize = Math.min(options.pageSize || 20, 100);
     const offset = (page - 1) * pageSize;
 
-    const userProjects = await db
+    const userProjects = await this.db
       .select({ id: projects.id })
       .from(projects)
       .where(eq(projects.userId, internalUserId));
@@ -136,14 +139,14 @@ export class FeedbackService {
     const whereClause = and(...conditions);
 
     const [items, [{ count }]] = await Promise.all([
-      db
+      this.db
         .select()
         .from(feedback)
         .where(whereClause)
         .orderBy(desc(feedback.createdAt))
         .limit(pageSize)
         .offset(offset),
-      db
+      this.db
         .select({ count: sql<number>`count(*)::int` })
         .from(feedback)
         .where(whereClause),
@@ -161,7 +164,7 @@ export class FeedbackService {
   async findOne(id: string, clerkUserId: string): Promise<Feedback> {
     const internalUserId = await this.getUserInternalId(clerkUserId);
 
-    const [item] = await db
+    const [item] = await this.db
       .select()
       .from(feedback)
       .innerJoin(projects, eq(feedback.projectId, projects.id))
@@ -178,7 +181,7 @@ export class FeedbackService {
   async deleteFeedback(id: string, clerkUserId: string): Promise<void> {
     const feedbackItem = await this.findOne(id, clerkUserId);
 
-    await db.delete(feedback).where(eq(feedback.id, feedbackItem.id));
+    await this.db.delete(feedback).where(eq(feedback.id, feedbackItem.id));
 
     this.logger.log(`Feedback deleted: ${id}`);
   }
