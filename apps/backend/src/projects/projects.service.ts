@@ -3,20 +3,28 @@ import {
   Logger,
   NotFoundException,
   ConflictException,
+  Inject,
 } from "@nestjs/common";
-import { db } from "../db";
 import { projects, users } from "../db/schema";
 import { eq, and } from "drizzle-orm";
 import { generateApiKey } from "@reactly/shared";
 import type { CreateProjectDto } from "@reactly/shared";
 import type { Project } from "../db/schema";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as sc from "../db/schema";
+import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
 
 @Injectable()
 export class ProjectsService {
   private readonly logger = new Logger(ProjectsService.name);
 
+  constructor(
+    @Inject(DRIZZLE_ASYNC_PROVIDER)
+    private db: NodePgDatabase<typeof sc>
+  ) {}
+
   async ensureUser(clerkUserId: string, email: string): Promise<string> {
-    const [existingUser] = await db
+    const [existingUser] = await this.db
       .select()
       .from(users)
       .where(eq(users.clerkUserId, clerkUserId))
@@ -26,7 +34,7 @@ export class ProjectsService {
       return existingUser.id;
     }
 
-    const [newUser] = await db
+    const [newUser] = await this.db
       .insert(users)
       .values({
         clerkUserId,
@@ -48,7 +56,7 @@ export class ProjectsService {
 
     const apiKey = generateApiKey();
 
-    const [project] = await db
+    const [project] = await this.db
       .insert(projects)
       .values({
         name: dto.name,
@@ -65,7 +73,7 @@ export class ProjectsService {
   }
 
   async findAll(clerkUserId: string): Promise<Project[]> {
-    const [user] = await db
+    const [user] = await this.db
       .select()
       .from(users)
       .where(eq(users.clerkUserId, clerkUserId))
@@ -75,7 +83,7 @@ export class ProjectsService {
       return [];
     }
 
-    return db
+    return this.db
       .select()
       .from(projects)
       .where(eq(projects.userId, user.id))
@@ -83,7 +91,7 @@ export class ProjectsService {
   }
 
   async findOne(id: string, clerkUserId: string): Promise<Project> {
-    const [user] = await db
+    const [user] = await this.db
       .select()
       .from(users)
       .where(eq(users.clerkUserId, clerkUserId))
@@ -93,7 +101,7 @@ export class ProjectsService {
       throw new NotFoundException("User not found");
     }
 
-    const [project] = await db
+    const [project] = await this.db
       .select()
       .from(projects)
       .where(and(eq(projects.id, id), eq(projects.userId, user.id)))
@@ -113,7 +121,7 @@ export class ProjectsService {
   ): Promise<Project> {
     const project = await this.findOne(id, clerkUserId);
 
-    const [updated] = await db
+    const [updated] = await this.db
       .update(projects)
       .set({
         name: updates.name || project.name,
@@ -138,7 +146,7 @@ export class ProjectsService {
 
     const newApiKey = generateApiKey();
 
-    const [updated] = await db
+    const [updated] = await this.db
       .update(projects)
       .set({
         apiKey: newApiKey,
@@ -157,7 +165,7 @@ export class ProjectsService {
   ): Promise<Project> {
     const project = await this.findOne(id, clerkUserId);
 
-    const [updated] = await db
+    const [updated] = await this.db
       .update(projects)
       .set({
         isActive: !project.isActive,
@@ -175,7 +183,7 @@ export class ProjectsService {
   async deleteProject(id: string, clerkUserId: string): Promise<void> {
     const project = await this.findOne(id, clerkUserId);
 
-    await db.delete(projects).where(eq(projects.id, project.id));
+    await this.db.delete(projects).where(eq(projects.id, project.id));
 
     this.logger.log(`Deleted project: ${id}`);
   }

@@ -3,13 +3,20 @@ import {
   CanActivate,
   ExecutionContext,
   UnauthorizedException,
+  Inject,
 } from "@nestjs/common";
-import { db } from "../db";
 import { projects } from "../db/schema";
 import { eq } from "drizzle-orm";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as sc from "../db/schema";
+import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
+  constructor(
+    @Inject(DRIZZLE_ASYNC_PROVIDER)
+    private db: NodePgDatabase<typeof sc>
+  ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
     const apiKey = request.headers["x-api-key"];
@@ -22,7 +29,7 @@ export class ApiKeyGuard implements CanActivate {
     }
 
     try {
-      const [project] = await db
+      const [project] = await this.db
         .select()
         .from(projects)
         .where(eq(projects.id, projectId))

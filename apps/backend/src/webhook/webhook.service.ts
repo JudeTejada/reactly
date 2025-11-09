@@ -1,12 +1,19 @@
-import { Injectable, Logger } from "@nestjs/common";
+import { Injectable, Logger, Inject } from "@nestjs/common";
 import { eq } from "drizzle-orm";
 import type { Feedback } from "../db/schema";
-import { db } from "../db";
 import { users } from "../db/schema";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as sc from "../db/schema";
+import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
 
 @Injectable()
 export class WebhookService {
   private readonly logger = new Logger(WebhookService.name);
+
+  constructor(
+    @Inject(DRIZZLE_ASYNC_PROVIDER)
+    private db: NodePgDatabase<typeof sc>
+  ) {}
 
   async handleUserCreated(data: any): Promise<void> {
     try {
@@ -23,7 +30,7 @@ export class WebhookService {
         ? `${data.first_name} ${data.last_name || ""}`.trim()
         : data.username || email;
 
-      await db.insert(users).values({
+      await this.db.insert(users).values({
         clerkUserId: data.id,
         email,
         name,
@@ -46,7 +53,7 @@ export class WebhookService {
         ? `${data.first_name} ${data.last_name || ""}`.trim()
         : data.username || email;
 
-      await db
+      await this.db
         .update(users)
         .set({
           email,
@@ -63,7 +70,7 @@ export class WebhookService {
 
   async handleUserDeleted(data: any): Promise<void> {
     try {
-      await db.delete(users).where(eq(users.clerkUserId, data.id));
+      await this.db.delete(users).where(eq(users.clerkUserId, data.id));
       this.logger.log(`User deleted: Clerk ID ${data.id}`);
     } catch (error) {
       this.logger.error("Failed to delete user", error);
