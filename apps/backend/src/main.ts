@@ -3,17 +3,17 @@ import { ValidationPipe } from "@nestjs/common";
 import { SwaggerModule, DocumentBuilder } from "@nestjs/swagger";
 import { AppModule } from "./app.module";
 import { AllExceptionsFilter } from "./common/filters/http-exception.filter";
-import * as dotenv from "dotenv";
-
-dotenv.config();
+import { ConfigService } from "@nestjs/config";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
     logger: ["error", "warn", "log", "debug"],
   });
 
+  const configService = app.get(ConfigService);
+
   app.enableCors({
-    origin: process.env.ALLOWED_ORIGINS?.split(",") || "*",
+    origin: configService.get<string>('ALLOWED_ORIGINS')?.split(",") || "*",
     credentials: true,
   });
 
@@ -49,7 +49,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup("api/docs", app, document);
 
-  const port = process.env.PORT || 3001;
+  const port = configService.get<number>('PORT', 3001);
   await app.listen(port);
   console.log(`\n🚀 Server running on http://localhost:${port}`);
   console.log(`📚 API docs: http://localhost:${port}/api/docs`);
