@@ -4,15 +4,23 @@ import {
   ExecutionContext,
   UnauthorizedException,
   Logger,
+  Inject,
 } from "@nestjs/common";
 import { createClerkClient, verifyToken } from "@clerk/backend";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class ClerkAuthGuard implements CanActivate {
   private readonly logger = new Logger(ClerkAuthGuard.name);
-  private clerkClient = createClerkClient({
-    secretKey: process.env.CLERK_SECRET_KEY,
-  });
+  private clerkClient: ReturnType<typeof createClerkClient>;
+
+  constructor(@Inject(ConfigService) private readonly configService: ConfigService) {
+    const secretKey = this.configService.get<string>('CLERK_SECRET_KEY');
+    if (!secretKey) {
+      throw new Error('CLERK_SECRET_KEY not configured');
+    }
+    this.clerkClient = createClerkClient({ secretKey });
+  }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -29,7 +37,8 @@ export class ClerkAuthGuard implements CanActivate {
       throw new UnauthorizedException("No authentication token provided");
     }
 
-    if (!process.env.CLERK_SECRET_KEY) {
+    const clerkSecretKey = this.configService.get<string>('CLERK_SECRET_KEY');
+    if (!clerkSecretKey) {
       this.logger.error('CLERK_SECRET_KEY not configured!');
       throw new UnauthorizedException("Server configuration error");
     }
@@ -37,11 +46,11 @@ export class ClerkAuthGuard implements CanActivate {
     try {
       this.logger.debug('Verifying token with Clerk...');
       const verified = await verifyToken(token, {
-        secretKey: process.env.CLERK_SECRET_KEY!,
+        secretKey: clerkSecretKey,
       });
-      
+
       this.logger.debug(`Token verified for user: ${verified.sub}`);
-      
+
       // Fetch full user data from Clerk
       try {
         const clerkUser = await this.clerkClient.users.getUser(verified.sub);
@@ -63,7 +72,7 @@ export class ClerkAuthGuard implements CanActivate {
           name: null,
         };
       }
-      
+
       return true;
     } catch (error) {
       this.logger.error(`Token verification failed: ${error.message}`);
