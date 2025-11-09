@@ -83,7 +83,16 @@ ALLOWED_ORIGINS=http://localhost:3000,https://yourdomain.com
 
 ### 2. Database Setup
 
+#### Option A: Local Development with Docker (Recommended)
+
 ```bash
+# Setup local environment
+pnpm db:setup:local
+
+# This will:
+# 1. Copy .env.local to .env (for local PostgreSQL config)
+# 2. Start PostgreSQL in Docker container
+
 # Generate migration from schema
 pnpm db:generate
 
@@ -94,7 +103,56 @@ pnpm db:migrate
 pnpm db:studio
 ```
 
-### 3. Development
+#### Option B: Production with NeonDB
+
+```bash
+# Configure .env with your NeonDB URL
+# DATABASE_URL=postgresql://user:password@host:5432/reactly
+
+# Generate migration from schema
+pnpm db:generate
+
+# Run migrations
+pnpm db:migrate
+
+# Open Drizzle Studio (GUI)
+pnpm db:studio
+```
+
+#### Docker Database Commands
+
+```bash
+# Start PostgreSQL container
+pnpm db:docker:start
+
+# Stop PostgreSQL container
+pnpm db:docker:stop
+
+# Reset database (deletes all data)
+pnpm db:docker:reset
+
+# View container logs
+pnpm db:docker:logs
+```
+
+### 3. Client Connection
+
+You can connect to the local PostgreSQL database with any client using:
+
+- **Host**: localhost
+- **Port**: 5432
+- **Database**: reactly_dev
+- **Username**: postgres
+- **Password**: postgres
+
+**Popular Clients:**
+- TablePlus
+- PgAdmin
+- DBeaver
+- VS Code PostgreSQL extension
+- psql CLI: `psql -h localhost -U postgres -d reactly_dev`
+
+### 4. Development
 
 ```bash
 # Start development server (watch mode)
