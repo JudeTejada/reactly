@@ -22,7 +22,6 @@
   },
   "dependencies": {
     "@clerk/backend": "^1.6.3",
-    "@google/generative-ai": "^0.24.1",
     "@neondatabase/serverless": "^1.0.2",
     "@nestjs/common": "^10.3.10",
     "@nestjs/config": "^4.0.2",
@@ -31,6 +30,7 @@
     "@nestjs/swagger": "^7.4.0",
     "@nestjs/throttler": "^6.0.0",
     "@reactly/shared": "workspace:*",
+    "axios": "^1.13.2",
     "bcryptjs": "^3.0.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
