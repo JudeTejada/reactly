@@ -7,12 +7,12 @@ import {
 } from "@nestjs/common";
 import { projects, users } from "../db/schema";
 import { eq, and } from "drizzle-orm";
-import { generateApiKey } from "@reactly/shared";
 import type { CreateProjectDto } from "@reactly/shared";
 import type { Project } from "../db/schema";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import * as sc from "../db/schema";
 import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
+import { ApiKeyService } from "../auth/api-key.service";
 
 @Injectable()
 export class ProjectsService {
@@ -20,7 +20,8 @@ export class ProjectsService {
 
   constructor(
     @Inject(DRIZZLE_ASYNC_PROVIDER)
-    private db: NodePgDatabase<typeof sc>
+    private db: NodePgDatabase<typeof sc>,
+    private apiKeyService: ApiKeyService
   ) {}
 
   async createProject(
@@ -39,13 +40,14 @@ export class ProjectsService {
       throw new NotFoundException("User not found");
     }
 
-    const apiKey = generateApiKey();
+    const { plainKey: apiKey, hashedKey: hashedApiKey } = await this.apiKeyService.generateApiKeyPair();
 
     const [project] = await this.db
       .insert(projects)
       .values({
         name: dto.name,
         apiKey,
+        hashedApiKey,
         userId: user.id, // Use internal UUID, not Clerk ID
         allowedDomains: dto.allowedDomains || [],
         webhookUrl: dto.webhookUrl,
@@ -127,12 +129,13 @@ export class ProjectsService {
   async regenerateApiKey(id: string, clerkUserId: string): Promise<Project> {
     const project = await this.findOne(id, clerkUserId);
 
-    const newApiKey = generateApiKey();
+    const { plainKey: newApiKey, hashedKey: newHashedApiKey } = await this.apiKeyService.generateApiKeyPair();
 
     const [updated] = await this.db
       .update(projects)
       .set({
         apiKey: newApiKey,
+        hashedApiKey: newHashedApiKey,
         updatedAt: new Date(),
       })
       .where(eq(projects.id, id))

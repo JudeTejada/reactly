@@ -15,6 +15,20 @@
       "when": 1762681445900,
       "tag": "0001_icy_avengers",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1762685378637,
+      "tag": "0002_bent_matthew_murdock",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1762686128465,
+      "tag": "0003_yummy_nextwave",
+      "breakpoints": true
     }
   ]
 }

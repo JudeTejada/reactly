@@ -28,6 +28,7 @@ export const projects = pgTable(TABLE_NAMES.PROJECTS, {
   id: uuid("id").defaultRandom().primaryKey(),
   name: text("name").notNull(),
   apiKey: text("api_key").notNull().unique(),
+  hashedApiKey: text("hashed_api_key").notNull(),
   userId: uuid("user_id")
     .notNull()
     .references(() => users.id, { onDelete: "cascade" }),
@@ -40,6 +41,7 @@ export const projects = pgTable(TABLE_NAMES.PROJECTS, {
 }, (table) => ({
   userIdIdx: index("idx_projects_user_id").on(table.userId),
   apiKeyIdx: index("idx_projects_api_key").on(table.apiKey),
+  hashedApiKeyIdx: index("idx_projects_hashed_api_key").on(table.hashedApiKey),
 }));
 
 export const feedback = pgTable(TABLE_NAMES.FEEDBACK, {
