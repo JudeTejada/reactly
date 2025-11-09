@@ -8,6 +8,7 @@ export const envValidationSchema = Joi.object({
   DATABASE_URL: Joi.string().required(),
   CLERK_SECRET_KEY: Joi.string().required(),
   CLERK_PUBLISHABLE_KEY: Joi.string().required(),
+  CLERK_WEBHOOK_SECRET: Joi.string().required(),
   GLM_API_KEY: Joi.string().required(),
   GLM_BASE_URL: Joi.string().required(),
   DISCORD_WEBHOOK_URL: Joi.string().uri().optional(),
@@ -16,4 +17,7 @@ export const envValidationSchema = Joi.object({
   API_KEY_ENCRYPTION_SECRET: Joi.string().required(),
   API_KEY_ENCRYPTION_SALT_ROUNDS: Joi.string().required(),
   API_KEY_ENCRYPTION_ALGORITHM: Joi.string().required(),
+  THROTTLE_TTL: Joi.number().default(60000),
+  THROTTLE_LIMIT: Joi.number().default(100),
+  DEFAULT_USER_PLAN: Joi.string().default("free"),
 });
