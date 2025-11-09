@@ -14,6 +14,7 @@ export class FeedbackService {
   constructor(
     private readonly aiService: AiService,
     private readonly webhookService: WebhookService
+    
   ) {}
 
   private async getUserInternalId(clerkUserId: string): Promise<string> {
@@ -159,7 +160,7 @@ export class FeedbackService {
 
   async findOne(id: string, clerkUserId: string): Promise<Feedback> {
     const internalUserId = await this.getUserInternalId(clerkUserId);
-    
+
     const [item] = await db
       .select()
       .from(feedback)

@@ -30,6 +30,7 @@ Feedback: "${text}"
 Response format: {"sentiment": "positive|negative|neutral", "score": 0.8}`;
 
       const result = await this.model.generateContent(prompt);
+      console.log("🚀 ~ AiService ~ analyzeSentiment ~ result:", result)
       const response = await result.response;
       const responseText = response.text();
 
@@ -59,7 +60,7 @@ Response format: {"sentiment": "positive|negative|neutral", "score": 0.8}`;
   private fallbackSentimentAnalysis(text: string): SentimentResult {
     const lowerText = text.toLowerCase();
 
-    const positiveWords = [
+    const x  = [
       "good",
       "great",
       "excellent",

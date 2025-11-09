@@ -7,9 +7,11 @@ import { AiModule } from "./ai/ai.module";
 import { WebhookModule } from "./webhook/webhook.module";
 import { AuthModule } from "./auth/auth.module";
 import { HealthController } from "./health.controller";
+import { DatabaseModule } from "./db/db.module";
 
 @Module({
   imports: [
+    DatabaseModule,
     ThrottlerModule.forRoot([
       {
         ttl: 60000,
