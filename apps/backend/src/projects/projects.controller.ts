@@ -32,7 +32,6 @@ export class ProjectsController {
 
     const project = await this.projectsService.createProject(
       user.clerkUserId,
-      user.email || "user@example.com",
       validated
     );
 
