@@ -1,63 +1,71 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { NotFoundException } from '@nestjs/common';
 import { UserService } from './user.service';
-import { DRIZZLE_ASYNC_PROVIDER } from '../db/providers/drizzle.provider';
-
-// Mock the entire db/schema module to avoid ES module issues
-jest.mock('../db/schema', () => ({
-  users: {
-    id: 'id',
-    clerkUserId: 'clerk_user_id',
-    email: 'email',
-    name: 'name'
-  },
-  projects: {
-    id: 'id',
-    userId: 'user_id'
-  }
-}));
+import {
+  GET_USER_INTERNAL_ID,
+  GET_USER_BY_CLERK_ID,
+  GET_USER_PROJECTS,
+  CHECK_PROJECT_OWNERSHIP,
+  UPSERT_USER_FROM_CLERK,
+  DELETE_USER
+} from './providers/tokens';
 
 describe('UserService', () => {
   let service: UserService;
-  let mockDb: any;
-  let mockQueryBuilder: any;
+  let mockGetUserInternalIdProvider: jest.MockedFunction<any>;
+  let mockGetUserByClerkIdProvider: jest.MockedFunction<any>;
+  let mockGetUserProjectsProvider: jest.MockedFunction<any>;
+  let mockCheckProjectOwnershipProvider: jest.MockedFunction<any>;
+  let mockUpsertUserFromClerkProvider: jest.MockedFunction<any>;
+  let mockDeleteUserProvider: jest.MockedFunction<any>;
 
   beforeEach(async () => {
-    // Mock the query builder chain
-    mockQueryBuilder = {
-      select: jest.fn().mockReturnThis(),
-      from: jest.fn().mockReturnThis(),
-      where: jest.fn().mockReturnThis(),
-      limit: jest.fn().mockReturnThis(),
-      orderBy: jest.fn().mockReturnThis(),
-      insert: jest.fn().mockReturnThis(),
-      values: jest.fn().mockReturnThis(),
-      returning: jest.fn().mockResolvedValue([]), // Default to empty array
-      update: jest.fn().mockReturnThis(),
-      set: jest.fn().mockReturnThis(),
-      delete: jest.fn().mockReturnThis(),
-    };
-
-    mockDb = {
-      select: jest.fn().mockReturnValue(mockQueryBuilder),
-      insert: jest.fn().mockReturnValue(mockQueryBuilder),
-      update: jest.fn().mockReturnValue(mockQueryBuilder),
-      delete: jest.fn().mockReturnValue(mockQueryBuilder),
-    };
-
-    // Spy on the database methods we want to track
-    jest.spyOn(mockDb, 'insert');
-    jest.spyOn(mockDb, 'update');
-    jest.spyOn(mockQueryBuilder, 'values');
-    jest.spyOn(mockQueryBuilder, 'set');
-    jest.spyOn(mockQueryBuilder, 'returning');
+    // Create mock provider functions
+    mockGetUserInternalIdProvider = jest.fn();
+    mockGetUserByClerkIdProvider = jest.fn();
+    mockGetUserProjectsProvider = jest.fn();
+    mockCheckProjectOwnershipProvider = jest.fn();
+    mockUpsertUserFromClerkProvider = jest.fn();
+    mockDeleteUserProvider = jest.fn();
 
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UserService,
         {
-          provide: DRIZZLE_ASYNC_PROVIDER,
-          useValue: mockDb,
+          provide: GET_USER_INTERNAL_ID,
+          useValue: {
+            execute: mockGetUserInternalIdProvider
+          }
+        },
+        {
+          provide: GET_USER_BY_CLERK_ID,
+          useValue: {
+            execute: mockGetUserByClerkIdProvider
+          }
+        },
+        {
+          provide: GET_USER_PROJECTS,
+          useValue: {
+            execute: mockGetUserProjectsProvider
+          }
+        },
+        {
+          provide: CHECK_PROJECT_OWNERSHIP,
+          useValue: {
+            execute: mockCheckProjectOwnershipProvider
+          }
+        },
+        {
+          provide: UPSERT_USER_FROM_CLERK,
+          useValue: {
+            execute: mockUpsertUserFromClerkProvider
+          }
+        },
+        {
+          provide: DELETE_USER,
+          useValue: {
+            execute: mockDeleteUserProvider
+          }
         },
       ],
     }).compile();
@@ -67,8 +75,6 @@ describe('UserService', () => {
 
   afterEach(() => {
     jest.clearAllMocks();
-    // Reset the returning mock to default
-    mockQueryBuilder.returning.mockResolvedValue([]);
   });
 
   it('should be defined', () => {
@@ -77,60 +83,81 @@ describe('UserService', () => {
 
   describe('getUserInternalId', () => {
     it('should return user internal ID when user exists', async () => {
-      const mockUser = [{ id: 'user-uuid' }];
-      mockQueryBuilder.limit.mockResolvedValue(mockUser);
+      mockGetUserInternalIdProvider.mockResolvedValue('user-uuid');
 
       const result = await service.getUserInternalId('clerk-user-id');
 
       expect(result).toBe('user-uuid');
-      expect(mockDb.select).toHaveBeenCalled();
-      expect(mockQueryBuilder.limit).toHaveBeenCalledWith(1);
+      expect(mockGetUserInternalIdProvider).toHaveBeenCalledWith('clerk-user-id');
     });
 
     it('should throw NotFoundException when user does not exist', async () => {
-      mockQueryBuilder.limit.mockResolvedValue([]);
+      mockGetUserInternalIdProvider.mockRejectedValue(new NotFoundException('User not found'));
 
       await expect(service.getUserInternalId('nonexistent-user')).rejects.toThrow(NotFoundException);
       await expect(service.getUserInternalId('nonexistent-user')).rejects.toThrow('User not found');
+      expect(mockGetUserInternalIdProvider).toHaveBeenCalledWith('nonexistent-user');
     });
   });
 
   describe('getUserByClerkId', () => {
     it('should return full user when user exists', async () => {
-      const mockUser = [
-        {
-          id: 'user-uuid',
-          clerkUserId: 'clerk-user-id',
-          email: 'test@example.com',
-          name: 'Test User',
-          plan: 'free',
-          createdAt: new Date(),
-          updatedAt: new Date()
-        }
-      ];
-      mockQueryBuilder.limit.mockResolvedValue(mockUser);
+      const mockUser = {
+        id: 'user-uuid',
+        clerkUserId: 'clerk-user-id',
+        email: 'test@example.com',
+        name: 'Test User'
+      };
+      mockGetUserByClerkIdProvider.mockResolvedValue(mockUser);
 
       const result = await service.getUserByClerkId('clerk-user-id');
 
-      expect(result).toEqual(mockUser[0]);
-      expect(mockDb.select).toHaveBeenCalled();
+      expect(result).toEqual(mockUser);
+      expect(mockGetUserByClerkIdProvider).toHaveBeenCalledWith('clerk-user-id');
     });
 
     it('should throw NotFoundException when user does not exist', async () => {
-      mockQueryBuilder.limit.mockResolvedValue([]);
+      mockGetUserByClerkIdProvider.mockRejectedValue(new NotFoundException('User not found'));
 
       await expect(service.getUserByClerkId('nonexistent-user')).rejects.toThrow(NotFoundException);
+      expect(mockGetUserByClerkIdProvider).toHaveBeenCalledWith('nonexistent-user');
     });
   });
 
-  describe('getUserProjectIds', () => {
-    it('should return array of project IDs', async () => {
+  describe('getUserProjects', () => {
+    it('should return user projects', async () => {
       const mockProjects = [
         { id: 'project-1', name: 'Project 1' },
         { id: 'project-2', name: 'Project 2' }
       ];
-      mockQueryBuilder.limit.mockResolvedValue([{ id: 'user-uuid' }]);
-      mockQueryBuilder.orderBy.mockResolvedValue(mockProjects);
+      mockGetUserInternalIdProvider.mockResolvedValue('user-uuid');
+      mockGetUserProjectsProvider.mockResolvedValue(mockProjects);
+
+      const result = await service.getUserProjects('clerk-user-id');
+
+      expect(result).toEqual(mockProjects);
+      expect(mockGetUserInternalIdProvider).toHaveBeenCalledWith('clerk-user-id');
+      expect(mockGetUserProjectsProvider).toHaveBeenCalledWith('user-uuid');
+    });
+
+    it('should return empty array when user has no projects', async () => {
+      mockGetUserInternalIdProvider.mockResolvedValue('user-uuid');
+      mockGetUserProjectsProvider.mockResolvedValue([]);
+
+      const result = await service.getUserProjects('clerk-user-id');
+
+      expect(result).toEqual([]);
+    });
+  });
+
+  describe('getUserProjectIds', () => {
+    it('should return project IDs array', async () => {
+      const mockProjects = [
+        { id: 'project-1', name: 'Project 1' },
+        { id: 'project-2', name: 'Project 2' }
+      ];
+      mockGetUserInternalIdProvider.mockResolvedValue('user-uuid');
+      mockGetUserProjectsProvider.mockResolvedValue(mockProjects);
 
       const result = await service.getUserProjectIds('clerk-user-id');
 
@@ -138,8 +165,8 @@ describe('UserService', () => {
     });
 
     it('should return empty array when user has no projects', async () => {
-      mockQueryBuilder.limit.mockResolvedValue([{ id: 'user-uuid' }]);
-      mockQueryBuilder.orderBy.mockResolvedValue([]);
+      mockGetUserInternalIdProvider.mockResolvedValue('user-uuid');
+      mockGetUserProjectsProvider.mockResolvedValue([]);
 
       const result = await service.getUserProjectIds('clerk-user-id');
 
@@ -149,23 +176,25 @@ describe('UserService', () => {
 
   describe('ownsProject', () => {
     it('should return true when user owns the project', async () => {
-      mockQueryBuilder.limit
-        .mockResolvedValueOnce([{ id: 'user-uuid' }]) // getUserInternalId
-        .mockResolvedValueOnce([{ id: 'project-uuid' }]); // project ownership check
+      mockGetUserInternalIdProvider.mockResolvedValue('user-uuid');
+      mockCheckProjectOwnershipProvider.mockResolvedValue(true);
 
       const result = await service.ownsProject('clerk-user-id', 'project-uuid');
 
       expect(result).toBe(true);
+      expect(mockGetUserInternalIdProvider).toHaveBeenCalledWith('clerk-user-id');
+      expect(mockCheckProjectOwnershipProvider).toHaveBeenCalledWith('user-uuid', 'project-uuid');
     });
 
     it('should return false when user does not own the project', async () => {
-      mockQueryBuilder.limit
-        .mockResolvedValueOnce([{ id: 'user-uuid' }]) // getUserInternalId
-        .mockResolvedValueOnce([]); // no project found
+      mockGetUserInternalIdProvider.mockResolvedValue('user-uuid');
+      mockCheckProjectOwnershipProvider.mockResolvedValue(false);
 
       const result = await service.ownsProject('clerk-user-id', 'project-uuid');
 
       expect(result).toBe(false);
+      expect(mockGetUserInternalIdProvider).toHaveBeenCalledWith('clerk-user-id');
+      expect(mockCheckProjectOwnershipProvider).toHaveBeenCalledWith('user-uuid', 'project-uuid');
     });
   });
 
@@ -174,7 +203,7 @@ describe('UserService', () => {
       id: 'clerk-user-id',
       email_addresses: [{ email_address: 'test@example.com' }],
       first_name: 'Test',
-      last_name: 'User'
+      last_name: 'User',
     };
 
     it('should create new user when user does not exist', async () => {
@@ -184,66 +213,47 @@ describe('UserService', () => {
         email: 'test@example.com',
         name: 'Test User'
       };
-
-      // Mock user lookup (not found) and insert operation
-      mockQueryBuilder.limit.mockResolvedValueOnce([]); // user not found
-      mockQueryBuilder.returning.mockResolvedValueOnce([mockNewUser]); // created user
+      mockUpsertUserFromClerkProvider.mockResolvedValue(mockNewUser);
 
       const result = await service.upsertUserFromClerk(mockClerkUser);
 
       expect(result).toEqual(mockNewUser);
-      expect(mockDb.insert).toHaveBeenCalled();
-      expect(mockQueryBuilder.values).toHaveBeenCalledWith({
-        clerkUserId: 'clerk-user-id',
-        email: 'test@example.com',
-        name: 'Test User'
-      });
+      expect(mockUpsertUserFromClerkProvider).toHaveBeenCalledWith(mockClerkUser);
     });
 
     it('should update existing user when user exists', async () => {
-      const mockExistingUser = {
+      const mockUpdatedUser = {
         id: 'user-uuid',
         clerkUserId: 'clerk-user-id',
-        email: 'old@example.com',
-        name: 'Old Name'
-      };
-
-      const mockUpdatedUser = {
-        ...mockExistingUser,
         email: 'test@example.com',
         name: 'Test User'
       };
-
-      // Mock user lookup (found) and update operation
-      mockQueryBuilder.limit.mockResolvedValueOnce([mockExistingUser]); // user found
-      mockQueryBuilder.returning.mockResolvedValueOnce([mockUpdatedUser]); // updated user
+      mockUpsertUserFromClerkProvider.mockResolvedValue(mockUpdatedUser);
 
       const result = await service.upsertUserFromClerk(mockClerkUser);
 
       expect(result).toEqual(mockUpdatedUser);
-      expect(mockDb.update).toHaveBeenCalled();
-      expect(mockQueryBuilder.set).toHaveBeenCalledWith({
-        email: 'test@example.com',
-        name: 'Test User',
-        updatedAt: expect.any(Date)
-      });
+      expect(mockUpsertUserFromClerkProvider).toHaveBeenCalledWith(mockClerkUser);
     });
   });
 
   describe('deleteUser', () => {
     it('should delete user and associated data', async () => {
-      mockQueryBuilder.limit.mockResolvedValue([{ id: 'user-uuid' }]);
+      mockGetUserInternalIdProvider.mockResolvedValue('user-uuid');
+      mockDeleteUserProvider.mockResolvedValue(undefined);
 
       await service.deleteUser('clerk-user-id');
 
-      expect(mockDb.delete).toHaveBeenCalled();
-      expect(mockQueryBuilder.where).toHaveBeenCalled();
+      expect(mockGetUserInternalIdProvider).toHaveBeenCalledWith('clerk-user-id');
+      expect(mockDeleteUserProvider).toHaveBeenCalledWith('user-uuid');
     });
 
     it('should throw NotFoundException when user does not exist', async () => {
-      mockQueryBuilder.limit.mockResolvedValue([]);
+      mockGetUserInternalIdProvider.mockRejectedValue(new NotFoundException('User not found'));
 
       await expect(service.deleteUser('nonexistent-user')).rejects.toThrow(NotFoundException);
+      expect(mockGetUserInternalIdProvider).toHaveBeenCalledWith('nonexistent-user');
+      expect(mockDeleteUserProvider).not.toHaveBeenCalled();
     });
   });
 });
