@@ -23,36 +23,21 @@ export class ProjectsService {
     private db: NodePgDatabase<typeof sc>
   ) {}
 
-  async ensureUser(clerkUserId: string, email: string): Promise<string> {
-    const [existingUser] = await this.db
+  async createProject(
+    clerkUserId: string,
+    dto: CreateProjectDto
+  ): Promise<Project> {
+
+    // Find user by Clerk ID to get internal UUID
+    const [user] = await this.db
       .select()
       .from(users)
       .where(eq(users.clerkUserId, clerkUserId))
       .limit(1);
 
-    if (existingUser) {
-      return existingUser.id;
+    if (!user) {
+      throw new NotFoundException("User not found");
     }
-
-    const [newUser] = await this.db
-      .insert(users)
-      .values({
-        clerkUserId,
-        email,
-        plan: "free",
-      })
-      .returning();
-
-    this.logger.log(`Created new user: ${newUser.id}`);
-    return newUser.id;
-  }
-
-  async createProject(
-    clerkUserId: string,
-    email: string,
-    dto: CreateProjectDto
-  ): Promise<Project> {
-    const userId = await this.ensureUser(clerkUserId, email);
 
     const apiKey = generateApiKey();
 
@@ -61,7 +46,7 @@ export class ProjectsService {
       .values({
         name: dto.name,
         apiKey,
-        userId,
+        userId: user.id, // Use internal UUID, not Clerk ID
         allowedDomains: dto.allowedDomains || [],
         webhookUrl: dto.webhookUrl,
         isActive: true,
@@ -126,9 +111,10 @@ export class ProjectsService {
       .set({
         name: updates.name || project.name,
         allowedDomains: updates.allowedDomains || project.allowedDomains,
-        webhookUrl: updates.webhookUrl !== undefined
-          ? updates.webhookUrl
-          : project.webhookUrl,
+        webhookUrl:
+          updates.webhookUrl !== undefined
+            ? updates.webhookUrl
+            : project.webhookUrl,
         updatedAt: new Date(),
       })
       .where(eq(projects.id, id))
@@ -138,10 +124,7 @@ export class ProjectsService {
     return updated;
   }
 
-  async regenerateApiKey(
-    id: string,
-    clerkUserId: string
-  ): Promise<Project> {
+  async regenerateApiKey(id: string, clerkUserId: string): Promise<Project> {
     const project = await this.findOne(id, clerkUserId);
 
     const newApiKey = generateApiKey();
@@ -159,10 +142,7 @@ export class ProjectsService {
     return updated;
   }
 
-  async toggleActive(
-    id: string,
-    clerkUserId: string
-  ): Promise<Project> {
+  async toggleActive(id: string, clerkUserId: string): Promise<Project> {
     const project = await this.findOne(id, clerkUserId);
 
     const [updated] = await this.db
