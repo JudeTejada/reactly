@@ -13,7 +13,7 @@ import { WebhookService } from "./webhook.service";
 import { Webhook } from "svix";
 
 @Controller("webhook")
-export class WebhookController {
+export class WebhookController {  
   private readonly logger = new Logger(WebhookController.name);
 
   constructor(private readonly webhookService: WebhookService) {}
