@@ -10,12 +10,14 @@ import { eq } from "drizzle-orm";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import * as sc from "../db/schema";
 import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
+import { ApiKeyService } from "./api-key.service";
 
 @Injectable()
 export class ApiKeyGuard implements CanActivate {
   constructor(
     @Inject(DRIZZLE_ASYNC_PROVIDER)
-    private db: NodePgDatabase<typeof sc>
+    private db: NodePgDatabase<typeof sc>,
+    private apiKeyService: ApiKeyService
   ) {}
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
@@ -23,9 +25,7 @@ export class ApiKeyGuard implements CanActivate {
     const projectId = request.headers["x-project-id"];
 
     if (!apiKey || !projectId) {
-      throw new UnauthorizedException(
-        "API key and project ID are required"
-      );
+      throw new UnauthorizedException("API key and project ID are required");
     }
 
     try {
@@ -39,7 +39,11 @@ export class ApiKeyGuard implements CanActivate {
         throw new UnauthorizedException("Invalid project ID");
       }
 
-      if (project.apiKey !== apiKey) {
+      const isValid = await this.apiKeyService.verifyApiKey(
+        apiKey,
+        project.hashedApiKey
+      );
+      if (!isValid) {
         throw new UnauthorizedException("Invalid API key");
       }
 
