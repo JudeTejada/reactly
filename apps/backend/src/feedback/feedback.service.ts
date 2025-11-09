@@ -2,7 +2,11 @@ import { Injectable, Logger, NotFoundException, Inject } from "@nestjs/common";
 import { feedback, projects } from "../db/schema";
 import { AiService } from "../ai/ai.service";
 import { WebhookService } from "../webhook/webhook.service";
-import { UserService } from "../user/user.service";
+import {
+  GET_USER_INTERNAL_ID,
+  GET_USER_PROJECTS,
+  CHECK_PROJECT_OWNERSHIP
+} from "../user/providers";
 import type { SubmitFeedbackDto, PaginatedResponse } from "@reactly/shared";
 import type { Feedback } from "../db/schema";
 import { eq, and, desc, ilike, gte, lte, sql } from "drizzle-orm";
@@ -19,7 +23,12 @@ export class FeedbackService {
     private readonly webhookService: WebhookService,
     @Inject(DRIZZLE_ASYNC_PROVIDER)
     private db: NodePgDatabase<typeof sc>,
-    private readonly userService: UserService
+    @Inject(GET_USER_INTERNAL_ID)
+    private readonly getUserInternalId: any,
+    @Inject(GET_USER_PROJECTS)
+    private readonly getUserProjects: any,
+    @Inject(CHECK_PROJECT_OWNERSHIP)
+    private readonly checkProjectOwnership: any
   ) {}
 
   async submitFeedback(
@@ -81,7 +90,9 @@ export class FeedbackService {
     const offset = (page - 1) * pageSize;
 
     // Use centralized service to get user's project IDs
-    const projectIds = await this.userService.getUserProjectIds(clerkUserId);
+    const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    const userProjects = await this.getUserProjects.execute(internalUserId);
+    const projectIds = userProjects.map((p) => p.id);
 
     if (projectIds.length === 0) {
       return {
@@ -158,7 +169,8 @@ export class FeedbackService {
     }
 
     // Verify user owns the project this feedback belongs to
-    const ownsProject = await this.userService.ownsProject(clerkUserId, item.feedback.projectId);
+    const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    const ownsProject = await this.checkProjectOwnership.execute(internalUserId, item.feedback.projectId);
     if (!ownsProject) {
       throw new NotFoundException("Feedback not found");
     }
