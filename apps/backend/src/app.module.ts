@@ -9,13 +9,19 @@ import { AuthModule } from "./auth/auth.module";
 import { HealthController } from "./health.controller";
 import { DatabaseModule } from "./db/db.module";
 import { ConfigModule } from "@nestjs/config";
+import { envValidationSchema } from "./config/env.validation";
 
 @Module({
   imports: [
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env.local'
+      envFilePath: '.env.local',
+      validationSchema: envValidationSchema,
+      validationOptions: {
+        allowUnknown: true,
+        abortEarly: false,
+      },
     }),
     ThrottlerModule.forRoot([
       {

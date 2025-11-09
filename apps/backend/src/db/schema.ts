@@ -7,6 +7,7 @@ import {
   integer,
   boolean,
   real,
+  index,
 } from "drizzle-orm/pg-core";
 import { TABLE_NAMES } from "@reactly/shared";
 
@@ -18,7 +19,10 @@ export const users = pgTable(TABLE_NAMES.USERS, {
   plan: text("plan").notNull().default("free"),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
+}, (table) => ({
+  clerkUserIdIdx: index("idx_users_clerk_user_id").on(table.clerkUserId),
+  emailIdx: index("idx_users_email").on(table.email),
+}));
 
 export const projects = pgTable(TABLE_NAMES.PROJECTS, {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -32,7 +36,11 @@ export const projects = pgTable(TABLE_NAMES.PROJECTS, {
   isActive: boolean("is_active").notNull().default(true),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
+
+}, (table) => ({
+  userIdIdx: index("idx_projects_user_id").on(table.userId),
+  apiKeyIdx: index("idx_projects_api_key").on(table.apiKey),
+}));
 
 export const feedback = pgTable(TABLE_NAMES.FEEDBACK, {
   id: uuid("id").defaultRandom().primaryKey(),
@@ -47,7 +55,14 @@ export const feedback = pgTable(TABLE_NAMES.FEEDBACK, {
   metadata: jsonb("metadata").$type<Record<string, any>>(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull(),
-});
+}, (table) => ({
+  projectIdIdx: index("idx_feedback_project_id").on(table.projectId),
+  createdAtIdx: index("idx_feedback_created_at").on(table.createdAt),
+  projectCreatedIdx: index("idx_feedback_project_created").on(table.projectId, table.createdAt),
+  projectSentimentIdx: index("idx_feedback_project_sentiment").on(table.projectId, table.sentiment),
+  sentimentIdx: index("idx_feedback_sentiment").on(table.sentiment),
+  categoryIdx: index("idx_feedback_category").on(table.category),
+}));
 
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;

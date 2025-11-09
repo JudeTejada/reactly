@@ -1,4 +1,5 @@
 import { Provider, Scope } from "@nestjs/common";
+import { ConfigService } from "@nestjs/config";
 import { drizzle } from "drizzle-orm/neon-serverless";
 import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
 import { Pool } from "@neondatabase/serverless";
@@ -9,12 +10,13 @@ export const DRIZZLE_ASYNC_PROVIDER = "DRIZZLE_ASYNC_PROVIDER";
 
 export const DrizzleProvider: Provider = {
   provide: DRIZZLE_ASYNC_PROVIDER,
-  useFactory: () => {
-    const connectionString = process.env.DATABASE_URL;
+  inject: [ConfigService],
+  useFactory: (configService: ConfigService) => {
+    const connectionString = configService.get<string>("DATABASE_URL");
 
     if (!connectionString) {
       throw new Error(
-        "DATABASE_URL is not defined. Please check your .env file."
+        "DATABASE_URL is not defined. Please check your configuration."
       );
     }
 
