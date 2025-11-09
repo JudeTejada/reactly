@@ -67,10 +67,21 @@ Uses Drizzle ORM with three main tables:
 ## Key Patterns
 
 ### Environment Configuration
-All configuration via environment variables:
+**Always use NestJS ConfigService for accessing environment variables** in services and controllers:
+
+```typescript
+constructor(private configService: ConfigService) {}
+
+// Get configuration values
+const dbUrl = this.configService.get<string>('DATABASE_URL');
+const clerkSecret = this.configService.get<string>('CLERK_SECRET_KEY');
+```
+
+Required environment variables:
 - `DATABASE_URL` - PostgreSQL connection
 - `CLERK_SECRET_KEY` - Clerk authentication
-- `OPENAI_API_KEY` - AI sentiment analysis
+- `CLERK_WEBHOOK_SECRET` - Clerk webhook verification
+- `GEMINI_API_KEY` - AI sentiment analysis
 - `DISCORD_WEBHOOK_URL` - Optional notifications
 - `ALLOWED_ORIGINS` - CORS configuration
 
@@ -86,10 +97,18 @@ Global HTTP exception filter in `src/common/filters/http-exception.filter.ts`
 
 ## Development Workflow
 
-1. Set up environment variables in `.env`
-2. Run database migrations: `pnpm db:migrate`
-3. Start development server: `pnpm dev`
-4. Access API docs at `http://localhost:3001/api/docs`
+1. Set up environment variables in `.env.local` (use `.env.example` as template)
+2. **IMPORTANT**: Use ConfigService to access environment variables in code
+3. Run database migrations: `pnpm db:migrate`
+4. Start development server: `pnpm dev`
+5. Access API docs at `http://localhost:3001/api/docs`
+
+## Configuration Best Practices
+
+- **NEVER** access `process.env` directly in services/controllers
+- **ALWAYS** inject `ConfigService` and use `this.configService.get()`
+- ConfigService is globally available through `@Global()` ConfigModule
+- Environment validation is handled automatically in `app.module.ts`
 
 ## Important Notes
 
@@ -98,3 +117,4 @@ Global HTTP exception filter in `src/common/filters/http-exception.filter.ts`
 - API keys are automatically generated with `rly_` prefix
 - Sentiment analysis is asynchronous - feedback can be created before analysis completes
 - All timestamps use UTC timezone
+
