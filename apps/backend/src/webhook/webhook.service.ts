@@ -5,6 +5,7 @@ import { users } from "../db/schema";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import * as sc from "../db/schema";
 import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
+import { ConfigService } from "@nestjs/config";
 
 @Injectable()
 export class WebhookService {
@@ -12,7 +13,8 @@ export class WebhookService {
 
   constructor(
     @Inject(DRIZZLE_ASYNC_PROVIDER)
-    private db: NodePgDatabase<typeof sc>
+    private db: NodePgDatabase<typeof sc>,
+    @Inject(ConfigService) private readonly configService: ConfigService,
   ) {}
 
   async handleUserCreated(data: any): Promise<void> {
@@ -30,11 +32,13 @@ export class WebhookService {
         ? `${data.first_name} ${data.last_name || ""}`.trim()
         : data.username || email;
 
+      const defaultPlan = this.configService.get<string>('DEFAULT_USER_PLAN', 'free');
+
       await this.db.insert(users).values({
         clerkUserId: data.id,
         email,
         name,
-        plan: "free",
+        plan: defaultPlan,
       });
 
       this.logger.log(`User created: ${email} (Clerk ID: ${data.id})`);
@@ -81,12 +85,14 @@ export class WebhookService {
     feedback: Feedback,
     webhookUrl?: string
   ): Promise<void> {
-    if (!webhookUrl && !process.env.DISCORD_WEBHOOK_URL) {
+    const discordWebhookUrl = this.configService.get<string>('DISCORD_WEBHOOK_URL');
+
+    if (!webhookUrl && !discordWebhookUrl) {
       this.logger.debug("No Discord webhook URL configured");
       return;
     }
 
-    const url = webhookUrl || process.env.DISCORD_WEBHOOK_URL!;
+    const url = webhookUrl || discordWebhookUrl!;
 
     try {
       const embed = {

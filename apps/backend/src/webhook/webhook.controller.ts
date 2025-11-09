@@ -7,16 +7,21 @@ import {
   Logger,
   RawBodyRequest,
   Req,
+  Inject,
 } from "@nestjs/common";
 import { Request } from "express";
 import { WebhookService } from "./webhook.service";
 import { Webhook } from "svix";
+import { ConfigService } from "@nestjs/config";
 
 @Controller("webhook")
 export class WebhookController {  
   private readonly logger = new Logger(WebhookController.name);
 
-  constructor(private readonly webhookService: WebhookService) {}
+  constructor(
+    private readonly webhookService: WebhookService,
+    @Inject(ConfigService) private readonly configService: ConfigService,
+  ) {}
 
   @Post("clerk")
   async handleClerkWebhook(
@@ -30,7 +35,7 @@ export class WebhookController {
       throw new BadRequestException("Missing svix headers");
     }
 
-    const webhookSecret = process.env.CLERK_WEBHOOK_SECRET;
+    const webhookSecret = this.configService.get<string>('CLERK_WEBHOOK_SECRET');
     if (!webhookSecret) {
       this.logger.error("CLERK_WEBHOOK_SECRET not configured");
       throw new BadRequestException("Webhook secret not configured");
