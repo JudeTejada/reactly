@@ -1,6 +1,9 @@
 import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
 import { feedback, projects } from "../db/schema";
-import { UserService } from "../user/user.service";
+import {
+  GET_USER_INTERNAL_ID,
+  GET_USER_PROJECTS
+} from "../user/providers";
 import { eq, and, gte, lte, sql } from "drizzle-orm";
 import type {
   FeedbackStats,
@@ -16,7 +19,10 @@ export class AnalyticsService {
   constructor(
     @Inject(DRIZZLE_ASYNC_PROVIDER)
     private db: NodePgDatabase<typeof sc>,
-    private readonly userService: UserService
+    @Inject(GET_USER_INTERNAL_ID)
+    private readonly getUserInternalId: any,
+    @Inject(GET_USER_PROJECTS)
+    private readonly getUserProjects: any
   ) {}
   private readonly logger = new Logger(AnalyticsService.name);
 
@@ -27,7 +33,9 @@ export class AnalyticsService {
     endDate?: Date
   ): Promise<FeedbackStats> {
     // Use centralized service to get user's project IDs
-    const projectIds = await this.userService.getUserProjectIds(clerkUserId);
+    const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    const userProjects = await this.getUserProjects.execute(internalUserId);
+    const projectIds = userProjects.map((p) => p.id);
 
     if (projectIds.length === 0) {
       return this.emptyStats();
@@ -106,7 +114,9 @@ export class AnalyticsService {
     startDate.setDate(startDate.getDate() - days);
 
     // Use centralized service to get user's project IDs
-    const projectIds = await this.userService.getUserProjectIds(clerkUserId);
+    const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    const userProjects = await this.getUserProjects.execute(internalUserId);
+    const projectIds = userProjects.map((p) => p.id);
 
     if (projectIds.length === 0) {
       return [];
@@ -184,7 +194,9 @@ export class AnalyticsService {
     limit: number = 10
   ) {
     // Use centralized service to get user's project IDs
-    const projectIds = await this.userService.getUserProjectIds(clerkUserId);
+    const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    const userProjects = await this.getUserProjects.execute(internalUserId);
+    const projectIds = userProjects.map((p) => p.id);
 
     if (projectIds.length === 0) {
       return [];

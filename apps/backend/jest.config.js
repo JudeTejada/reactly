@@ -24,7 +24,7 @@ module.exports = {
     'html'
   ],
   moduleNameMapper: {
-    '^@reactly/shared(.*)$': '<rootDir>/../shared/src$1',
+    '^@reactly/shared(.*)$': '<rootDir>/../../packages/shared/src$1',
     '^@/(.*)$': '<rootDir>/src/$1',
   },
   setupFilesAfterEnv: ['<rootDir>/test/setup.ts'],
