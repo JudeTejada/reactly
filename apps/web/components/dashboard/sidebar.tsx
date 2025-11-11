@@ -20,7 +20,7 @@ export function Sidebar() {
     <div className="flex h-full w-64 flex-col border-r bg-muted/40">
       <div className="flex h-16 items-center border-b px-6">
         <Link href="/dashboard" className="flex items-center space-x-2">
-          <span className="text-xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <span className="text-xl font-bold text-foreground">
             Reactly
           </span>
         </Link>

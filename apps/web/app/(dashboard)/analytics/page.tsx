@@ -5,28 +5,24 @@ import { StatCard } from "@/components/dashboard/stat-card";
 import { useAnalyticsOverview, useAnalyticsTrends } from "@/hooks/use-analytics";
 import { MessageSquare, Star, TrendingUp, TrendingDown } from "lucide-react";
 import {
-  LineChart,
-  Line,
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
   PieChart,
   Pie,
   Cell,
   BarChart,
   Bar,
+  LineChart,
+  Line,
   XAxis,
   YAxis,
   CartesianGrid,
-  Tooltip,
-  Legend,
   ResponsiveContainer,
 } from "recharts";
-
-const SENTIMENT_COLORS = {
-  positive: "#22c55e",
-  neutral: "#6b7280",
-  negative: "#ef4444",
-};
-
-const CATEGORY_COLORS = ["#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#ec4899", "#6b7280"];
+import { sentimentChartConfig, categoryChartConfig } from "@/lib/chart-config";
 
 export default function AnalyticsPage() {
   const { data: overview, isLoading: overviewLoading } = useAnalyticsOverview();
@@ -71,16 +67,21 @@ export default function AnalyticsPage() {
 
   // Prepare pie chart data
   const sentimentPieData = [
-    { name: "Positive", value: overview.sentimentDistribution.positive, color: SENTIMENT_COLORS.positive },
-    { name: "Neutral", value: overview.sentimentDistribution.neutral, color: SENTIMENT_COLORS.neutral },
-    { name: "Negative", value: overview.sentimentDistribution.negative, color: SENTIMENT_COLORS.negative },
+    { name: "positive", value: overview.sentimentDistribution.positive },
+    { name: "neutral", value: overview.sentimentDistribution.neutral },
+    { name: "negative", value: overview.sentimentDistribution.negative },
   ].filter((item) => item.value > 0);
 
   // Prepare category bar chart data
-  const categoryData = Object.entries(overview.categoryBreakdown).map(([name, value]) => ({
-    name: name.charAt(0).toUpperCase() + name.slice(1),
-    count: value,
-  }));
+  const categoryData = Object.entries(overview.categoryBreakdown).map(([name, value]) => {
+    const categoryKey = name.toLowerCase();
+    const config = categoryChartConfig[categoryKey as keyof typeof categoryChartConfig];
+    return {
+      name: name.charAt(0).toUpperCase() + name.slice(1),
+      count: value,
+      fill: config?.color || "hsl(var(--muted-foreground))",
+    };
+  });
 
   return (
     <div className="space-y-6">
@@ -126,25 +127,33 @@ export default function AnalyticsPage() {
             <CardDescription>Breakdown of feedback sentiment</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={sentimentPieData}
-                  cx="50%"
-                  cy="50%"
-                  labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="value"
-                >
-                  {sentimentPieData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.color} />
-                  ))}
-                </Pie>
-                <Tooltip />
-              </PieChart>
-            </ResponsiveContainer>
+            <ChartContainer config={sentimentChartConfig}>
+              <ResponsiveContainer width="100%" height={300}>
+                <PieChart>
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Pie
+                    data={sentimentPieData}
+                    cx="50%"
+                    cy="50%"
+                    labelLine={false}
+                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    outerRadius={80}
+                    fill="#8884d8"
+                    dataKey="value"
+                  >
+                    {sentimentPieData.map((entry, index) => (
+                      <Cell
+                        key={`cell-${index}`}
+                        fill={
+                          sentimentChartConfig[entry.name as keyof typeof sentimentChartConfig]
+                            ?.color || "#8884d8"
+                        }
+                      />
+                    ))}
+                  </Pie>
+                </PieChart>
+              </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
 
@@ -155,15 +164,26 @@ export default function AnalyticsPage() {
             <CardDescription>Feedback by category type</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={categoryData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip />
-                <Bar dataKey="count" fill="#8b5cf6" />
-              </BarChart>
-            </ResponsiveContainer>
+            <ChartContainer config={categoryChartConfig}>
+              <ResponsiveContainer width="100%" height={300}>
+                <BarChart data={categoryData}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis
+                    dataKey="name"
+                    className="text-xs"
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <YAxis
+                    className="text-xs"
+                    tickLine={false}
+                    axisLine={false}
+                  />
+                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <Bar dataKey="count" radius={[4, 4, 0, 0]} fill="hsl(var(--primary))" />
+                </BarChart>
+              </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
       </div>
@@ -176,41 +196,61 @@ export default function AnalyticsPage() {
             <CardDescription>Track how sentiment changes over time</CardDescription>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={400}>
-              <LineChart data={trends}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis
-                  dataKey="date"
-                  tickFormatter={(value) => new Date(value).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                />
-                <YAxis />
-                <Tooltip
-                  labelFormatter={(value) => new Date(value).toLocaleDateString()}
-                />
-                <Legend />
-                <Line
-                  type="monotone"
-                  dataKey="positive"
-                  stroke={SENTIMENT_COLORS.positive}
-                  strokeWidth={2}
-                  name="Positive"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="neutral"
-                  stroke={SENTIMENT_COLORS.neutral}
-                  strokeWidth={2}
-                  name="Neutral"
-                />
-                <Line
-                  type="monotone"
-                  dataKey="negative"
-                  stroke={SENTIMENT_COLORS.negative}
-                  strokeWidth={2}
-                  name="Negative"
-                />
-              </LineChart>
-            </ResponsiveContainer>
+            <ChartContainer config={sentimentChartConfig}>
+              <ResponsiveContainer width="100%" height={400}>
+                <LineChart data={trends}>
+                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <XAxis
+                    dataKey="date"
+                    tickLine={false}
+                    axisLine={false}
+                    tickFormatter={(value) =>
+                      new Date(value).toLocaleDateString(undefined, {
+                        month: "short",
+                        day: "numeric",
+                      })
+                    }
+                    className="text-xs"
+                  />
+                  <YAxis
+                    tickLine={false}
+                    axisLine={false}
+                    className="text-xs"
+                  />
+                  <ChartTooltip
+                    content={<ChartTooltipContent />}
+                    labelFormatter={(value) => new Date(value).toLocaleDateString()}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="positive"
+                    stroke={
+                      sentimentChartConfig.positive?.color || "#22c55e"
+                    }
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="neutral"
+                    stroke={
+                      sentimentChartConfig.neutral?.color || "#6b7280"
+                    }
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                  <Line
+                    type="monotone"
+                    dataKey="negative"
+                    stroke={
+                      sentimentChartConfig.negative?.color || "#ef4444"
+                    }
+                    strokeWidth={2}
+                    dot={false}
+                  />
+                </LineChart>
+              </ResponsiveContainer>
+            </ChartContainer>
           </CardContent>
         </Card>
       )}
