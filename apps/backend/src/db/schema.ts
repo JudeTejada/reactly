@@ -66,6 +66,29 @@ export const feedback = pgTable(TABLE_NAMES.FEEDBACK, {
   categoryIdx: index("idx_feedback_category").on(table.category),
 }));
 
+export const insights = pgTable("insights", {
+  id: uuid("id").defaultRandom().primaryKey(),
+  userId: uuid("user_id")
+    .notNull()
+    .references(() => users.id, { onDelete: "cascade" }),
+  projectId: uuid("project_id")
+    .references(() => projects.id, { onDelete: "cascade" }),
+  summary: text("summary").notNull(),
+  keyThemes: jsonb("key_themes").$type<string[]>().notNull(),
+  recommendations: jsonb("recommendations").$type<string[]>().notNull(),
+  insights: jsonb("insights").$type<any[]>().notNull(),
+  statistics: jsonb("statistics").$type<any>().notNull(),
+  filters: jsonb("filters").$type<{
+    startDate?: string;
+    endDate?: string;
+  }>(),
+  createdAt: timestamp("created_at").defaultNow().notNull(),
+}, (table) => ({
+  userIdIdx: index("idx_insights_user_id").on(table.userId),
+  projectIdIdx: index("idx_insights_project_id").on(table.projectId),
+  userCreatedIdx: index("idx_insights_user_created").on(table.userId, table.createdAt),
+}));
+
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
 
@@ -77,3 +100,6 @@ export type ProjectWithApiKey = Project & {
 
 export type Feedback = typeof feedback.$inferSelect;
 export type NewFeedback = typeof feedback.$inferInsert;
+
+export type Insights = typeof insights.$inferSelect;
+export type NewInsights = typeof insights.$inferInsert;

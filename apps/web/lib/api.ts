@@ -174,6 +174,75 @@ class ApiClient {
     const query = queryParams.toString();
     return this.fetch(`/analytics/recent${query ? `?${query}` : ""}`);
   }
+
+  // Insights
+  async getInsights(params: {
+    projectId?: string;
+    startDate?: string;
+    endDate?: string;
+  }): Promise<{
+    summary: string;
+    keyThemes: string[];
+    recommendations: string[];
+    insights: Array<{
+      type: 'theme' | 'recommendation' | 'alert' | 'trend';
+      title: string;
+      description: string;
+      priority: 'high' | 'medium' | 'low';
+      supportingData?: any;
+    }>;
+    statistics: {
+      totalFeedback: number;
+      averageRating: number;
+      positivePercentage: number;
+      negativePercentage: number;
+    };
+    generatedAt: string;
+  } | null> {
+    const queryParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        queryParams.append(key, value.toString());
+      }
+    });
+    const query = queryParams.toString();
+    return this.fetch(`/insights${query ? `?${query}` : ""}`);
+  }
+
+  async generateInsights(params: {
+    projectId?: string;
+    startDate?: string;
+    endDate?: string;
+  }): Promise<{
+    summary: string;
+    keyThemes: string[];
+    recommendations: string[];
+    insights: Array<{
+      type: 'theme' | 'recommendation' | 'alert' | 'trend';
+      title: string;
+      description: string;
+      priority: 'high' | 'medium' | 'low';
+      supportingData?: any;
+    }>;
+    statistics: {
+      totalFeedback: number;
+      averageRating: number;
+      positivePercentage: number;
+      negativePercentage: number;
+    };
+    generatedAt: string;
+  }> {
+    const queryParams = new URLSearchParams();
+    Object.entries(params).forEach(([key, value]) => {
+      if (value !== undefined) {
+        queryParams.append(key, value.toString());
+      }
+    });
+    const query = queryParams.toString();
+    return this.fetch(`/insights/generate${query ? `?${query}` : ""}`, {
+      method: 'POST',
+    });
+  }
 }
 
 export const api = new ApiClient(API_URL);

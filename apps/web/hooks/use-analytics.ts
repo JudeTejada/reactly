@@ -29,3 +29,19 @@ export function useRecentFeedback(filters: Pick<AnalyticsFilters, "projectId" | 
     queryFn: () => api.getRecentFeedback(filters),
   });
 }
+
+export function useInsights(filters: Omit<AnalyticsFilters, "days" | "limit"> = {}) {
+  return useQuery({
+    queryKey: ["insights", "existing", filters],
+    queryFn: () => api.getInsights(filters),
+    enabled: false,
+  });
+}
+
+export function useGenerateInsights(filters: Omit<AnalyticsFilters, "days" | "limit"> = {}) {
+  return useQuery({
+    queryKey: ["insights", "generate", filters],
+    queryFn: () => api.generateInsights(filters),
+    enabled: false,
+  });
+}
