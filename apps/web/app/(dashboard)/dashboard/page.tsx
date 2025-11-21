@@ -70,6 +70,11 @@ export default function DashboardPage() {
     data: generatedInsights,
     isLoading: generateInsightsLoading,
     refetch: refetchGenerateInsights,
+    hasActiveJob,
+    isProcessing,
+    jobStatus,
+    createJob,
+    cancelJob,
   } = useGenerateInsights();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -227,11 +232,17 @@ export default function DashboardPage() {
               <Button
                 variant="outline"
                 onClick={() => refetchGenerateInsights()}
-                disabled={generateInsightsLoading}
+                disabled={generateInsightsLoading || hasActiveJob}
                 className="gap-2"
               >
                 <Lightbulb className="h-4 w-4" />
-                {generateInsightsLoading ? "Generating..." : "Generate Insights"}
+                {hasActiveJob
+                  ? jobStatus?.status === "processing"
+                    ? "Processing..."
+                    : "In Queue..."
+                  : generateInsightsLoading
+                    ? "Starting..."
+                    : "Generate Insights"}
               </Button>
               <Link href="/projects">
                 <Button>Create Project</Button>
@@ -382,12 +393,13 @@ export default function DashboardPage() {
             </motion.div>
 
             {/* AI Insights */}
-            {currentInsights && (
+            {(currentInsights || hasActiveJob) && (
               <motion.div variants={itemVariants}>
                 <InsightsCard
                   data={currentInsights}
-                  isLoading={insightsLoading || generateInsightsLoading}
+                  isLoading={insightsLoading || isProcessing}
                   onRefresh={() => refetchGenerateInsights()}
+                  jobStatus={jobStatus}
                 />
               </motion.div>
             )}

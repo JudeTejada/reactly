@@ -40,20 +40,26 @@ export class FeedbackService {
 
     const sentimentResult = await this.aiService.analyzeSentiment(dto.text);
 
+    // AI will determine category and rating from the text
+    const analysisResult = await this.aiService.analyzeFeedback(dto.text);
+
     const [newFeedback] = await this.db
       .insert(feedback)
       .values({
         projectId,
         text: dto.text,
-        rating: dto.rating,
-        category: dto.category,
+        rating: analysisResult.rating,
+        category: analysisResult.category,
         sentiment: sentimentResult.sentiment,
         sentimentScore: sentimentResult.score,
         metadata: metadata || dto.metadata,
       })
       .returning();
 
-    if (sentimentResult.sentiment === "negative" || dto.rating <= 2) {
+    if (
+      sentimentResult.sentiment === "negative" ||
+      analysisResult.rating <= 2
+    ) {
       const [project] = await this.db
         .select()
         .from(projects)

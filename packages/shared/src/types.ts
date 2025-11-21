@@ -21,21 +21,39 @@ export const feedbackCategorySchema = z.enum([
 
 export type FeedbackCategory = z.infer<typeof feedbackCategorySchema>;
 
+// Updated submit schema - for widget feedback with text, category, rating
 export const submitFeedbackSchema = z.object({
   text: z.string().min(1).max(5000),
-  rating: z.number().int().min(1).max(5),
-  category: feedbackCategorySchema,
+  category: z.enum([
+    "bug",
+    "feature",
+    "improvement",
+    "complaint",
+    "praise",
+    "other",
+  ]),
+  rating: z.number().min(1).max(5),
   metadata: z.record(z.any()).optional(),
 });
 
 export type SubmitFeedbackDto = z.infer<typeof submitFeedbackSchema>;
 
+// Interface for comprehensive AI feedback analysis
+export interface FeedbackAnalysis {
+  sentiment: SentimentType;
+  sentimentScore: number;
+  category: FeedbackCategory;
+  rating: number; // 1-5
+  markdownSummary: string;
+}
+
+// Updated Feedback interface - rating/category required as before
 export interface Feedback {
   id: string;
   projectId: string;
   text: string;
-  rating: number;
-  category: FeedbackCategory;
+  rating: number; // Required - AI generated
+  category: FeedbackCategory; // Required - AI generated
   sentiment: SentimentType;
   sentimentScore: number;
   metadata?: Record<string, any>;
