@@ -2,12 +2,15 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Lightbulb,
   TrendingUp,
   AlertTriangle,
   Target,
   CheckCircle2,
+  RefreshCw,
+  X,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import { formatDistanceToNow } from "date-fns";
@@ -37,6 +40,8 @@ interface InsightsCardProps {
   data?: InsightsData;
   isLoading: boolean;
   onRefresh: () => void;
+  onCancel?: () => void;
+  isCancelling?: boolean;
   jobStatus?: {
     status:
       | "pending"
@@ -78,8 +83,59 @@ export function InsightsCard({
   data,
   isLoading,
   onRefresh,
+  onCancel,
+  isCancelling,
   jobStatus,
 }: InsightsCardProps) {
+  // Handle failed jobs with cancel button
+  if (jobStatus?.status === "failed" || jobStatus?.status === "cancelled") {
+    return (
+      <Card>
+        <CardHeader>
+          <div className="flex items-center justify-between">
+            <CardTitle className="flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-red-500" />
+              AI Insights
+            </CardTitle>
+            <Badge variant="destructive" className="text-xs">
+              Failed
+            </Badge>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-4">
+            <p className="text-sm text-muted-foreground">
+              {jobStatus.error || "Job failed or was cancelled"}
+            </p>
+            <div className="flex gap-2">
+              <Button
+                onClick={onRefresh}
+                variant="default"
+                size="sm"
+                className="flex items-center gap-2"
+              >
+                <RefreshCw className="h-4 w-4" />
+                Try Again
+              </Button>
+              {onCancel && (
+                <Button
+                  onClick={onCancel}
+                  variant="outline"
+                  size="sm"
+                  disabled={isCancelling}
+                  className="flex items-center gap-2"
+                >
+                  <X className="h-4 w-4" />
+                  {isCancelling ? "Cancelling..." : "Clear"}
+                </Button>
+              )}
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
+
   if (isLoading && jobStatus?.status === "processing") {
     return (
       <Card>

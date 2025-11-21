@@ -75,6 +75,7 @@ export default function DashboardPage() {
     jobStatus,
     createJob,
     cancelJob,
+    isCancelling,
   } = useGenerateInsights();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -399,6 +400,8 @@ export default function DashboardPage() {
                   data={currentInsights}
                   isLoading={insightsLoading || isProcessing}
                   onRefresh={() => refetchGenerateInsights()}
+                  onCancel={() => cancelJob()}
+                  isCancelling={isCancelling}
                   jobStatus={jobStatus}
                 />
               </motion.div>

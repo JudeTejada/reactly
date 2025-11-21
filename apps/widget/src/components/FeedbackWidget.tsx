@@ -1,5 +1,5 @@
 import { useState } from "react";
-import type { WidgetConfig, FeedbackCategory } from "@reactly/shared";
+import type { WidgetConfig } from "@reactly/shared";
 import { submitFeedbackSchema } from "@reactly/shared";
 import "./FeedbackWidget.css";
 
@@ -15,8 +15,8 @@ export function FeedbackWidget({ config }: FeedbackWidgetProps) {
 
   const [formData, setFormData] = useState({
     text: "",
-    rating: 5,
-    category: "other" as FeedbackCategory,
+    name: "",
+    email: "",
   });
 
   const position = config.position || "bottom-right";
@@ -46,12 +46,13 @@ export function FeedbackWidget({ config }: FeedbackWidgetProps) {
         throw new Error("Failed to submit feedback");
       }
 
+      // Immediate success feedback - AI processing happens in background
       setIsSuccess(true);
       setTimeout(() => {
         setIsOpen(false);
         setIsSuccess(false);
-        setFormData({ text: "", rating: 5, category: "other" });
-      }, 2000);
+        setFormData({ text: "", name: "", email: "" });
+      }, 1500); // Shorter delay since we're showing success immediately
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to submit");
     } finally {
@@ -105,50 +106,39 @@ export function FeedbackWidget({ config }: FeedbackWidgetProps) {
               <div className="rly-success">
                 <div className="rly-success-icon">✓</div>
                 <p>
-                  {labels.thankYouMessage || "Thank you for your feedback!"}
+                  {labels.thankYouMessage ||
+                    "Thanks! Your feedback has been submitted and will be analyzed shortly."}
                 </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="rly-form">
                 <div className="rly-form-group">
-                  <label htmlFor="rly-category">Category</label>
-                  <select
-                    id="rly-category"
-                    value={formData.category}
+                  <label htmlFor="rly-name">Name *</label>
+                  <input
+                    type="text"
+                    id="rly-name"
+                    value={formData.name}
                     onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        category: e.target.value as FeedbackCategory,
-                      })
+                      setFormData({ ...formData, name: e.target.value })
                     }
+                    placeholder="Your name"
                     required
-                  >
-                    <option value="bug">Bug Report</option>
-                    <option value="feature">Feature Request</option>
-                    <option value="improvement">Improvement</option>
-                    <option value="complaint">Complaint</option>
-                    <option value="praise">Praise</option>
-                    <option value="other">Other</option>
-                  </select>
+                    maxLength={100}
+                  />
                 </div>
 
                 <div className="rly-form-group">
-                  <label htmlFor="rly-rating">Rating</label>
-                  <div className="rly-rating">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <button
-                        key={star}
-                        type="button"
-                        className={`rly-star ${star <= formData.rating ? "rly-star-active" : ""}`}
-                        onClick={() =>
-                          setFormData({ ...formData, rating: star })
-                        }
-                        aria-label={`Rate ${star} stars`}
-                      >
-                        ★
-                      </button>
-                    ))}
-                  </div>
+                  <label htmlFor="rly-email">Email *</label>
+                  <input
+                    type="email"
+                    id="rly-email"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    placeholder="your.email@example.com"
+                    required
+                  />
                 </div>
 
                 <div className="rly-form-group">

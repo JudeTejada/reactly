@@ -21,18 +21,11 @@ export const feedbackCategorySchema = z.enum([
 
 export type FeedbackCategory = z.infer<typeof feedbackCategorySchema>;
 
-// Updated submit schema - for widget feedback with text, category, rating
+// Updated submit schema - for widget feedback with text, name, email (AI handles category/rating)
 export const submitFeedbackSchema = z.object({
   text: z.string().min(1).max(5000),
-  category: z.enum([
-    "bug",
-    "feature",
-    "improvement",
-    "complaint",
-    "praise",
-    "other",
-  ]),
-  rating: z.number().min(1).max(5),
+  name: z.string().min(1).max(100),
+  email: z.string().email(),
   metadata: z.record(z.any()).optional(),
 });
 
@@ -47,16 +40,19 @@ export interface FeedbackAnalysis {
   markdownSummary: string;
 }
 
-// Updated Feedback interface - rating/category required as before
+// Updated Feedback interface - includes user info, rating/category from AI
 export interface Feedback {
   id: string;
   projectId: string;
   text: string;
-  rating: number; // Required - AI generated
-  category: FeedbackCategory; // Required - AI generated
+  rating: number; // AI generated
+  category: FeedbackCategory; // AI generated
   sentiment: SentimentType;
   sentimentScore: number;
+  userName: string; // From widget submission
+  userEmail: string; // From widget submission
   metadata?: Record<string, any>;
+  processingStatus: "pending" | "processing" | "completed" | "failed";
   createdAt: Date;
   updatedAt: Date;
 }

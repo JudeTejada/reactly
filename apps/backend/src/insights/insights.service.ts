@@ -309,14 +309,20 @@ Rules:
     projectId: string,
     filters?: { startDate?: Date; endDate?: Date }
   ): Promise<InsightsResult | null> {
-    // For now, fall back to existing insights method
-    // TODO: Implement proper Redis/database caching once infrastructure is ready
-    return this.getExistingInsights(
-      clerkUserId,
-      projectId,
-      filters?.startDate,
-      filters?.endDate
-    );
+    try {
+      // First try to get from cache (if available)
+      // For now, fall back to existing insights method
+      // TODO: Implement proper Redis/database caching once infrastructure is ready
+      return this.getExistingInsights(
+        clerkUserId,
+        projectId,
+        filters?.startDate,
+        filters?.endDate
+      );
+    } catch (error) {
+      this.logger.warn(`Failed to get cached insights: ${error.message}`);
+      return null;
+    }
   }
 
   private async getDbExistingInsights(

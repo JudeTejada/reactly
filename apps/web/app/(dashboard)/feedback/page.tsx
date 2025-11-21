@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -53,12 +59,16 @@ export default function FeedbackPage() {
 
   const handleExport = () => {
     if (!data?.items) return;
-    
+
     const csv = [
-      ["Date", "Rating", "Sentiment", "Category", "Text"].join(","),
+      ["Date", "User", "Email", "Rating", "Sentiment", "Category", "Text"].join(
+        ","
+      ),
       ...data.items.map((item) =>
         [
           new Date(item.createdAt).toLocaleDateString(),
+          `"${item.userName}"`,
+          `"${item.userEmail}"`,
           item.rating,
           item.sentiment,
           item.category,
@@ -80,7 +90,9 @@ export default function FeedbackPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Feedback</h1>
-          <p className="text-muted-foreground">Manage and analyze user feedback</p>
+          <p className="text-muted-foreground">
+            Manage and analyze user feedback
+          </p>
         </div>
         <Button onClick={handleExport} disabled={!data?.items?.length}>
           <Download className="mr-2 h-4 w-4" />
@@ -91,7 +103,9 @@ export default function FeedbackPage() {
       <Card>
         <CardHeader>
           <CardTitle>Filter Feedback</CardTitle>
-          <CardDescription>Search and filter to find specific feedback</CardDescription>
+          <CardDescription>
+            Search and filter to find specific feedback
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
@@ -104,7 +118,10 @@ export default function FeedbackPage() {
                 className="pl-9"
               />
             </div>
-            <Select value={sentiment} onValueChange={(v) => setSentiment(v as any)}>
+            <Select
+              value={sentiment}
+              onValueChange={(v) => setSentiment(v as any)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="All Sentiments" />
               </SelectTrigger>
@@ -115,7 +132,10 @@ export default function FeedbackPage() {
                 <SelectItem value="negative">Negative</SelectItem>
               </SelectContent>
             </Select>
-            <Select value={category} onValueChange={(v) => setCategory(v as any)}>
+            <Select
+              value={category}
+              onValueChange={(v) => setCategory(v as any)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
@@ -136,7 +156,9 @@ export default function FeedbackPage() {
       <Card>
         <CardContent className="p-0">
           {isLoading ? (
-            <div className="p-8 text-center text-muted-foreground">Loading...</div>
+            <div className="p-8 text-center text-muted-foreground">
+              Loading...
+            </div>
           ) : !data?.items?.length ? (
             <EmptyState
               icon={Inbox}
@@ -149,9 +171,10 @@ export default function FeedbackPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Date</TableHead>
-                    <TableHead>Rating</TableHead>
-                    <TableHead>Sentiment</TableHead>
-                    <TableHead>Category</TableHead>
+                    <TableHead>User</TableHead>
+                    <TableHead>AI Rating</TableHead>
+                    <TableHead>AI Sentiment</TableHead>
+                    <TableHead>AI Category</TableHead>
                     <TableHead>Feedback</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
                   </TableRow>
@@ -160,16 +183,52 @@ export default function FeedbackPage() {
                   {data.items.map((feedback) => (
                     <TableRow key={feedback.id}>
                       <TableCell className="whitespace-nowrap">
-                        {formatDistanceToNow(new Date(feedback.createdAt), { addSuffix: true })}
+                        {formatDistanceToNow(new Date(feedback.createdAt), {
+                          addSuffix: true,
+                        })}
                       </TableCell>
                       <TableCell>
-                        <RatingStars rating={feedback.rating} size="sm" />
+                        <div className="space-y-1">
+                          <div className="font-medium">{feedback.userName}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {feedback.userEmail}
+                          </div>
+                        </div>
                       </TableCell>
                       <TableCell>
-                        <SentimentBadge sentiment={feedback.sentiment} />
+                        {feedback.processingStatus === "pending" ? (
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
+                            <span className="text-sm text-muted-foreground">
+                              Processing...
+                            </span>
+                          </div>
+                        ) : feedback.processingStatus === "failed" ? (
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-red-400 rounded-full"></div>
+                            <span className="text-sm text-red-600">Failed</span>
+                          </div>
+                        ) : (
+                          <RatingStars rating={feedback.rating} size="sm" />
+                        )}
                       </TableCell>
                       <TableCell>
-                        <CategoryBadge category={feedback.category} />
+                        {feedback.processingStatus === "completed" ? (
+                          <SentimentBadge sentiment={feedback.sentiment} />
+                        ) : (
+                          <span className="text-sm text-muted-foreground">
+                            Pending
+                          </span>
+                        )}
+                      </TableCell>
+                      <TableCell>
+                        {feedback.processingStatus === "completed" ? (
+                          <CategoryBadge category={feedback.category} />
+                        ) : (
+                          <span className="text-sm text-muted-foreground">
+                            Pending
+                          </span>
+                        )}
                       </TableCell>
                       <TableCell className="max-w-md">
                         <p className="line-clamp-2 text-sm">{feedback.text}</p>
@@ -187,7 +246,7 @@ export default function FeedbackPage() {
                   ))}
                 </TableBody>
               </Table>
-              
+
               {data.hasMore && (
                 <div className="p-4 flex items-center justify-between border-t">
                   <p className="text-sm text-muted-foreground">
@@ -197,7 +256,7 @@ export default function FeedbackPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
                       disabled={page === 1}
                     >
                       Previous
@@ -205,7 +264,7 @@ export default function FeedbackPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setPage(p => p + 1)}
+                      onClick={() => setPage((p) => p + 1)}
                       disabled={!data.hasMore}
                     >
                       Next

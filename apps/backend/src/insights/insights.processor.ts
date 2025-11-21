@@ -57,13 +57,26 @@ export class InsightsProcessor extends WorkerHost {
 
       await job.updateProgress(80);
 
-      // Cache result
-      const cacheKey = this.generateCacheKey(projectId, filters);
-      await this.cacheManager.set(
-        cacheKey,
-        insights,
-        24 * 60 * 60 * 1000 // 24h TTL
-      );
+      // Cache result (with error handling for when Redis is not available)
+      try {
+        const cacheKey = this.generateCacheKey(projectId, filters);
+        if (this.cacheManager && typeof this.cacheManager.set === "function") {
+          await this.cacheManager.set(
+            cacheKey,
+            insights,
+            24 * 60 * 60 * 1000 // 24h TTL
+          );
+          this.logger.debug(`Cached insights for project ${projectId}`);
+        } else {
+          this.logger.warn(
+            `Cache manager not available, skipping cache for project ${projectId}`
+          );
+        }
+      } catch (cacheError) {
+        this.logger.warn(
+          `Failed to cache insights for project ${projectId}: ${cacheError.message}`
+        );
+      }
 
       // Update job with result
       const result: JobResult = {

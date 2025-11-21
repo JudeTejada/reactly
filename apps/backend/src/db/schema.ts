@@ -61,10 +61,13 @@ export const feedback = pgTable(
       .notNull()
       .references(() => projects.id, { onDelete: "cascade" }),
     text: text("text").notNull(),
-    rating: integer("rating").notNull(),
-    category: text("category").notNull(),
-    sentiment: text("sentiment").notNull(),
-    sentimentScore: real("sentiment_score").notNull(),
+    rating: integer("rating").notNull().default(0),
+    category: text("category").notNull().default("general"),
+    sentiment: text("sentiment").notNull().default("pending"),
+    sentimentScore: real("sentiment_score").notNull().default(0),
+    userName: text("user_name").notNull(),
+    userEmail: text("user_email").notNull(),
+    processingStatus: text("processing_status").notNull().default("pending"),
     metadata: jsonb("metadata").$type<Record<string, any>>(),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),
@@ -82,6 +85,10 @@ export const feedback = pgTable(
     ),
     sentimentIdx: index("idx_feedback_sentiment").on(table.sentiment),
     categoryIdx: index("idx_feedback_category").on(table.category),
+    processingStatusIdx: index("idx_feedback_processing_status").on(
+      table.processingStatus
+    ),
+    userEmailIdx: index("idx_feedback_user_email").on(table.userEmail),
   })
 );
 

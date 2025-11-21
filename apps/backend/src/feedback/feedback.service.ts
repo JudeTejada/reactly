@@ -1,6 +1,5 @@
 import { Injectable, Logger, NotFoundException, Inject } from "@nestjs/common";
 import { feedback, projects } from "../db/schema";
-import { WebhookService } from "../webhook/webhook.service";
 import {
   GET_USER_INTERNAL_ID,
   GET_USER_PROJECTS,
@@ -12,15 +11,14 @@ import { eq, and, desc, ilike, gte, lte, sql } from "drizzle-orm";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import * as sc from "../db/schema";
 import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
-import { GlmAiService } from "src/ai/glm-ai.service";
+import { FeedbackQueueService } from "./feedback-queue.service";
 
 @Injectable()
 export class FeedbackService {
   private readonly logger = new Logger(FeedbackService.name);
 
   constructor(
-    private readonly aiService: GlmAiService,
-    private readonly webhookService: WebhookService,
+    private readonly feedbackQueueService: FeedbackQueueService,
     @Inject(DRIZZLE_ASYNC_PROVIDER)
     private db: NodePgDatabase<typeof sc>,
     @Inject(GET_USER_INTERNAL_ID)
@@ -38,43 +36,33 @@ export class FeedbackService {
   ): Promise<Feedback> {
     this.logger.log(`Submitting feedback for project ${projectId}`);
 
-    const sentimentResult = await this.aiService.analyzeSentiment(dto.text);
-
-    // AI will determine category and rating from the text
-    const analysisResult = await this.aiService.analyzeFeedback(dto.text);
-
     const [newFeedback] = await this.db
       .insert(feedback)
       .values({
         projectId,
         text: dto.text,
-        rating: analysisResult.rating,
-        category: analysisResult.category,
-        sentiment: sentimentResult.sentiment,
-        sentimentScore: sentimentResult.score,
+        userName: dto.name,
+        userEmail: dto.email,
+        rating: 0, // Will be set by AI processing
+        category: "general", // Will be set by AI processing
+        sentiment: "pending", // Will be set by AI processing
+        sentimentScore: 0, // Will be set by AI processing
+        processingStatus: "pending",
         metadata: metadata || dto.metadata,
       })
       .returning();
 
-    if (
-      sentimentResult.sentiment === "negative" ||
-      analysisResult.rating <= 2
-    ) {
-      const [project] = await this.db
-        .select()
-        .from(projects)
-        .where(eq(projects.id, projectId))
-        .limit(1);
+    // Queue the feedback for async AI processing
+    await this.feedbackQueueService.processFeedback(
+      newFeedback.id,
+      projectId,
+      dto.text,
+      metadata || dto.metadata
+    );
 
-      if (project?.webhookUrl) {
-        await this.webhookService.sendDiscordNotification(
-          newFeedback,
-          project.webhookUrl
-        );
-      }
-    }
-
-    this.logger.log(`Feedback created: ${newFeedback.id}`);
+    this.logger.log(
+      `Feedback created: ${newFeedback.id} and queued for processing`
+    );
     return newFeedback;
   }
 
@@ -193,5 +181,20 @@ export class FeedbackService {
     await this.db.delete(feedback).where(eq(feedback.id, feedbackItem.id));
 
     this.logger.log(`Feedback deleted: ${id}`);
+  }
+
+  async getProcessingStatus(
+    id: string,
+    clerkUserId: string
+  ): Promise<{
+    status: "pending" | "processing" | "completed" | "failed";
+    feedback?: Feedback;
+  }> {
+    const feedbackItem = await this.findOne(id, clerkUserId);
+
+    return {
+      status: feedbackItem.processingStatus as any,
+      feedback: feedbackItem,
+    };
   }
 }
