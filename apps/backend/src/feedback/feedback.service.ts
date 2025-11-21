@@ -1,11 +1,10 @@
 import { Injectable, Logger, NotFoundException, Inject } from "@nestjs/common";
 import { feedback, projects } from "../db/schema";
-import { AiService } from "../ai/ai.service";
 import { WebhookService } from "../webhook/webhook.service";
 import {
   GET_USER_INTERNAL_ID,
   GET_USER_PROJECTS,
-  CHECK_PROJECT_OWNERSHIP
+  CHECK_PROJECT_OWNERSHIP,
 } from "../user/providers";
 import type { SubmitFeedbackDto, PaginatedResponse } from "@reactly/shared";
 import type { Feedback } from "../db/schema";
@@ -13,13 +12,14 @@ import { eq, and, desc, ilike, gte, lte, sql } from "drizzle-orm";
 import { NodePgDatabase } from "drizzle-orm/node-postgres";
 import * as sc from "../db/schema";
 import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
+import { GlmAiService } from "src/ai/glm-ai.service";
 
 @Injectable()
 export class FeedbackService {
   private readonly logger = new Logger(FeedbackService.name);
 
   constructor(
-    private readonly aiService: AiService,
+    private readonly aiService: GlmAiService,
     private readonly webhookService: WebhookService,
     @Inject(DRIZZLE_ASYNC_PROVIDER)
     private db: NodePgDatabase<typeof sc>,
@@ -170,7 +170,10 @@ export class FeedbackService {
 
     // Verify user owns the project this feedback belongs to
     const internalUserId = await this.getUserInternalId.execute(clerkUserId);
-    const ownsProject = await this.checkProjectOwnership.execute(internalUserId, item.feedback.projectId);
+    const ownsProject = await this.checkProjectOwnership.execute(
+      internalUserId,
+      item.feedback.projectId
+    );
     if (!ownsProject) {
       throw new NotFoundException("Feedback not found");
     }
