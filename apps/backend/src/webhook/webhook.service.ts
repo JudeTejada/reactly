@@ -143,4 +143,72 @@ export class WebhookService {
       this.logger.error("Failed to send Discord notification", error);
     }
   }
+
+  async sendSlackNotification(
+    feedback: Feedback,
+    webhookUrl: string
+  ): Promise<void> {
+    if (!webhookUrl) {
+      return;
+    }
+
+    try {
+      const blocks = [
+        {
+          type: "header",
+          text: {
+            type: "plain_text",
+            text: "🚨 Negative Feedback Received",
+            emoji: true,
+          },
+        },
+        {
+          type: "section",
+          text: {
+            type: "mrkdwn",
+            text: feedback.text.substring(0, 1000),
+          },
+        },
+        {
+          type: "section",
+          fields: [
+            {
+              type: "mrkdwn",
+              text: `*Rating:*\n${"⭐".repeat(feedback.rating)} (${feedback.rating}/5)`,
+            },
+            {
+              type: "mrkdwn",
+              text: `*Category:*\n${feedback.category}`,
+            },
+            {
+              type: "mrkdwn",
+              text: `*Sentiment:*\n${feedback.sentiment} (${Math.round(feedback.sentimentScore * 100)}%)`,
+            },
+            {
+              type: "mrkdwn",
+              text: `*Feedback ID:*\n${feedback.id}`,
+            },
+          ],
+        },
+      ];
+
+      const response = await fetch(webhookUrl, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          blocks,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Slack API returned ${response.status}`);
+      }
+
+      this.logger.log("Slack notification sent successfully");
+    } catch (error) {
+      this.logger.error("Failed to send Slack notification", error);
+    }
+  }
 }

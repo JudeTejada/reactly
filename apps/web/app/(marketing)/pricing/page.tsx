@@ -63,7 +63,7 @@ export default function PricingPage() {
       <div className="flex flex-col items-center space-y-4 text-center mb-16">
         <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl">
           Simple, Transparent{" "}
-          <span className="bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
+          <span className="text-foreground">
             Pricing
           </span>
         </h1>

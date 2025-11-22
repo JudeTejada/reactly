@@ -1,0 +1,5 @@
+
+> @reactly/backend@1.0.0 db:migrate /Users/judetejada/Desktop/workspace/personal/reactly/apps/backend
+> tsx src/db/migrate.ts "--verbose"
+
+ ELIFECYCLE  Command failed with exit code 1.

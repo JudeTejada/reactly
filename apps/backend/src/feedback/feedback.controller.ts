@@ -9,7 +9,12 @@ import {
   UseGuards,
   Req,
 } from "@nestjs/common";
-import { ApiTags, ApiOperation, ApiBearerAuth, ApiHeader } from "@nestjs/swagger";
+import {
+  ApiTags,
+  ApiOperation,
+  ApiBearerAuth,
+  ApiHeader,
+} from "@nestjs/swagger";
 import { FeedbackService } from "./feedback.service";
 import { ClerkAuthGuard } from "../auth/clerk-auth.guard";
 import { ApiKeyGuard } from "../auth/api-key.guard";
@@ -52,9 +57,10 @@ export class FeedbackController {
       success: true,
       data: {
         id: feedback.id,
-        sentiment: feedback.sentiment,
+        status: feedback.processingStatus,
+        message:
+          "Feedback submitted successfully. AI analysis will complete shortly.",
       },
-      message: "Feedback submitted successfully",
     };
   }
 
@@ -100,6 +106,22 @@ export class FeedbackController {
     return {
       success: true,
       data: feedback,
+    };
+  }
+
+  @Get(":id/status")
+  @UseGuards(ClerkAuthGuard)
+  @ApiBearerAuth()
+  @ApiOperation({ summary: "Get feedback processing status" })
+  async getFeedbackStatus(@Param("id") id: string, @CurrentUser() user: any) {
+    const status = await this.feedbackService.getProcessingStatus(
+      id,
+      user.clerkUserId
+    );
+
+    return {
+      success: true,
+      data: status,
     };
   }
 

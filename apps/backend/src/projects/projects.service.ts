@@ -59,6 +59,7 @@ export class ProjectsService {
         userId: user.id,
         allowedDomains: dto.allowedDomains || [],
         webhookUrl: dto.webhookUrl,
+        slackWebhookUrl: dto.slackWebhookUrl,
         isActive: true,
       })
       .returning();
@@ -119,6 +120,10 @@ export class ProjectsService {
           updates.webhookUrl !== undefined
             ? updates.webhookUrl
             : project.webhookUrl,
+        slackWebhookUrl:
+          updates.slackWebhookUrl !== undefined
+            ? updates.slackWebhookUrl
+            : project.slackWebhookUrl,
         updatedAt: new Date(),
       })
       .where(eq(projects.id, id))

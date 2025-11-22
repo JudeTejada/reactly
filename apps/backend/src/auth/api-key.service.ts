@@ -1,4 +1,4 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import * as bcrypt from "bcryptjs";
 import * as crypto from "crypto";
 import { generateApiKey } from "@reactly/shared";
@@ -10,6 +10,8 @@ export class ApiKeyService {
   private readonly encryptionSecret: string;
   private readonly saltRounds: number;
   private readonly algorithm: string;
+  private readonly logger = new Logger(ApiKeyService.name);
+
   constructor(private readonly configService: ConfigService) {
     this.deterministicSecret = this.configService.get(
       "API_KEY_DETERMINISTIC_SECRET"
@@ -114,16 +116,72 @@ export class ApiKeyService {
 
   /**
    * Decrypt an API key for retrieval
+   * Handles both encrypted API keys (new format) and legacy plaintext keys
    */
   decryptApiKey(encryptedApiKey: string): string {
-    const textParts = encryptedApiKey.split(":");
-    const iv = Buffer.from(textParts.shift()!, "hex");
-    const encryptedText = textParts.join(":");
-    const key = this.getEncryptionKey();
-    const decipher = crypto.createDecipheriv(this.algorithm, key, iv);
-    let decrypted = decipher.update(encryptedText, "hex", "utf8");
-    decrypted += decipher.final("utf8");
-    return decrypted;
+    // Check if the API key is actually encrypted (contains ':' with hex parts)
+    if (
+      !encryptedApiKey.includes(":") ||
+      !encryptedApiKey.match(/^[a-f0-9]+:[a-f0-9]+$/)
+    ) {
+      // Legacy plaintext API key - return as-is
+      return encryptedApiKey;
+    }
+
+    try {
+      const textParts = encryptedApiKey.split(":");
+      const ivHex = textParts.shift()!;
+      const encryptedText = textParts.join(":");
+
+      // Validate hex strings
+      if (!/^[a-f0-9]+$/.test(ivHex) || !/^[a-f0-9]+$/.test(encryptedText)) {
+        this.logger.warn(
+          `Invalid hex format in encrypted API key, treating as plaintext`
+        );
+        return encryptedApiKey;
+      }
+
+      const iv = Buffer.from(ivHex, "hex");
+      const key = this.getEncryptionKey();
+
+      // Validate IV length for the algorithm
+      if (iv.length !== 16) {
+        this.logger.warn(
+          `Invalid IV length (${iv.length}) for algorithm ${this.algorithm}, treating as plaintext`
+        );
+        return encryptedApiKey;
+      }
+
+      // Create decipher with explicit error handling
+      let decipher;
+      try {
+        decipher = crypto.createDecipheriv(this.algorithm, key, iv);
+      } catch (createError) {
+        this.logger.error(
+          `Failed to create decipher for algorithm ${this.algorithm}: ${createError.message}`
+        );
+        return encryptedApiKey;
+      }
+
+      let decrypted;
+      try {
+        decrypted = decipher.update(encryptedText, "hex", "utf8");
+        decrypted += decipher.final("utf8");
+      } catch (decryptError) {
+        this.logger.warn(
+          `Decryption failed for algorithm ${this.algorithm}: ${decryptError.message}. Treating as plaintext.`
+        );
+        return encryptedApiKey;
+      }
+
+      return decrypted;
+    } catch (error) {
+      // If any other error occurs, treat as legacy plaintext key
+      this.logger.warn(
+        `General decryption error: ${error.message}. Treating as plaintext.`
+      );
+      return encryptedApiKey;
+    }
   }
 
   /**

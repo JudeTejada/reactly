@@ -13,23 +13,23 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen overflow-hidden">
+    <div className="grid min-h-screen w-full lg:grid-cols-[240px_1fr] bg-muted/20">
       {/* Desktop Sidebar */}
-      <aside className="hidden lg:block">
+      <aside className="hidden border-r bg-card lg:block h-screen sticky top-0 overflow-y-auto">
         <Sidebar />
       </aside>
 
       {/* Mobile Sidebar */}
       <Sheet open={sidebarOpen} onOpenChange={setSidebarOpen}>
-        <SheetContent side="left" className="p-0 w-64">
+        <SheetContent side="left" className="p-0 w-[240px]">
           <Sidebar />
         </SheetContent>
       </Sheet>
 
       {/* Main Content */}
-      <div className="flex flex-1 flex-col overflow-hidden">
+      <div className="flex flex-col">
         <DashboardHeader onMenuClick={() => setSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto bg-muted/20 p-6">
+        <main className="flex flex-1 flex-col gap-4 p-4 lg:gap-6 lg:p-6 max-w-[1600px] mx-auto w-full">
           {children}
         </main>
       </div>

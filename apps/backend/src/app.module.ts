@@ -11,6 +11,7 @@ import { DatabaseModule } from "./db/db.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { envValidationSchema } from "./config/env.validation";
 import { UserModule } from './user/user.module';
+import { InsightsModule } from './insights/insights.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { UserModule } from './user/user.module';
     FeedbackModule,
     ProjectsModule,
     AnalyticsModule,
+    InsightsModule,
     AiModule,
     WebhookModule,
     UserModule,

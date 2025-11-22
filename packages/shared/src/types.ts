@@ -21,24 +21,38 @@ export const feedbackCategorySchema = z.enum([
 
 export type FeedbackCategory = z.infer<typeof feedbackCategorySchema>;
 
+// Updated submit schema - for widget feedback with text, name, email (AI handles category/rating)
 export const submitFeedbackSchema = z.object({
   text: z.string().min(1).max(5000),
-  rating: z.number().int().min(1).max(5),
-  category: feedbackCategorySchema,
+  name: z.string().min(1).max(100),
+  email: z.string().email(),
   metadata: z.record(z.any()).optional(),
 });
 
 export type SubmitFeedbackDto = z.infer<typeof submitFeedbackSchema>;
 
+// Interface for comprehensive AI feedback analysis
+export interface FeedbackAnalysis {
+  sentiment: SentimentType;
+  sentimentScore: number;
+  category: FeedbackCategory;
+  rating: number; // 1-5
+  markdownSummary: string;
+}
+
+// Updated Feedback interface - includes user info, rating/category from AI
 export interface Feedback {
   id: string;
   projectId: string;
   text: string;
-  rating: number;
-  category: FeedbackCategory;
+  rating: number; // AI generated
+  category: FeedbackCategory; // AI generated
   sentiment: SentimentType;
   sentimentScore: number;
+  userName: string; // From widget submission
+  userEmail: string; // From widget submission
   metadata?: Record<string, any>;
+  processingStatus: "pending" | "processing" | "completed" | "failed";
   createdAt: Date;
   updatedAt: Date;
 }
@@ -51,6 +65,7 @@ export interface Project {
   userId: string;
   allowedDomains: string[];
   webhookUrl?: string;
+  slackWebhookUrl?: string;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -59,7 +74,8 @@ export interface Project {
 export const createProjectSchema = z.object({
   name: z.string().min(1).max(100),
   allowedDomains: z.array(z.string()).optional().default([]),
-  webhookUrl: z.string().url().optional(),
+  webhookUrl: z.string().url().optional().or(z.literal("")),
+  slackWebhookUrl: z.string().url().optional().or(z.literal("")),
 });
 
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;
