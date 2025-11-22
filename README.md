@@ -12,7 +12,8 @@ A complete, production-ready full-stack application for collecting, analyzing, a
 ## ✨ Features
 
 ### 🎯 Core Features
-- **AI Sentiment Analysis**: Automatically categorize feedback as positive, negative, or neutral using OpenAI.
+
+- **AI Sentiment Analysis**: Automatically categorize feedback as positive, negative, or neutral using GLM 4.6.
 - **Embeddable Widget**: Lightweight, customizable React widget for easy integration into any website.
 - **Real-time Dashboard**: Monitor feedback trends, sentiment distribution, and recent activity.
 - **Smart Filtering**: Filter feedback by sentiment, category, project, or date range.
@@ -21,6 +22,7 @@ A complete, production-ready full-stack application for collecting, analyzing, a
 - **Notifications**: Get alerts via Discord for negative feedback.
 
 ### 🛠️ Technical Highlights
+
 - **Monorepo Architecture**: Efficiently managed with pnpm workspaces and Turborepo.
 - **Full-Stack Type Safety**: Shared types between frontend, backend, and widget.
 - **Modern Auth**: Secure authentication using Clerk (JWT + API Keys).
@@ -37,11 +39,12 @@ graph TD
     Web -->|Queries| API
     API -->|Auth| Clerk[Clerk Auth]
     API -->|Stores| DB[(PostgreSQL)]
-    API -->|Analyzes| AI[OpenAI]
+    API -->|Analyzes| AI[GLM 4.6]
     API -->|Notifies| Discord[Discord Webhook]
 ```
 
 ### Apps & Packages
+
 - **`apps/web`**: Next.js 15 dashboard and marketing site.
 - **`apps/backend`**: NestJS API server handling logic, DB, and AI.
 - **`apps/widget`**: Embeddable feedback widget (Vite + React).
@@ -50,6 +53,7 @@ graph TD
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 - Node.js >= 22.0.0
 - pnpm >= 9.0.0
 - Docker (for local database)
@@ -69,15 +73,17 @@ pnpm install
 Set up environment variables for the backend and web apps.
 
 **Backend (`apps/backend/.env`):**
+
 ```env
 PORT=3001
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/reactly_dev
 CLERK_SECRET_KEY=sk_test_...
-OPENAI_API_KEY=sk-...
+GLM_API_KEY=your-glm-api-key-here
 DISCORD_WEBHOOK_URL=... (optional)
 ```
 
 **Web (`apps/web/.env.local`):**
+
 ```env
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...

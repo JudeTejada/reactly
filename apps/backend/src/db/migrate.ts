@@ -1,20 +1,16 @@
 import { drizzle } from "drizzle-orm/postgres-js";
 import { migrate } from "drizzle-orm/postgres-js/migrator";
 import postgres from "postgres";
-import { NestFactory } from "@nestjs/core";
-import { AppModule } from "../app.module";
-import { ConfigService } from "@nestjs/config";
+import * as dotenv from "dotenv";
+
+// Load environment variables directly
+dotenv.config({ path: '.env.local' });
 
 const runMigrations = async () => {
-  const app = await NestFactory.createApplicationContext(AppModule, {
-    logger: false,
-  });
-
-  const configService = app.get(ConfigService);
-  const connectionString = configService.get<string>('DATABASE_URL');
+  const connectionString = process.env.DATABASE_URL;
 
   if (!connectionString) {
-    throw new Error("DATABASE_URL is not defined. Please check your configuration.");
+    throw new Error("DATABASE_URL is not defined. Please check your .env.local file.");
   }
 
   console.log("Connecting to database...");
@@ -24,10 +20,8 @@ const runMigrations = async () => {
   console.log(`Detected ${isNeon ? 'Neon' : 'local PostgreSQL'} database`);
 
   // For both Neon and local PostgreSQL, use postgres-js driver
-  // It works for both connection types
   const migrationClient = postgres(connectionString, {
     max: 1,
-    // Add SSL for Neon connections
     ssl: isNeon ? { rejectUnauthorized: false } : false
   });
 
@@ -38,7 +32,6 @@ const runMigrations = async () => {
   console.log("Migrations completed!");
 
   await migrationClient.end();
-  await app.close();
   process.exit(0);
 };
 
