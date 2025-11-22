@@ -104,7 +104,9 @@ export function FeedbackWidget({ config }: FeedbackWidgetProps) {
             {isSuccess ? (
               <div className="rly-success">
                 <div className="rly-success-icon">✓</div>
-                <p>{labels.thankYouMessage || "Thank you for your feedback!"}</p>
+                <p>
+                  {labels.thankYouMessage || "Thank you for your feedback!"}
+                </p>
               </div>
             ) : (
               <form onSubmit={handleSubmit} className="rly-form">
@@ -138,7 +140,9 @@ export function FeedbackWidget({ config }: FeedbackWidgetProps) {
                         key={star}
                         type="button"
                         className={`rly-star ${star <= formData.rating ? "rly-star-active" : ""}`}
-                        onClick={() => setFormData({ ...formData, rating: star })}
+                        onClick={() =>
+                          setFormData({ ...formData, rating: star })
+                        }
                         aria-label={`Rate ${star} stars`}
                       >
                         ★
@@ -156,8 +160,7 @@ export function FeedbackWidget({ config }: FeedbackWidgetProps) {
                       setFormData({ ...formData, text: e.target.value })
                     }
                     placeholder={
-                      labels.placeholder ||
-                      "Tell us what you think..."
+                      labels.placeholder || "Tell us what you think..."
                     }
                     rows={4}
                     required

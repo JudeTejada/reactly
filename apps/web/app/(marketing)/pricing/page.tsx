@@ -1,6 +1,12 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { CheckCircle2 } from "lucide-react";
 
 const plans = [
@@ -68,7 +74,8 @@ export default function PricingPage() {
           </span>
         </h1>
         <p className="max-w-[700px] text-gray-600 md:text-xl">
-          Choose the plan that's right for you. All plans include a 14-day free trial.
+          Choose the plan that's right for you. All plans include a 14-day free
+          trial.
         </p>
       </div>
 
@@ -84,14 +91,20 @@ export default function PricingPage() {
           >
             <CardHeader>
               {plan.highlighted && (
-                <div className="text-xs font-semibold text-purple-600 mb-2">MOST POPULAR</div>
+                <div className="text-xs font-semibold text-purple-600 mb-2">
+                  MOST POPULAR
+                </div>
               )}
               <CardTitle className="text-2xl">{plan.name}</CardTitle>
               <div className="mt-4">
                 <span className="text-4xl font-bold">{plan.price}</span>
-                {plan.price !== "Custom" && <span className="text-muted-foreground">/month</span>}
+                {plan.price !== "Custom" && (
+                  <span className="text-muted-foreground">/month</span>
+                )}
               </div>
-              <CardDescription className="mt-2">{plan.description}</CardDescription>
+              <CardDescription className="mt-2">
+                {plan.description}
+              </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 flex flex-col">
               <ul className="space-y-3 mb-8 flex-1">
@@ -121,17 +134,23 @@ export default function PricingPage() {
         <div className="max-w-3xl mx-auto grid gap-6 text-left">
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">Can I change plans later?</CardTitle>
+              <CardTitle className="text-lg">
+                Can I change plans later?
+              </CardTitle>
               <CardDescription>
-                Yes! You can upgrade or downgrade at any time. Changes take effect immediately.
+                Yes! You can upgrade or downgrade at any time. Changes take
+                effect immediately.
               </CardDescription>
             </CardHeader>
           </Card>
           <Card>
             <CardHeader>
-              <CardTitle className="text-lg">What happens if I exceed my limits?</CardTitle>
+              <CardTitle className="text-lg">
+                What happens if I exceed my limits?
+              </CardTitle>
               <CardDescription>
-                We&apos;ll notify you when you&apos;re approaching your limit. You can upgrade anytime to continue collecting feedback.
+                We&apos;ll notify you when you&apos;re approaching your limit.
+                You can upgrade anytime to continue collecting feedback.
               </CardDescription>
             </CardHeader>
           </Card>
@@ -139,7 +158,8 @@ export default function PricingPage() {
             <CardHeader>
               <CardTitle className="text-lg">Do you offer refunds?</CardTitle>
               <CardDescription>
-                Yes! We offer a 30-day money-back guarantee. If you&apos;re not satisfied, we&apos;ll refund your payment.
+                Yes! We offer a 30-day money-back guarantee. If you&apos;re not
+                satisfied, we&apos;ll refund your payment.
               </CardDescription>
             </CardHeader>
           </Card>

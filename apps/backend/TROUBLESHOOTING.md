@@ -5,12 +5,14 @@
 ### 1. Module Not Found: @reactly/shared
 
 **Error:**
+
 ```
 Error [ERR_MODULE_NOT_FOUND]: Cannot find module '@reactly/shared'
 ```
 
 **Solution:**
 Build the shared package first:
+
 ```bash
 # From root
 pnpm build --filter @reactly/shared
@@ -25,11 +27,13 @@ The shared package needs to be compiled to JavaScript before the backend can imp
 ### 2. Database Connection Error
 
 **Error:**
+
 ```
 Error: Connection terminated unexpectedly
 ```
 
 **Solution:**
+
 1. Check your `DATABASE_URL` in `.env`
 2. Ensure NeonDB instance is running
 3. Test connection:
@@ -40,11 +44,13 @@ Error: Connection terminated unexpectedly
 ### 3. Clerk Authentication Error
 
 **Error:**
+
 ```
 UnauthorizedException: Invalid authentication token
 ```
 
 **Solution:**
+
 1. Verify `CLERK_SECRET_KEY` in `.env` is correct
 2. Check the token format (should be `Bearer <token>`)
 3. Ensure Clerk dashboard settings match your app
@@ -52,12 +58,14 @@ UnauthorizedException: Invalid authentication token
 ### 4. OpenAI API Error
 
 **Error:**
+
 ```
 Failed to analyze sentiment with OpenAI
 ```
 
 **Solution:**
 The system will automatically fall back to keyword-based analysis. To fix:
+
 1. Check `OPENAI_API_KEY` in `.env`
 2. Verify you have credits in your OpenAI account
 3. Check API key permissions
@@ -65,11 +73,13 @@ The system will automatically fall back to keyword-based analysis. To fix:
 ### 5. TypeScript Compilation Errors
 
 **Error:**
+
 ```
 error TS2307: Cannot find module '@reactly/shared'
 ```
 
 **Solution:**
+
 1. Build shared package first
 2. Restart TypeScript server
 3. Check tsconfig paths are correct
@@ -77,11 +87,13 @@ error TS2307: Cannot find module '@reactly/shared'
 ### 6. Port Already in Use
 
 **Error:**
+
 ```
 Error: listen EADDRINUSE: address already in use :::3001
 ```
 
 **Solution:**
+
 ```bash
 # Find process using port 3001
 lsof -ti :3001
@@ -177,6 +189,7 @@ Make sure you have all required variables in `apps/backend/.env`:
 ### Enable Debug Logging
 
 The server already logs to console. Check terminal output for:
+
 - Request logs
 - Error messages
 - SQL queries (in development)

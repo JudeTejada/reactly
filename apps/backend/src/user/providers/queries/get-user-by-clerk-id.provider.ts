@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
-import { users } from '../../../db/schema';
-import { eq } from 'drizzle-orm';
-import type { User } from '../../../db/schema';
-import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import * as sc from '../../../db/schema';
-import { DRIZZLE_ASYNC_PROVIDER } from '../../../db/providers/drizzle.provider';
+import { Injectable, NotFoundException, Inject } from "@nestjs/common";
+import { users } from "../../../db/schema";
+import { eq } from "drizzle-orm";
+import type { User } from "../../../db/schema";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as sc from "../../../db/schema";
+import { DRIZZLE_ASYNC_PROVIDER } from "../../../db/providers/drizzle.provider";
 
 @Injectable()
 export class GetUserByClerkIdProvider {
@@ -24,7 +24,7 @@ export class GetUserByClerkIdProvider {
       .limit(1);
 
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     return user;

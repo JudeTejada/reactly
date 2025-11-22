@@ -14,10 +14,11 @@ This will start the widget development server at `http://localhost:5173`
 ### Step 2: Create a Project (Get API Credentials)
 
 1. Make sure both backend and frontend are running:
+
    ```bash
    # Terminal 1 - Backend
    cd apps/backend && pnpm dev
-   
+
    # Terminal 2 - Frontend
    cd apps/web && pnpm dev
    ```
@@ -39,8 +40,8 @@ This will start the widget development server at `http://localhost:5173`
 Open `apps/widget/test.html` and replace these placeholders:
 
 ```javascript
-const API_KEY = 'YOUR_API_KEY_HERE';        // Replace with your actual API key
-const PROJECT_ID = 'YOUR_PROJECT_ID_HERE';  // Replace with your actual project ID
+const API_KEY = "YOUR_API_KEY_HERE"; // Replace with your actual API key
+const PROJECT_ID = "YOUR_PROJECT_ID_HERE"; // Replace with your actual project ID
 ```
 
 ### Step 4: Test the Widget
@@ -74,22 +75,27 @@ const PROJECT_ID = 'YOUR_PROJECT_ID_HERE';  // Replace with your actual project 
 ## Testing Different Scenarios
 
 ### Test Positive Feedback
+
 - Rating: 4-5 stars
 - Text: "Great product! Love the new features."
 - Expected: Sentiment = "positive"
 
 ### Test Negative Feedback
+
 - Rating: 1-2 stars
 - Text: "This is broken and doesn't work at all."
 - Expected: Sentiment = "negative"
 
 ### Test Neutral Feedback
+
 - Rating: 3 stars
 - Text: "It's okay, could be better."
 - Expected: Sentiment = "neutral"
 
 ### Test Categories
+
 Try each category:
+
 - Bug Report
 - Feature Request
 - Improvement
@@ -102,11 +108,13 @@ Try each category:
 You can customize the widget appearance and behavior in `test.html`:
 
 ### Change Position
+
 ```javascript
-position: 'bottom-right'  // Options: bottom-right, bottom-left, top-right, top-left
+position: "bottom-right"; // Options: bottom-right, bottom-left, top-right, top-left
 ```
 
 ### Change Theme
+
 ```javascript
 theme: {
   primaryColor: '#3b82f6',    // Widget button and accent color
@@ -116,6 +124,7 @@ theme: {
 ```
 
 ### Change Labels
+
 ```javascript
 labels: {
   title: 'Custom Title',
@@ -135,6 +144,7 @@ pnpm build
 ```
 
 This creates production files in `apps/widget/dist/`:
+
 - `widget.umd.js` - For script tag embedding
 - `widget.es.js` - For NPM package usage
 
@@ -145,42 +155,48 @@ Create a simple HTML file:
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Widget Test</title>
-</head>
-<body>
-  <h1>My Website</h1>
-  
-  <script src="./dist/widget.umd.js" 
-          data-reactly-api-key="YOUR_API_KEY"
-          data-reactly-project-id="YOUR_PROJECT_ID"
-          data-position="bottom-right">
-  </script>
-</body>
+  <head>
+    <title>Widget Test</title>
+  </head>
+  <body>
+    <h1>My Website</h1>
+
+    <script
+      src="./dist/widget.umd.js"
+      data-reactly-api-key="YOUR_API_KEY"
+      data-reactly-project-id="YOUR_PROJECT_ID"
+      data-position="bottom-right"
+    ></script>
+  </body>
 </html>
 ```
 
 ## Troubleshooting
 
 ### Widget Not Appearing
+
 1. Check browser console for errors
 2. Verify API key and project ID are correct
 3. Make sure backend is running at `http://localhost:3001`
 4. Check CORS settings if testing from different domain
 
 ### Feedback Not Submitting
+
 1. Check browser console for API errors
 2. Verify backend is running: http://localhost:3001/health
 3. Check that project is active in dashboard
 4. Verify API key hasn't been regenerated
 
 ### CORS Errors
+
 If testing from a different domain, add it to `ALLOWED_ORIGINS` in `apps/backend/.env`:
+
 ```
 ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173,https://yourdomain.com
 ```
 
 ### Widget Styling Issues
+
 1. Check if there are CSS conflicts with your site
 2. Widget uses class names prefixed with `rly-` to avoid conflicts
 3. All widget styles are scoped and shouldn't affect your site
@@ -196,16 +212,21 @@ ALLOWED_ORIGINS=http://localhost:3000,http://localhost:5173,https://yourdomain.c
 ## Development Tips
 
 ### Hot Reload
+
 The widget dev server supports hot reload. Edit files in `apps/widget/src/` and see changes instantly.
 
 ### Debug Mode
+
 Add console.log statements in `FeedbackWidget.tsx` to debug:
+
 ```typescript
-console.log('Submitting feedback:', formData);
+console.log("Submitting feedback:", formData);
 ```
 
 ### Test Error Handling
+
 Try these scenarios:
+
 - Submit with empty text (should show validation error)
 - Stop backend and submit (should show network error)
 - Use invalid API key (should show auth error)
@@ -213,11 +234,13 @@ Try these scenarios:
 ## Example Projects
 
 You can create multiple projects to test:
+
 1. **Development Project** - For local testing
-2. **Staging Project** - For pre-production testing  
+2. **Staging Project** - For pre-production testing
 3. **Production Project** - For live website
 
 Each project gets its own API key and can have different:
+
 - Allowed domains
 - Webhook URLs (for Discord notifications)
 - Active/inactive status

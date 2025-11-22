@@ -1,10 +1,10 @@
-import { Injectable, Logger, Inject } from '@nestjs/common';
-import { users } from '../../../db/schema';
-import { eq } from 'drizzle-orm';
-import type { User } from '../../../db/schema';
-import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import * as sc from '../../../db/schema';
-import { DRIZZLE_ASYNC_PROVIDER } from '../../../db/providers/drizzle.provider';
+import { Injectable, Logger, Inject } from "@nestjs/common";
+import { users } from "../../../db/schema";
+import { eq } from "drizzle-orm";
+import type { User } from "../../../db/schema";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as sc from "../../../db/schema";
+import { DRIZZLE_ASYNC_PROVIDER } from "../../../db/providers/drizzle.provider";
 
 @Injectable()
 export class UpsertUserFromClerkProvider {
@@ -25,7 +25,9 @@ export class UpsertUserFromClerkProvider {
     last_name?: string;
   }): Promise<User> {
     const email = clerkUser.email_addresses[0]?.email_address;
-    const name = `${clerkUser.first_name || ''} ${clerkUser.last_name || ''}`.trim() || null;
+    const name =
+      `${clerkUser.first_name || ""} ${clerkUser.last_name || ""}`.trim() ||
+      null;
 
     // Check if user exists
     const existingUser = await this.db
@@ -45,7 +47,9 @@ export class UpsertUserFromClerkProvider {
         })
         .returning();
 
-      this.logger.log(`Created new user: ${newUser.id} (Clerk: ${clerkUser.id})`);
+      this.logger.log(
+        `Created new user: ${newUser.id} (Clerk: ${clerkUser.id})`
+      );
       return newUser;
     } else {
       // Update existing user
@@ -59,7 +63,9 @@ export class UpsertUserFromClerkProvider {
         .where(eq(users.clerkUserId, clerkUser.id))
         .returning();
 
-      this.logger.log(`Updated user: ${updatedUser.id} (Clerk: ${clerkUser.id})`);
+      this.logger.log(
+        `Updated user: ${updatedUser.id} (Clerk: ${clerkUser.id})`
+      );
       return updatedUser;
     }
   }

@@ -39,34 +39,38 @@ pnpm db:studio      # Open Drizzle Studio GUI
 ## 🗂️ Key Files
 
 ### Backend
+
 - `apps/backend/src/db/schema.ts` - Database tables
 - `apps/backend/src/main.ts` - App entry + Swagger
 - `apps/backend/.env` - Environment variables
 
 ### Web App
+
 - `apps/web/app/layout.tsx` - Root layout
 - `apps/web/middleware.ts` - Auth protection
 - `apps/web/app/globals.css` - Styles
 - `apps/web/.env.local` - Environment variables
 
 ### Widget
+
 - `apps/widget/src/components/FeedbackWidget.tsx` - Main component
 - `apps/widget/src/embed.ts` - Embed script
 - `apps/widget/vite.config.ts` - Build config
 
 ### Shared
+
 - `packages/shared/src/types.ts` - TypeScript interfaces
 - `packages/shared/src/utils.ts` - Helper functions
 
 ## 🔧 Configuration Files
 
-| File | Purpose |
-|------|---------|
-| `package.json` | Root workspace config |
-| `pnpm-workspace.yaml` | Workspace packages |
-| `turbo.json` | Build pipeline config |
-| `.nvmrc` | Node version (22) |
-| `.prettierrc` | Code formatting |
+| File                  | Purpose               |
+| --------------------- | --------------------- |
+| `package.json`        | Root workspace config |
+| `pnpm-workspace.yaml` | Workspace packages    |
+| `turbo.json`          | Build pipeline config |
+| `.nvmrc`              | Node version (22)     |
+| `.prettierrc`         | Code formatting       |
 
 ## 📦 Adding Dependencies
 
@@ -114,6 +118,7 @@ pnpm db:studio
 ## 🔐 Environment Variables
 
 ### Backend (.env)
+
 ```bash
 PORT=3001
 DATABASE_URL=postgresql://...
@@ -124,6 +129,7 @@ ALLOWED_ORIGINS=http://localhost:3000
 ```
 
 ### Web (.env.local)
+
 ```bash
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
@@ -136,25 +142,28 @@ NEXT_PUBLIC_API_URL=http://localhost:3001/api
 <!-- Create test.html -->
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Widget Test</title>
-</head>
-<body>
-  <h1>My App</h1>
-  
-  <!-- Widget auto-initializes -->
-  <script src="http://localhost:5173/src/embed.ts" type="module"
-          data-reactly-api-key="demo-key"
-          data-reactly-project-id="demo-project"
-          data-position="bottom-right">
-  </script>
-</body>
+  <head>
+    <title>Widget Test</title>
+  </head>
+  <body>
+    <h1>My App</h1>
+
+    <!-- Widget auto-initializes -->
+    <script
+      src="http://localhost:5173/src/embed.ts"
+      type="module"
+      data-reactly-api-key="demo-key"
+      data-reactly-project-id="demo-project"
+      data-position="bottom-right"
+    ></script>
+  </body>
 </html>
 ```
 
 ## 📝 Creating New Modules
 
 ### Backend (NestJS)
+
 ```bash
 cd apps/backend
 
@@ -165,6 +174,7 @@ nest g service moduleName
 ```
 
 ### Web (Next.js Pages)
+
 ```bash
 cd apps/web
 
@@ -180,9 +190,11 @@ touch app/api/route-name/route.ts
 ## 🎯 API Endpoints (Planned)
 
 ### Public Endpoints
+
 - POST `/api/feedback` - Submit feedback (requires API key)
 
 ### Protected Endpoints (Clerk auth)
+
 - GET `/api/feedback` - List feedback
 - GET `/api/feedback/:id` - Get single feedback
 - GET `/api/projects` - List projects
@@ -195,6 +207,7 @@ touch app/api/route-name/route.ts
 - GET `/api/analytics/trends` - Time series
 
 ### API Documentation
+
 Once backend is running: http://localhost:3001/api/docs
 
 ## 🔍 Debugging
@@ -218,13 +231,13 @@ pnpm build
 
 ## 📚 Important URLs (when running)
 
-| Service | URL |
-|---------|-----|
-| Web App | http://localhost:3000 |
-| Backend API | http://localhost:3001 |
+| Service            | URL                            |
+| ------------------ | ------------------------------ |
+| Web App            | http://localhost:3000          |
+| Backend API        | http://localhost:3001          |
 | API Docs (Swagger) | http://localhost:3001/api/docs |
-| Widget Dev | http://localhost:5173 |
-| Drizzle Studio | http://localhost:4983 |
+| Widget Dev         | http://localhost:5173          |
+| Drizzle Studio     | http://localhost:4983          |
 
 ## 🎨 Color Scheme (Tailwind)
 
@@ -264,21 +277,25 @@ text-primary-foreground
 ## 🚨 Common Issues
 
 ### "Module not found: @reactly/shared"
+
 ```bash
 pnpm install
 ```
 
 ### Database connection error
+
 - Check DATABASE_URL in apps/backend/.env
 - Ensure NeonDB instance is running
 - Test connection with Drizzle Studio
 
 ### Clerk authentication not working
+
 - Check API keys in .env files
 - Ensure middleware.ts has correct public routes
 - Verify Clerk dashboard settings
 
 ### Build errors
+
 ```bash
 # Clean and rebuild
 rm -rf node_modules
@@ -289,6 +306,7 @@ pnpm build
 ```
 
 ### Port already in use
+
 ```bash
 # Kill process on port
 lsof -ti :3000 | xargs kill -9

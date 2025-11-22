@@ -181,12 +181,8 @@
           "name": "feedback_project_id_projects_id_fk",
           "tableFrom": "feedback",
           "tableTo": "projects",
-          "columnsFrom": [
-            "project_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["project_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -316,12 +312,8 @@
           "name": "projects_user_id_users_id_fk",
           "tableFrom": "projects",
           "tableTo": "users",
-          "columnsFrom": [
-            "user_id"
-          ],
-          "columnsTo": [
-            "id"
-          ],
+          "columnsFrom": ["user_id"],
+          "columnsTo": ["id"],
           "onDelete": "cascade",
           "onUpdate": "no action"
         }
@@ -331,9 +323,7 @@
         "projects_api_key_unique": {
           "name": "projects_api_key_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "api_key"
-          ]
+          "columns": ["api_key"]
         }
       }
     },
@@ -426,9 +416,7 @@
         "users_clerk_user_id_unique": {
           "name": "users_clerk_user_id_unique",
           "nullsNotDistinct": false,
-          "columns": [
-            "clerk_user_id"
-          ]
+          "columns": ["clerk_user_id"]
         }
       }
     }

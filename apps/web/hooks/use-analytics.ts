@@ -9,21 +9,27 @@ interface AnalyticsFilters {
   limit?: number;
 }
 
-export function useAnalyticsOverview(filters: Omit<AnalyticsFilters, "days" | "limit"> = {}) {
+export function useAnalyticsOverview(
+  filters: Omit<AnalyticsFilters, "days" | "limit"> = {}
+) {
   return useQuery({
     queryKey: ["analytics", "overview", filters],
     queryFn: () => api.getAnalyticsOverview(filters),
   });
 }
 
-export function useAnalyticsTrends(filters: Omit<AnalyticsFilters, "limit"> = {}) {
+export function useAnalyticsTrends(
+  filters: Omit<AnalyticsFilters, "limit"> = {}
+) {
   return useQuery({
     queryKey: ["analytics", "trends", filters],
     queryFn: () => api.getAnalyticsTrends(filters),
   });
 }
 
-export function useRecentFeedback(filters: Pick<AnalyticsFilters, "projectId" | "limit"> = {}) {
+export function useRecentFeedback(
+  filters: Pick<AnalyticsFilters, "projectId" | "limit"> = {}
+) {
   return useQuery({
     queryKey: ["analytics", "recent", filters],
     queryFn: () => api.getRecentFeedback(filters),

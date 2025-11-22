@@ -1,8 +1,14 @@
 "use client";
 
 import { useAuth, useUser } from "@clerk/nextjs";
-import { useEffect, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { useCallback, useEffect, useState } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -12,23 +18,23 @@ export function AuthDebug() {
   const [token, setToken] = useState<string | null>(null);
   const [tokenInfo, setTokenInfo] = useState<any>(null);
 
-  const loadToken = async () => {
+  const loadToken = useCallback(async () => {
     if (isSignedIn) {
       const t = await getToken();
       setToken(t);
-      
+
       if (t) {
         // Decode JWT to show info (just for debugging)
         try {
-          const parts = t.split('.');
+          const parts = t.split(".");
           const payload = JSON.parse(atob(parts[1]));
           setTokenInfo(payload);
         } catch (e) {
-          console.error('Failed to decode token:', e);
+          console.error("Failed to decode token:", e);
         }
       }
     }
-  };
+  }, [isSignedIn, getToken]);
 
   const testApi = async () => {
     if (!token) {
@@ -36,26 +42,26 @@ export function AuthDebug() {
       return;
     }
 
-    console.log('Testing API with token...');
+    console.log("Testing API with token...");
     try {
-      const response = await fetch('http://localhost:3001/api/projects', {
+      const response = await fetch("http://localhost:3001/api/projects", {
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
       });
-      
-      console.log('Response status:', response.status);
+
+      console.log("Response status:", response.status);
       const data = await response.json();
-      console.log('Response data:', data);
-      
+      console.log("Response data:", data);
+
       if (response.ok) {
-        alert('API call successful! Check console for details.');
+        alert("API call successful! Check console for details.");
       } else {
         alert(`API call failed: ${data.message || data.error}`);
       }
     } catch (error: any) {
-      console.error('API call error:', error);
+      console.error("API call error:", error);
       alert(`Error: ${error.message}`);
     }
   };
@@ -64,7 +70,7 @@ export function AuthDebug() {
     if (isLoaded && isSignedIn) {
       loadToken();
     }
-  }, [isLoaded, isSignedIn]);
+  }, [isLoaded, isSignedIn, loadToken]);
 
   if (!isLoaded) {
     return <div>Loading...</div>;
@@ -88,13 +94,14 @@ export function AuthDebug() {
       <CardContent className="space-y-4">
         <div className="space-y-2">
           <div className="text-sm">
-            <strong>User ID:</strong> {user?.id || 'N/A'}
+            <strong>User ID:</strong> {user?.id || "N/A"}
           </div>
           <div className="text-sm">
-            <strong>Email:</strong> {user?.primaryEmailAddress?.emailAddress || 'N/A'}
+            <strong>Email:</strong>{" "}
+            {user?.primaryEmailAddress?.emailAddress || "N/A"}
           </div>
           <div className="text-sm">
-            <strong>Token Available:</strong>{' '}
+            <strong>Token Available:</strong>{" "}
             {token ? (
               <Badge variant="default">Yes ({token.length} chars)</Badge>
             ) : (
@@ -107,10 +114,19 @@ export function AuthDebug() {
           <div className="space-y-2 border-t pt-2">
             <div className="text-sm font-medium">Token Info:</div>
             <div className="text-xs space-y-1">
-              <div><strong>Subject (sub):</strong> {tokenInfo.sub}</div>
-              <div><strong>Issuer:</strong> {tokenInfo.iss}</div>
-              <div><strong>Expires:</strong> {new Date(tokenInfo.exp * 1000).toLocaleString()}</div>
-              <div><strong>Session ID:</strong> {tokenInfo.sid}</div>
+              <div>
+                <strong>Subject (sub):</strong> {tokenInfo.sub}
+              </div>
+              <div>
+                <strong>Issuer:</strong> {tokenInfo.iss}
+              </div>
+              <div>
+                <strong>Expires:</strong>{" "}
+                {new Date(tokenInfo.exp * 1000).toLocaleString()}
+              </div>
+              <div>
+                <strong>Session ID:</strong> {tokenInfo.sid}
+              </div>
             </div>
           </div>
         )}
@@ -122,14 +138,14 @@ export function AuthDebug() {
           <Button onClick={testApi} size="sm" disabled={!token}>
             Test API Call
           </Button>
-          <Button 
+          <Button
             onClick={() => {
               if (token) {
                 navigator.clipboard.writeText(token);
-                alert('Token copied to clipboard!');
+                alert("Token copied to clipboard!");
               }
-            }} 
-            size="sm" 
+            }}
+            size="sm"
             variant="outline"
             disabled={!token}
           >

@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  Logger,
-  Inject,
-} from "@nestjs/common";
+import { Injectable, Logger, Inject } from "@nestjs/common";
 import type { User, Project } from "../db/schema";
 import {
   GET_USER_INTERNAL_ID,
@@ -10,7 +6,7 @@ import {
   GET_USER_PROJECTS,
   CHECK_PROJECT_OWNERSHIP,
   UPSERT_USER_FROM_CLERK,
-  DELETE_USER
+  DELETE_USER,
 } from "./providers";
 import {
   GetUserInternalIdProvider,
@@ -18,7 +14,7 @@ import {
   GetUserProjectsProvider,
   CheckProjectOwnershipProvider,
   UpsertUserFromClerkProvider,
-  DeleteUserProvider
+  DeleteUserProvider,
 } from "./providers";
 
 @Injectable()
@@ -59,10 +55,10 @@ export class UserService {
    * Get user by internal UUID
    * Note: This would need a separate provider if needed
    */
-  async getUserById(userId: string): Promise<User> {
+  async getUserById(): Promise<User> {
     // For now, this would need to be implemented as a separate provider
     // Or we can keep this as a direct DB query since it's less commonly used
-    throw new Error('getUserById not implemented in provider pattern yet');
+    throw new Error("getUserById not implemented in provider pattern yet");
   }
 
   /**
@@ -86,7 +82,10 @@ export class UserService {
    */
   async ownsProject(clerkUserId: string, projectId: string): Promise<boolean> {
     const internalUserId = await this.getUserInternalId(clerkUserId);
-    return this.checkProjectOwnershipProvider.execute(internalUserId, projectId);
+    return this.checkProjectOwnershipProvider.execute(
+      internalUserId,
+      projectId
+    );
   }
 
   /**

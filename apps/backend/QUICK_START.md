@@ -15,6 +15,7 @@ ALLOWED_ORIGINS=http://localhost:3000
 ```
 
 **Get your credentials:**
+
 - **NeonDB**: https://neon.tech (free tier, instant setup)
 - **Clerk**: https://clerk.com (free tier, copy secret key from dashboard)
 - **OpenAI**: https://platform.openai.com/api-keys
@@ -39,6 +40,7 @@ pnpm dev
 ```
 
 You should see:
+
 ```
 🚀 Server running on http://localhost:3001
 📚 API docs: http://localhost:3001/api/docs
@@ -48,10 +50,12 @@ You should see:
 ### Step 4: Verify (1 min)
 
 Open in browser:
+
 - **API Docs**: http://localhost:3001/api/docs
 - **Health Check**: http://localhost:3001/health
 
 Or use curl:
+
 ```bash
 curl http://localhost:3001/health
 ```

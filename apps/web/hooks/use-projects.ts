@@ -46,7 +46,8 @@ export function useUpdateProject(id: string) {
   const { toast } = useToast();
 
   return useMutation({
-    mutationFn: (data: Partial<CreateProjectDto>) => api.updateProject(id, data),
+    mutationFn: (data: Partial<CreateProjectDto>) =>
+      api.updateProject(id, data),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["projects"] });
       queryClient.invalidateQueries({ queryKey: ["projects", id] });

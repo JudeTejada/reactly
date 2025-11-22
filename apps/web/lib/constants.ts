@@ -1,4 +1,5 @@
-export const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
+export const API_URL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3001/api";
 
 export const SENTIMENT_COLORS = {
   positive: "text-green-600 bg-green-50 border-green-200",
@@ -39,11 +40,21 @@ export const PLAN_LIMITS = {
   pro: {
     projects: 10,
     feedback: 10000,
-    features: ["Advanced analytics", "Priority support", "Custom branding", "Discord webhooks"],
+    features: [
+      "Advanced analytics",
+      "Priority support",
+      "Custom branding",
+      "Discord webhooks",
+    ],
   },
   enterprise: {
     projects: -1, // unlimited
     feedback: -1, // unlimited
-    features: ["Everything in Pro", "Dedicated support", "Custom integrations", "SLA"],
+    features: [
+      "Everything in Pro",
+      "Dedicated support",
+      "Custom integrations",
+      "SLA",
+    ],
   },
 } as const;

@@ -29,7 +29,7 @@ export function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
       >
         <Menu className="h-6 w-6" />
       </Button>
-      
+
       <div className="flex-1">
         {projects && projects.length > 0 && (
           <Select defaultValue={projects[0]?.id}>

@@ -1,8 +1,17 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { StatCard } from "@/components/dashboard/stat-card";
-import { useAnalyticsOverview, useAnalyticsTrends } from "@/hooks/use-analytics";
+import {
+  useAnalyticsOverview,
+  useAnalyticsTrends,
+} from "@/hooks/use-analytics";
 import { MessageSquare, Star, TrendingUp, TrendingDown } from "lucide-react";
 import {
   LineChart,
@@ -26,11 +35,20 @@ const SENTIMENT_COLORS = {
   negative: "#ef4444",
 };
 
-const CATEGORY_COLORS = ["#8b5cf6", "#3b82f6", "#10b981", "#f59e0b", "#ec4899", "#6b7280"];
+const CATEGORY_COLORS = [
+  "#8b5cf6",
+  "#3b82f6",
+  "#10b981",
+  "#f59e0b",
+  "#ec4899",
+  "#6b7280",
+];
 
 export default function AnalyticsPage() {
   const { data: overview, isLoading: overviewLoading } = useAnalyticsOverview();
-  const { data: trends, isLoading: trendsLoading } = useAnalyticsTrends({ days: 30 });
+  const { data: trends, isLoading: trendsLoading } = useAnalyticsTrends({
+    days: 30,
+  });
 
   if (overviewLoading || trendsLoading) {
     return (
@@ -60,7 +78,8 @@ export default function AnalyticsPage() {
           <CardContent className="pt-6">
             <div className="text-center py-12">
               <p className="text-muted-foreground">
-                No data available yet. Start collecting feedback to see analytics.
+                No data available yet. Start collecting feedback to see
+                analytics.
               </p>
             </div>
           </CardContent>
@@ -71,22 +90,38 @@ export default function AnalyticsPage() {
 
   // Prepare pie chart data
   const sentimentPieData = [
-    { name: "Positive", value: overview.sentimentDistribution.positive, color: SENTIMENT_COLORS.positive },
-    { name: "Neutral", value: overview.sentimentDistribution.neutral, color: SENTIMENT_COLORS.neutral },
-    { name: "Negative", value: overview.sentimentDistribution.negative, color: SENTIMENT_COLORS.negative },
+    {
+      name: "Positive",
+      value: overview.sentimentDistribution.positive,
+      color: SENTIMENT_COLORS.positive,
+    },
+    {
+      name: "Neutral",
+      value: overview.sentimentDistribution.neutral,
+      color: SENTIMENT_COLORS.neutral,
+    },
+    {
+      name: "Negative",
+      value: overview.sentimentDistribution.negative,
+      color: SENTIMENT_COLORS.negative,
+    },
   ].filter((item) => item.value > 0);
 
   // Prepare category bar chart data
-  const categoryData = Object.entries(overview.categoryBreakdown).map(([name, value]) => ({
-    name: name.charAt(0).toUpperCase() + name.slice(1),
-    count: value,
-  }));
+  const categoryData = Object.entries(overview.categoryBreakdown).map(
+    ([name, value]) => ({
+      name: name.charAt(0).toUpperCase() + name.slice(1),
+      count: value,
+    })
+  );
 
   return (
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Analytics</h1>
-        <p className="text-muted-foreground">Insights and trends from your feedback data</p>
+        <p className="text-muted-foreground">
+          Insights and trends from your feedback data
+        </p>
       </div>
 
       {/* Stats Grid */}
@@ -133,7 +168,9 @@ export default function AnalyticsPage() {
                   cx="50%"
                   cy="50%"
                   labelLine={false}
-                  label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                  label={({ name, percent }) =>
+                    `${name} ${(percent * 100).toFixed(0)}%`
+                  }
                   outerRadius={80}
                   fill="#8884d8"
                   dataKey="value"
@@ -173,7 +210,9 @@ export default function AnalyticsPage() {
         <Card>
           <CardHeader>
             <CardTitle>Sentiment Trends (Last 30 Days)</CardTitle>
-            <CardDescription>Track how sentiment changes over time</CardDescription>
+            <CardDescription>
+              Track how sentiment changes over time
+            </CardDescription>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={400}>
@@ -181,11 +220,18 @@ export default function AnalyticsPage() {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis
                   dataKey="date"
-                  tickFormatter={(value) => new Date(value).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
+                  tickFormatter={(value) =>
+                    new Date(value).toLocaleDateString(undefined, {
+                      month: "short",
+                      day: "numeric",
+                    })
+                  }
                 />
                 <YAxis />
                 <Tooltip
-                  labelFormatter={(value) => new Date(value).toLocaleDateString()}
+                  labelFormatter={(value) =>
+                    new Date(value).toLocaleDateString()
+                  }
                 />
                 <Legend />
                 <Line

@@ -3,9 +3,11 @@
 ## ✅ Verified Assessment (Updated)
 
 ### Architecture Analysis Confirmed
+
 After detailed code inspection of the entire backend codebase (`/Users/judetejada/Desktop/workspace/personal/reactly/apps/backend/src/`), the following assessments have been **verified** and **updated** with specific findings:
 
 **Solid Foundation:**
+
 - ✅ Clean NestJS modular structure with proper dependency injection confirmed
 - ✅ Well-organized separation of concerns (controllers, services, modules) verified
 - ✅ Modern Drizzle ORM with TypeScript integration and schema inference confirmed
@@ -16,6 +18,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - ✅ Proper environment configuration with dotenv confirmed
 
 **Code Quality:**
+
 - ✅ TypeScript strict mode enabled and properly configured
 - ✅ Consistent async/await patterns throughout codebase
 - ✅ Proper error handling in most services with structured exceptions
@@ -25,30 +28,35 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 ## 🔴 Critical Security Issues (VERIFIED)
 
 ### 1. **API Key Authentication Vulnerability** ✅ CONFIRMED
+
 **Location:** `src/auth/api-key.guard.ts:35`
 **Issue:** Uses string comparison (`project.apiKey !== apiKey`) without timing-safe comparison
 **Risk:** Timing attacks could reveal valid API keys through response time analysis
 **Fix:** Use `crypto.timingSafeEqual()` for constant-time comparison
 
 ### 2. **CORS Configuration Security Hole** ✅ CONFIRMED
+
 **Location:** `src/main.ts:16`
 **Issue:** `origin: process.env.ALLOWED_ORIGINS?.split(",") || "*"`
 **Risk:** Wildcard default allows any origin to make requests if env var not set
 **Fix:** Default to specific origins, fail securely if not configured
 
 ### 3. **Sensitive Data Logging** ✅ CONFIRMED
+
 **Location:** `src/auth/clerk-auth.guard.ts:22-26, 70`
 **Issue:** Debug logging exposes authentication tokens, user data, and token fragments
 **Risk:** Sensitive information in logs (token length, first 20 chars, user details)
 **Fix:** Remove debug logging or use non-sensitive placeholders
 
 ### 4. **Missing Database Indexes** ✅ CONFIRMED
+
 **Location:** `src/db/schema.ts` (lines 13-50)
 **Issue:** No indexes on frequently queried fields (clerkUserId, projectId, userId)
 **Risk:** Poor query performance, potential DoS via slow queries
 **Fix:** Add proper database indexes
 
 ### 5. **API Keys Stored in Plain Text** ✅ NEW FINDING
+
 **Location:** `src/db/schema.ts:26`, `projects.service.ts:49,139`
 **Issue:** API keys stored as plain text in database
 **Risk:** Database breach exposes all API keys
@@ -59,6 +67,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 ### 1. **Database Layer Improvements** ✅ CONFIRMED ISSUES
 
 **Verified Current Issues:**
+
 - ✅ Direct database access scattered across all services (analytics, feedback, projects)
 - ✅ No repository pattern or data access layer abstraction
 - ✅ **Confirmed**: Repeated `getUserInternalId` pattern in multiple services (analytics.service.ts:15-27, feedback.service.ts:19-31, projects.service.ts:18-27)
@@ -67,12 +76,14 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - ✅ Missing query optimization for large datasets (OFFSET-based pagination)
 
 **Specific Performance Problems Found:**
+
 - `analytics.service.ts:37-42`: Separate query for user projects before every operation
 - `feedback.service.ts:92-97`: Separate query for user projects in `findAll`
 - `feedback.service.ts:56-60`: Additional project lookup for webhook notification
 - Inefficient pagination using OFFSET instead of cursor-based approaches
 
 **Recommendations:**
+
 - Create a `BaseRepository` class for common CRUD operations
 - Implement specific repositories (UserRepository, ProjectRepository, FeedbackRepository)
 - Add a `UserService` to centralize user operations and cache user lookups
@@ -84,6 +95,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 ### 2. **Configuration Management** ✅ CONFIRMED ISSUES
 
 **Verified Current Issues:**
+
 - ✅ Environment variables accessed directly throughout codebase (ai.service.ts:12, clerk-auth.guard.ts:14,34,40)
 - ✅ No configuration validation at startup
 - ✅ **Found**: Missing API key validation (GEMINI_API_KEY vs OPENAI_API_KEY inconsistency)
@@ -91,6 +103,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - ✅ Missing runtime configuration checks
 
 **Specific Configuration Problems:**
+
 - `ai.service.ts:12`: Uses `GEMINI_API_KEY` but no validation if missing
 - `ai.service.ts:21-23`: Silent fallback when API key not configured
 - `clerk-auth.guard.ts:33`: Generic "Server configuration error" without specifics
@@ -98,6 +111,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - `app.module.ts:15-17`: Hardcoded rate limiting values
 
 **Recommendations:**
+
 - Create a `ConfigModule` with `ConfigService` using `@nestjs/config`
 - Add configuration validation with Joi/Zod schemas
 - Centralize all constants and default values
@@ -108,6 +122,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 ### 3. **Error Handling & Logging** ✅ PARTIALLY VERIFIED
 
 **Verified Current Issues:**
+
 - ✅ Generic catch-all exception filter confirmed (`src/common/filters/http-exception.filter.ts`)
 - ✅ **Found**: Inconsistent error response format (line 35-43: mixed success/error structure)
 - ✅ No request correlation IDs for debugging
@@ -116,6 +131,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - ✅ **New Finding**: Exception filter has bug on line 18 (`ctx.getResponse<Request>()` should be `ctx.getRequest()`)
 
 **Specific Error Handling Problems:**
+
 - `http-exception.filter.ts:18`: Bug - gets Response instead of Request
 - `http-exception.filter.ts:35-43`: Inconsistent response format mixing success flag with error structure
 - Multiple services have different error handling patterns
@@ -123,6 +139,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - No structured logging for production monitoring
 
 **Recommendations:**
+
 - Create specific exception classes for different error types
 - Fix bug in exception filter (line 18) and standardize response format
 - Enhance exception filter with error codes and structured responses
@@ -134,6 +151,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 ### 4. **API Response Standardization**
 
 **Current Issues:**
+
 - Inconsistent response formats (some return data directly, others wrapped)
 - No API versioning strategy for future changes
 - Only global rate limiting, no endpoint-specific controls
@@ -141,6 +159,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - No standardized pagination across all endpoints
 
 **Recommendations:**
+
 - Create a `ResponseInterceptor` for standardized API responses
 - Implement API versioning (`/api/v1/`) from the start
 - Add comprehensive rate limiting per endpoint type
@@ -151,6 +170,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 ### 5. **Security Enhancements**
 
 **Critical Issues Found:**
+
 - API keys stored in plain text in database
 - No request rate limiting per API key/user
 - Missing input sanitization and validation
@@ -159,6 +179,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - Missing security headers (CSP, HSTS, etc.)
 
 **Recommendations:**
+
 - Hash API keys using bcrypt with proper salt rounds
 - Implement rate limiting per API key/user with Redis
 - Add input sanitization middleware and validation
@@ -171,6 +192,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 ### 6. **Performance & Scalability**
 
 **Current Issues:**
+
 - No caching layer for frequently accessed data
 - N+1 query problems in analytics and feedback services
 - No database connection pooling configuration
@@ -179,11 +201,13 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - No database query optimization for large datasets
 
 **Specific Performance Problems:**
+
 - `analytics.service.ts:92-97`: Multiple separate queries for user projects
 - `feedback.service.ts:109`: Raw SQL with interpolated arrays
 - Repeated `getUserInternalId` calls across services
 
 **Recommendations:**
+
 - Add Redis caching for user sessions, projects, and analytics
 - Implement database connection pooling with proper limits
 - Use cursor-based pagination for large datasets
@@ -195,12 +219,14 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 ### 7. **Testing Structure** ✅ CONFIRMED CRITICAL GAP
 
 **Verified Current Issues:**
+
 - ✅ **Confirmed**: Zero test coverage - no test files found anywhere (`*.test.*`, `*.spec.*` returned empty)
 - ✅ **Confirmed**: No testing framework configured in `package.json` (no Jest, testing dependencies)
 - ✅ Missing test database configuration and setup
 - ✅ No CI/CD testing pipeline scripts in `package.json`
 
 **Critical Testing Gaps:**
+
 - Authentication flows completely untested (both Clerk and API key auth)
 - Database operations untested (Drizzle ORM queries, migrations)
 - API endpoints untested (all controllers lack test coverage)
@@ -210,6 +236,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - Webhook functionality untested
 
 **Specific Missing Test Files:**
+
 - No unit tests for any services (analytics, feedback, projects, ai, webhook)
 - No integration tests for any controllers
 - No tests for authentication guards
@@ -217,6 +244,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - No tests for database schema or migrations
 
 **Recommendations:**
+
 - Configure Jest with NestJS testing utilities and add to `package.json`
 - Add unit tests for all services and repositories
 - Implement integration tests for all controllers
@@ -229,6 +257,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 ### 8. **Documentation & Monitoring** ✅ PARTIALLY VERIFIED
 
 **Verified Current Issues:**
+
 - ✅ Basic Swagger setup confirmed but lacking detailed examples
 - ✅ Basic health controller exists but no dependency health checks
 - ✅ Missing metrics collection and monitoring
@@ -238,6 +267,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - ✅ **New Finding**: Missing `.env.example` template for developers
 
 **Specific Documentation Problems:**
+
 - Swagger docs at `/api/docs` but no request/response examples
 - No API versioning strategy implemented
 - Health check only returns basic status, no dependency checks
@@ -245,6 +275,7 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - No structured logging for production debugging
 
 **Recommendations:**
+
 - Enhance Swagger documentation with request/response examples
 - Add detailed health checks for all dependencies (Clerk, Gemini API)
 - Implement Prometheus metrics collection
@@ -258,15 +289,19 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 ## 🔍 Additional Findings From Code Analysis
 
 ### 9. **API Key Management Issues** ✅ NEW FINDING
+
 **Location:** `projects.service.ts:139`, schema `projects.apiKey`
 **Issues:**
+
 - API keys stored in plain text in database
 - No API key rotation mechanism implemented
 - `regenerateApiKey` simply creates new key without invalidating old one
 - No API key expiration or lifecycle management
 
 ### 10. **Input Validation Gaps** ✅ NEW FINDING
+
 **Issues:**
+
 - Limited input validation on API endpoints
 - No request size limits implemented
 - Missing input sanitization for SQL injection prevention
@@ -274,12 +309,15 @@ After detailed code inspection of the entire backend codebase (`/Users/judetejad
 - No rate limiting per IP or user identity
 
 ### 11. **Hardcoded Dependencies** ✅ NEW FINDING
+
 **Location:** `ai.service.ts:15`
 **Issue:** Hardcoded model name `"gemini-pro"` without configuration flexibility
 **Risk:** No ability to switch AI models or providers without code changes
 
 ### 12. **Database Schema Issues** ✅ NEW FINDING
+
 **Issues:**
+
 - Missing audit fields (created_by, updated_by, last_login_at, etc.)
 - No soft delete implementation
 - Missing constraints for data integrity
@@ -333,6 +371,7 @@ src/
 ## Priority Implementation Order
 
 ### Phase 1: Critical Security & Stability (Week 1)
+
 - Fix all security vulnerabilities listed above
 - Implement proper error handling and logging
 - Add configuration validation
@@ -340,6 +379,7 @@ src/
 - Add basic unit tests for security-critical components
 
 ### Phase 2: Performance & Scalability (Week 2-3)
+
 - Implement caching layer (Redis)
 - Optimize database queries and add indexes
 - Add connection pooling
@@ -347,6 +387,7 @@ src/
 - Add comprehensive testing suite
 
 ### Phase 3: Production Readiness (Week 4-6)
+
 - Add monitoring and metrics collection
 - Implement comprehensive logging
 - Add API versioning and response standardization
@@ -364,14 +405,14 @@ import { timingSafeEqual } from 'crypto';
 async canActivate(context: ExecutionContext): Promise<boolean> {
   const request = context.switchToHttp().getRequest();
   const apiKey = request.headers["x-api-key"];
-  
+
   // ... existing validation ...
-  
+
   // Use timing-safe comparison
   const apiKeyBuffer = Buffer.from(apiKey);
   const storedKeyBuffer = Buffer.from(project.apiKey);
-  
-  if (apiKeyBuffer.length !== storedKeyBuffer.length || 
+
+  if (apiKeyBuffer.length !== storedKeyBuffer.length ||
       !timingSafeEqual(apiKeyBuffer, storedKeyBuffer)) {
     throw new UnauthorizedException("Invalid API key");
   }
@@ -433,16 +474,18 @@ export class UserRepository extends BaseRepository<User> {
 
 ```typescript
 // src/config/configuration.ts
-import * as Joi from 'joi';
+import * as Joi from "joi";
 
 export const validationSchema = Joi.object({
-  NODE_ENV: Joi.string().valid('development', 'production', 'test').default('development'),
+  NODE_ENV: Joi.string()
+    .valid("development", "production", "test")
+    .default("development"),
   PORT: Joi.number().default(3001),
   DATABASE_URL: Joi.string().required(),
   CLERK_SECRET_KEY: Joi.string().required(),
   OPENAI_API_KEY: Joi.string().required(),
   REDIS_URL: Joi.string().optional(),
-  ALLOWED_ORIGINS: Joi.string().default('http://localhost:3000'),
+  ALLOWED_ORIGINS: Joi.string().default("http://localhost:3000"),
 });
 
 export default () => ({
@@ -465,7 +508,9 @@ export default () => ({
     url: process.env.REDIS_URL,
   },
   cors: {
-    origins: process.env.ALLOWED_ORIGINS?.split(",") || ["http://localhost:3000"],
+    origins: process.env.ALLOWED_ORIGINS?.split(",") || [
+      "http://localhost:3000",
+    ],
   },
 });
 ```
@@ -499,21 +544,21 @@ export class AppException extends HttpException {
 
   private sanitizeMessage(message: string): string {
     // Remove sensitive information from error messages
-    return message.replace(/password|token|secret/gi, '[REDACTED]');
+    return message.replace(/password|token|secret/gi, "[REDACTED]");
   }
 }
 
 // src/common/exceptions/bad-request.exception.ts
 export class BadRequestException extends AppException {
   constructor(message: string, details?: any) {
-    super(message, HttpStatus.BAD_REQUEST, 'BAD_REQUEST', details);
+    super(message, HttpStatus.BAD_REQUEST, "BAD_REQUEST", details);
   }
 }
 
 // src/common/exceptions/unauthorized.exception.ts
 export class UnauthorizedException extends AppException {
-  constructor(message: string = 'Unauthorized') {
-    super(message, HttpStatus.UNAUTHORIZED, 'UNAUTHORIZED');
+  constructor(message: string = "Unauthorized") {
+    super(message, HttpStatus.UNAUTHORIZED, "UNAUTHORIZED");
   }
 }
 ```
@@ -522,29 +567,33 @@ export class UnauthorizedException extends AppException {
 
 ```typescript
 // src/common/interceptors/response.interceptor.ts
-import { Request } from 'express';
+import { Request } from "express";
 
 @Injectable()
 export class ResponseInterceptor<T>
   implements NestInterceptor<T, ApiResponse<T>>
 {
-  intercept(context: ExecutionContext, next: CallHandler): Observable<ApiResponse<T>> {
+  intercept(
+    context: ExecutionContext,
+    next: CallHandler
+  ): Observable<ApiResponse<T>> {
     const request = context.switchToHttp().getRequest<Request>();
-    const correlationId = request.headers['x-correlation-id'] as string || 
-                         this.generateCorrelationId();
+    const correlationId =
+      (request.headers["x-correlation-id"] as string) ||
+      this.generateCorrelationId();
 
     return next.handle().pipe(
-      map(data => ({
+      map((data) => ({
         success: true,
         data,
         correlationId,
         timestamp: new Date().toISOString(),
       })),
-      catchError(error => {
+      catchError((error) => {
         throw new AppException(
           error.message,
           error.status || HttpStatus.INTERNAL_SERVER_ERROR,
-          error.code || 'INTERNAL_ERROR',
+          error.code || "INTERNAL_ERROR",
           error.details,
           correlationId
         );
@@ -561,6 +610,7 @@ export class ResponseInterceptor<T>
 ## Database Schema Improvements
 
 ### Required Indexes
+
 ```sql
 -- Performance-critical indexes
 CREATE INDEX CONCURRENTLY idx_users_clerk_id ON users(clerk_user_id);
@@ -577,6 +627,7 @@ CREATE INDEX CONCURRENTLY idx_feedback_project_sentiment ON feedback(project_id,
 ```
 
 ### Security Enhancements for Schema
+
 ```sql
 -- Hash API keys (migration script)
 ALTER TABLE projects ADD COLUMN api_key_hash VARCHAR(255);
@@ -593,12 +644,14 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 ## Migration Strategy
 
 ### Phase 1: Security Fixes (Immediate - Day 1)
+
 1. **Fix critical security vulnerabilities** in existing code
 2. **Add database indexes** to prevent performance issues
 3. **Update CORS configuration** to be secure by default
 4. **Remove sensitive logging** from production code
 
 ### Phase 2: Foundation (Week 1)
+
 1. **Create new directory structure** alongside existing code
 2. **Implement configuration management** with validation
 3. **Create repository pattern** while keeping existing services
@@ -606,6 +659,7 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 5. **Implement correlation IDs** for request tracing
 
 ### Phase 3: Service Migration (Week 2-3)
+
 1. **Gradually migrate services** to use repositories
 2. **Update controllers** to use new response format
 3. **Implement caching layer** with Redis
@@ -613,6 +667,7 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 5. **Add rate limiting** per user/API key
 
 ### Phase 4: Testing & Documentation (Week 4-6)
+
 1. **Add comprehensive test suite** for all components
 2. **Create API documentation** with examples
 3. **Implement monitoring** and alerting
@@ -620,6 +675,7 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 5. **Remove old code** after migration is complete
 
 ### Rollback Plan
+
 - Keep original code in separate branch during migration
 - Implement feature flags for gradual rollout
 - Database migrations with rollback capability
@@ -628,6 +684,7 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 ## Code Quality Assessment (VERIFIED)
 
 ### Current Metrics (Updated)
+
 - **TypeScript Compilation**: ✅ Passes and configured properly
 - **ESLint Compliance**: ⚠️ Not verified (needs linting check)
 - **Test Coverage**: ❌ 0% (Confirmed - no test files found in entire codebase)
@@ -637,12 +694,14 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 - **Error Handling**: ⚠️ Inconsistent patterns + bug in exception filter confirmed
 
 ### Technical Debt Summary (Updated)
+
 - **Critical**: Security vulnerabilities (timing attack, plain text API keys, CORS issue), zero test coverage
 - **High**: Performance issues (N+1 queries, missing indexes), configuration management gaps, error handling bugs
 - **Medium**: Code duplication in user lookups, missing abstractions, API key management issues
 - **Low**: Documentation gaps, missing monitoring, hardcoded dependencies
 
 ### Architecture Code Quality Findings
+
 - **Positive**: Clean NestJS structure, good TypeScript usage, proper dependency injection
 - **Negative**: No repository pattern, scattered database access, repeated code patterns
 - **Security**: Multiple critical vulnerabilities requiring immediate attention
@@ -651,6 +710,7 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 ## Production Readiness Checklist
 
 ### Security ✅/❌
+
 - [ ] API key timing-safe comparison
 - [ ] Secure CORS configuration
 - [ ] Input sanitization and validation
@@ -660,6 +720,7 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 - [ ] Audit logging for security events
 
 ### Performance ✅/❌
+
 - [ ] Database indexes on all queried fields
 - [ ] Connection pooling configuration
 - [ ] Query optimization (no N+1 problems)
@@ -668,6 +729,7 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 - [ ] Performance monitoring
 
 ### Reliability ✅/❌
+
 - [ ] Comprehensive error handling
 - [ ] Structured logging with correlation IDs
 - [ ] Health checks for all dependencies
@@ -676,6 +738,7 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 - [ ] Monitoring and alerting
 
 ### Testing ✅/❌
+
 - [ ] Unit tests for all services
 - [ ] Integration tests for all endpoints
 - [ ] E2E tests for critical flows
@@ -686,18 +749,21 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 ## Unresolved Questions
 
 ### Business Context
+
 - Current database size and expected growth rate?
 - Expected API traffic volume and patterns?
 - Specific compliance requirements (GDPR, SOC2, HIPAA)?
 - Budget for infrastructure (Redis, monitoring tools, APM)?
 
 ### Technical Decisions
+
 - Preferred caching solution (Redis vs Memcached)?
 - APM tool preference (DataDog, New Relic, etc.)?
 - CI/CD platform and deployment strategy?
 - Database backup and disaster recovery requirements?
 
 ### Team & Timeline
+
 - Team size and available developers?
 - Target production launch date?
 - Maintenance windows and deployment schedule?
@@ -706,12 +772,14 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 ## Next Steps
 
 ### Immediate Actions (Today)
+
 1. **Fix critical security vulnerabilities** - API key timing attack, CORS, logging
 2. **Add database indexes** to prevent performance issues
 3. **Create feature branch** for architecture improvements
 4. **Set up monitoring** to track current performance baseline
 
 ### This Week
+
 1. **Review and approve** this restructuring plan with stakeholders
 2. **Define timeline and resource allocation** for each phase
 3. **Set up development environment** for new structure
@@ -719,6 +787,7 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 5. **Establish code review process** with security checklist
 
 ### Success Metrics
+
 - **Security**: Zero critical vulnerabilities, pass security audit
 - **Performance**: <100ms response time for 95% of requests
 - **Reliability**: 99.9% uptime, <5 minute recovery time
@@ -728,16 +797,19 @@ ALTER TABLE feedback ADD COLUMN ip_address INET;
 ## Risk Assessment
 
 ### High Risk
+
 - **Security vulnerabilities** could lead to data breaches
 - **Performance issues** could cause service outages
 - **No test coverage** increases deployment risk
 
 ### Medium Risk
+
 - **Database migrations** could cause downtime
 - **API changes** could break existing integrations
 - **Team availability** could delay timeline
 
 ### Mitigation Strategies
+
 - Implement feature flags for gradual rollout
 - Maintain backward compatibility during transition
 - Create comprehensive rollback procedures

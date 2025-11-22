@@ -10,14 +10,14 @@ import { HealthController } from "./health.controller";
 import { DatabaseModule } from "./db/db.module";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { envValidationSchema } from "./config/env.validation";
-import { UserModule } from './user/user.module';
+import { UserModule } from "./user/user.module";
 
 @Module({
   imports: [
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,
-      envFilePath: '.env.local',
+      envFilePath: ".env.local",
       validationSchema: envValidationSchema,
       validationOptions: {
         allowUnknown: true,
@@ -28,8 +28,8 @@ import { UserModule } from './user/user.module';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => [
         {
-          ttl: configService.get<number>('THROTTLE_TTL', 60000),
-          limit: configService.get<number>('THROTTLE_LIMIT', 100),
+          ttl: configService.get<number>("THROTTLE_TTL", 60000),
+          limit: configService.get<number>("THROTTLE_LIMIT", 100),
         },
       ],
       inject: [ConfigService],

@@ -1,6 +1,12 @@
 "use client";
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { AuthDebug } from "@/components/auth-debug";
 import { SentimentBadge } from "@/components/dashboard/sentiment-badge";
@@ -15,7 +21,8 @@ import { Button } from "@/components/ui/button";
 
 export default function DashboardPage() {
   const { data: overview, isLoading: overviewLoading } = useAnalyticsOverview();
-  const { data: recentFeedback, isLoading: feedbackLoading } = useRecentFeedback({ limit: 5 });
+  const { data: recentFeedback, isLoading: feedbackLoading } =
+    useRecentFeedback({ limit: 5 });
 
   if (overviewLoading || feedbackLoading) {
     return (
@@ -46,7 +53,9 @@ export default function DashboardPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Dashboard</h1>
-          <p className="text-muted-foreground">Welcome back! Here&apos;s what&apos;s happening.</p>
+          <p className="text-muted-foreground">
+            Welcome back! Here&apos;s what&apos;s happening.
+          </p>
         </div>
         <Link href="/projects">
           <Button>Create Project</Button>
@@ -62,7 +71,7 @@ export default function DashboardPage() {
               description="Create a project and embed the widget to start collecting feedback."
               action={{
                 label: "Create Your First Project",
-                onClick: () => window.location.href = "/projects",
+                onClick: () => (window.location.href = "/projects"),
               }}
             />
           </CardContent>
@@ -101,7 +110,9 @@ export default function DashboardPage() {
           <Card>
             <CardHeader>
               <CardTitle>Sentiment Overview</CardTitle>
-              <CardDescription>Distribution of sentiment across all feedback</CardDescription>
+              <CardDescription>
+                Distribution of sentiment across all feedback
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-3 gap-4">
@@ -109,19 +120,25 @@ export default function DashboardPage() {
                   <div className="text-3xl font-bold text-green-600">
                     {overview.sentimentDistribution.positive}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-1">Positive</div>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    Positive
+                  </div>
                 </div>
                 <div className="flex flex-col items-center p-4 border rounded-lg">
                   <div className="text-3xl font-bold text-gray-600">
                     {overview.sentimentDistribution.neutral}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-1">Neutral</div>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    Neutral
+                  </div>
                 </div>
                 <div className="flex flex-col items-center p-4 border rounded-lg">
                   <div className="text-3xl font-bold text-red-600">
                     {overview.sentimentDistribution.negative}
                   </div>
-                  <div className="text-sm text-muted-foreground mt-1">Negative</div>
+                  <div className="text-sm text-muted-foreground mt-1">
+                    Negative
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -133,10 +150,14 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <CardTitle>Recent Feedback</CardTitle>
-                  <CardDescription>Latest submissions from your users</CardDescription>
+                  <CardDescription>
+                    Latest submissions from your users
+                  </CardDescription>
                 </div>
                 <Link href="/feedback">
-                  <Button variant="outline" size="sm">View All</Button>
+                  <Button variant="outline" size="sm">
+                    View All
+                  </Button>
                 </Link>
               </div>
             </CardHeader>
@@ -144,7 +165,10 @@ export default function DashboardPage() {
               {recentFeedback && recentFeedback.length > 0 ? (
                 <div className="space-y-4">
                   {recentFeedback.map((feedback) => (
-                    <div key={feedback.id} className="flex items-start gap-4 p-4 border rounded-lg">
+                    <div
+                      key={feedback.id}
+                      className="flex items-start gap-4 p-4 border rounded-lg"
+                    >
                       <div className="flex-1 space-y-2">
                         <div className="flex items-center gap-2">
                           <SentimentBadge sentiment={feedback.sentiment} />
@@ -153,7 +177,9 @@ export default function DashboardPage() {
                         </div>
                         <p className="text-sm line-clamp-2">{feedback.text}</p>
                         <p className="text-xs text-muted-foreground">
-                          {formatDistanceToNow(new Date(feedback.createdAt), { addSuffix: true })}
+                          {formatDistanceToNow(new Date(feedback.createdAt), {
+                            addSuffix: true,
+                          })}
                         </p>
                       </div>
                     </div>

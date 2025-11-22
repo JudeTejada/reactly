@@ -1,7 +1,13 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { PLAN_LIMITS } from "@/lib/constants";
@@ -18,13 +24,17 @@ export default function SettingsPage() {
     <div className="space-y-6">
       <div>
         <h1 className="text-3xl font-bold">Settings</h1>
-        <p className="text-muted-foreground">Manage your account and preferences</p>
+        <p className="text-muted-foreground">
+          Manage your account and preferences
+        </p>
       </div>
 
       <Card>
         <CardHeader>
           <CardTitle>Account Information</CardTitle>
-          <CardDescription>Your personal information from Clerk</CardDescription>
+          <CardDescription>
+            Your personal information from Clerk
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-2 gap-4">
@@ -34,16 +44,24 @@ export default function SettingsPage() {
             </div>
             <div className="space-y-1">
               <p className="text-sm font-medium text-muted-foreground">Email</p>
-              <p className="text-base">{user?.primaryEmailAddress?.emailAddress}</p>
+              <p className="text-base">
+                {user?.primaryEmailAddress?.emailAddress}
+              </p>
             </div>
             <div className="space-y-1">
-              <p className="text-sm font-medium text-muted-foreground">User ID</p>
+              <p className="text-sm font-medium text-muted-foreground">
+                User ID
+              </p>
               <p className="text-base font-mono text-xs">{user?.id}</p>
             </div>
             <div className="space-y-1">
-              <p className="text-sm font-medium text-muted-foreground">Joined</p>
+              <p className="text-sm font-medium text-muted-foreground">
+                Joined
+              </p>
               <p className="text-base">
-                {user?.createdAt ? new Date(user.createdAt).toLocaleDateString() : "Unknown"}
+                {user?.createdAt
+                  ? new Date(user.createdAt).toLocaleDateString()
+                  : "Unknown"}
               </p>
             </div>
           </div>
@@ -53,7 +71,9 @@ export default function SettingsPage() {
       <Card>
         <CardHeader>
           <CardTitle>Current Plan</CardTitle>
-          <CardDescription>Your subscription details and limits</CardDescription>
+          <CardDescription>
+            Your subscription details and limits
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center gap-4">
@@ -70,7 +90,8 @@ export default function SettingsPage() {
               <li className="flex items-start gap-2 text-sm">
                 <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
                 <span>
-                  {typeof planDetails.projects === "number" && planDetails.projects < 0
+                  {typeof planDetails.projects === "number" &&
+                  planDetails.projects < 0
                     ? "Unlimited projects"
                     : `${planDetails.projects} project${planDetails.projects > 1 ? "s" : ""}`}
                 </span>
@@ -78,7 +99,8 @@ export default function SettingsPage() {
               <li className="flex items-start gap-2 text-sm">
                 <CheckCircle2 className="h-4 w-4 text-green-600 shrink-0 mt-0.5" />
                 <span>
-                  {typeof planDetails.feedback === "number" && planDetails.feedback < 0
+                  {typeof planDetails.feedback === "number" &&
+                  planDetails.feedback < 0
                     ? "Unlimited feedback"
                     : `${planDetails.feedback.toLocaleString()} feedback items/month`}
                 </span>
@@ -97,7 +119,9 @@ export default function SettingsPage() {
       <Card className="border-red-200">
         <CardHeader>
           <CardTitle className="text-red-600">Danger Zone</CardTitle>
-          <CardDescription>Irreversible actions for your account</CardDescription>
+          <CardDescription>
+            Irreversible actions for your account
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center justify-between p-4 border border-red-200 rounded-lg">

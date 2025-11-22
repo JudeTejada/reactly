@@ -146,6 +146,7 @@ You can connect to the local PostgreSQL database with any client using:
 - **Password**: postgres
 
 **Popular Clients:**
+
 - TablePlus
 - PgAdmin
 - DBeaver
@@ -170,13 +171,16 @@ pnpm start:prod
 ### Public Endpoints
 
 #### POST `/api/feedback`
+
 Submit feedback (requires API key)
 
 **Headers:**
+
 - `x-api-key`: Project API key
 - `x-project-id`: Project ID
 
 **Body:**
+
 ```json
 {
   "text": "Great product!",
@@ -205,6 +209,7 @@ Submit feedback (requires API key)
 - `DELETE /api/feedback/:id` - Delete feedback
 
 **Query Parameters:**
+
 - `projectId` - Filter by project
 - `sentiment` - Filter by sentiment (positive/negative/neutral)
 - `category` - Filter by category
@@ -221,6 +226,7 @@ Submit feedback (requires API key)
 - `GET /api/analytics/recent` - Recent feedback
 
 **Query Parameters:**
+
 - `projectId` - Filter by project
 - `startDate` - Filter from date
 - `endDate` - Filter to date
@@ -235,6 +241,7 @@ Submit feedback (requires API key)
 ## 📚 API Documentation
 
 Interactive Swagger documentation available at:
+
 ```
 http://localhost:3001/api/docs
 ```
@@ -273,6 +280,7 @@ Negative feedback (sentiment or rating ≤ 2) triggers Discord notifications if 
 ## 🗄️ Database Schema
 
 ### Users Table
+
 - `id` (UUID)
 - `clerkUserId` (unique)
 - `email`
@@ -281,6 +289,7 @@ Negative feedback (sentiment or rating ≤ 2) triggers Discord notifications if 
 - `createdAt`, `updatedAt`
 
 ### Projects Table
+
 - `id` (UUID)
 - `name`
 - `apiKey` (unique)
@@ -291,6 +300,7 @@ Negative feedback (sentiment or rating ≤ 2) triggers Discord notifications if 
 - `createdAt`, `updatedAt`
 
 ### Feedback Table
+
 - `id` (UUID)
 - `projectId` (FK to projects)
 - `text`

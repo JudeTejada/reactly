@@ -33,6 +33,7 @@ reactly/
 ## Tech Stack
 
 ### Frontend (apps/web)
+
 - **Next.js 15** - App Router, React 19, Server Components
 - **TailwindCSS** + **shadcn/ui** - Design system
 - **Clerk** - Authentication
@@ -41,6 +42,7 @@ reactly/
 - **Framer Motion** - Animations
 
 ### Backend (apps/backend)
+
 - **NestJS** - Node.js framework with TypeScript
 - **PostgreSQL** - Database with NeonDB
 - **Drizzle ORM** - Type-safe database operations
@@ -49,11 +51,13 @@ reactly/
 - **Discord Webhooks** - Notifications for negative feedback
 
 ### Widget (apps/widget)
+
 - **Vite** - Fast build tool
 - **React 18** - Component library for embedding
 - **Zod** - Runtime validation
 
 ### Development
+
 - **pnpm Workspaces** - Dependency management
 - **Turborepo** - Build system with caching
 - **TypeScript** - 100% type safety
@@ -96,6 +100,7 @@ The backend uses Drizzle ORM with three main tables:
 - **`feedback`** - Feedback entries with AI-analyzed sentiment scores
 
 ### Database Workflow
+
 1. Modify schema in `apps/backend/src/db/schema.ts`
 2. Generate migration: `cd apps/backend && pnpm db:generate`
 3. Apply migration: `pnpm db:migrate`
@@ -104,12 +109,14 @@ The backend uses Drizzle ORM with three main tables:
 ## Authentication
 
 ### Dual Auth System
+
 1. **User Authentication** - Clerk JWT tokens (`Authorization: Bearer <token>`)
 2. **Widget Authentication** - API keys (`x-api-key` and `x-project-id` headers)
 
 ### Environment Variables
 
 #### Backend (.env)
+
 ```bash
 PORT=3001
 DATABASE_URL=postgresql://...
@@ -120,6 +127,7 @@ ALLOWED_ORIGINS=http://localhost:3000
 ```
 
 #### Web (.env.local)
+
 ```bash
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
 CLERK_SECRET_KEY=sk_test_...
@@ -129,9 +137,11 @@ NEXT_PUBLIC_API_URL=http://localhost:3001/api
 ## API Design
 
 ### Public Endpoints (API Key Auth)
+
 - `POST /api/feedback` - Submit feedback from widget
 
 ### Protected Endpoints (Clerk Auth)
+
 - `GET /api/projects` - List user's projects
 - `POST /api/projects` - Create new project
 - `POST /api/projects/:id/regenerate-key` - Regenerate API key
@@ -144,22 +154,29 @@ API Documentation available at: `http://localhost:3001/api/docs`
 ## Key Patterns
 
 ### Shared Types
+
 All TypeScript interfaces, types, and Zod schemas are in `packages/shared/src/types.ts`. Import from `@reactly/shared`:
 
 ```typescript
-import { Feedback, Project, SubmitFeedbackDto } from '@reactly/shared'
+import { Feedback, Project, SubmitFeedbackDto } from "@reactly/shared";
 ```
 
 ### Error Handling
+
 - Global HTTP exception filter in backend
 - Comprehensive validation with class-validator
 - API responses follow consistent structure with success/error fields
 
 ### Widget Integration
+
 The widget is distributed as ES modules and UMD bundles for maximum compatibility. Configuration via data attributes:
 
 ```html
-<script data-reactly-api-key="key" data-reactly-project-id="project" data-position="bottom-right"></script>
+<script
+  data-reactly-api-key="key"
+  data-reactly-project-id="project"
+  data-position="bottom-right"
+></script>
 ```
 
 ## Development Workflow
@@ -181,13 +198,13 @@ The widget is distributed as ES modules and UMD bundles for maximum compatibilit
 
 ## Key URLs (when running)
 
-| Service | URL |
-|---------|-----|
-| Web App | http://localhost:3000 |
-| Backend API | http://localhost:3001 |
-| API Docs | http://localhost:3001/api/docs |
-| Widget Dev | http://localhost:5173 |
-| Drizzle Studio | http://localhost:4983 |
+| Service        | URL                            |
+| -------------- | ------------------------------ |
+| Web App        | http://localhost:3000          |
+| Backend API    | http://localhost:3001          |
+| API Docs       | http://localhost:3001/api/docs |
+| Widget Dev     | http://localhost:5173          |
+| Drizzle Studio | http://localhost:4983          |
 
 ## Debugging
 
@@ -204,14 +221,16 @@ rm -rf node_modules && pnpm install && pnpm build
 ## Adding New Features
 
 ### Backend (NestJS)
+
 ```bash
 cd apps/backend
 nest g module moduleName
-nest g controller controllerName  
+nest g controller controllerName
 nest g service serviceName
 ```
 
 ### Frontend (Next.js)
+
 ```bash
 # Create new page
 mkdir -p app/new-page

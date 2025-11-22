@@ -9,11 +9,13 @@ This is the Reactly Feedback Widget - an embeddable JavaScript widget for collec
 ## Architecture
 
 The widget consists of:
+
 - **React component** (`src/components/FeedbackWidget.tsx`) - Main UI with form, rating system, and theming
 - **Embed script** (`src/embed.ts`) - Initialization logic and DOM mounting
 - **Shared types** (`@reactly/shared`) - TypeScript definitions and Zod schemas shared across the monorepo
 
 The widget supports:
+
 - Multiple positioning options (corners of screen)
 - Custom theming (colors, labels)
 - Form validation with Zod schemas
@@ -54,6 +56,7 @@ pnpm type-check
 ## Widget Configuration
 
 The widget accepts a `WidgetConfig` interface with:
+
 - `projectId` and `apiKey` (required)
 - `apiUrl` (defaults to localhost:3001)
 - `theme` object for colors

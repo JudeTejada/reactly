@@ -1,4 +1,10 @@
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import {
   Sparkles,
   MessageSquare,
@@ -18,73 +24,85 @@ const features = [
   {
     icon: Sparkles,
     title: "AI Sentiment Analysis",
-    description: "Powered by OpenAI GPT-3.5, our AI analyzes every piece of feedback to determine sentiment (positive, negative, neutral) with confidence scores.",
+    description:
+      "Powered by OpenAI GPT-3.5, our AI analyzes every piece of feedback to determine sentiment (positive, negative, neutral) with confidence scores.",
     color: "purple",
   },
   {
     icon: MessageSquare,
     title: "Embeddable Widget",
-    description: "Beautiful, customizable feedback widget that integrates seamlessly into any website. Multiple position options and theme customization.",
+    description:
+      "Beautiful, customizable feedback widget that integrates seamlessly into any website. Multiple position options and theme customization.",
     color: "blue",
   },
   {
     icon: BarChart3,
     title: "Advanced Analytics",
-    description: "Interactive charts showing sentiment trends, category breakdowns, and rating distributions. Track performance over time.",
+    description:
+      "Interactive charts showing sentiment trends, category breakdowns, and rating distributions. Track performance over time.",
     color: "green",
   },
   {
     icon: Zap,
     title: "Real-time Notifications",
-    description: "Instant Discord webhooks for negative feedback. Never miss critical issues and respond to users quickly.",
+    description:
+      "Instant Discord webhooks for negative feedback. Never miss critical issues and respond to users quickly.",
     color: "yellow",
   },
   {
     icon: Filter,
     title: "Powerful Filtering",
-    description: "Filter feedback by sentiment, category, date range, or search text. Find exactly what you're looking for instantly.",
+    description:
+      "Filter feedback by sentiment, category, date range, or search text. Find exactly what you're looking for instantly.",
     color: "red",
   },
   {
     icon: Download,
     title: "Export to CSV",
-    description: "Export your feedback data for further analysis in Excel, Google Sheets, or your favorite data tools.",
+    description:
+      "Export your feedback data for further analysis in Excel, Google Sheets, or your favorite data tools.",
     color: "indigo",
   },
   {
     icon: Globe,
     title: "Domain Whitelisting",
-    description: "Control where your widget can be embedded. Protect your API keys with domain restrictions.",
+    description:
+      "Control where your widget can be embedded. Protect your API keys with domain restrictions.",
     color: "pink",
   },
   {
     icon: Lock,
     title: "API Key Authentication",
-    description: "Secure API key system for each project. Regenerate keys instantly if compromised.",
+    description:
+      "Secure API key system for each project. Regenerate keys instantly if compromised.",
     color: "orange",
   },
   {
     icon: Palette,
     title: "Custom Branding",
-    description: "Match your brand with customizable colors, text, and positioning. Make the widget feel native to your site.",
+    description:
+      "Match your brand with customizable colors, text, and positioning. Make the widget feel native to your site.",
     color: "teal",
   },
   {
     icon: Code2,
     title: "Developer API",
-    description: "Full REST API with comprehensive documentation. Build custom integrations and workflows.",
+    description:
+      "Full REST API with comprehensive documentation. Build custom integrations and workflows.",
     color: "violet",
   },
   {
     icon: Bell,
     title: "Smart Categorization",
-    description: "Automatic categorization of feedback into bugs, features, improvements, complaints, and praise.",
+    description:
+      "Automatic categorization of feedback into bugs, features, improvements, complaints, and praise.",
     color: "cyan",
   },
   {
     icon: Shield,
     title: "Enterprise Security",
-    description: "SOC 2 compliant infrastructure, encrypted data storage, and regular security audits.",
+    description:
+      "SOC 2 compliant infrastructure, encrypted data storage, and regular security audits.",
     color: "gray",
   },
 ];
@@ -124,13 +142,20 @@ export default function FeaturesPage() {
           const Icon = feature.icon;
           const colors = colorClasses[feature.color];
           return (
-            <Card key={feature.title} className="border-2 hover:shadow-lg transition-shadow">
+            <Card
+              key={feature.title}
+              className="border-2 hover:shadow-lg transition-shadow"
+            >
               <CardHeader>
-                <div className={`w-12 h-12 rounded-lg ${colors.bg} flex items-center justify-center mb-4`}>
+                <div
+                  className={`w-12 h-12 rounded-lg ${colors.bg} flex items-center justify-center mb-4`}
+                >
                   <Icon className={`h-6 w-6 ${colors.icon}`} />
                 </div>
                 <CardTitle>{feature.title}</CardTitle>
-                <CardDescription className="text-base">{feature.description}</CardDescription>
+                <CardDescription className="text-base">
+                  {feature.description}
+                </CardDescription>
               </CardHeader>
             </Card>
           );
@@ -138,8 +163,12 @@ export default function FeaturesPage() {
       </div>
 
       <div className="mt-20 text-center">
-        <h2 className="text-3xl font-bold mb-4">Want to see these features in action?</h2>
-        <p className="text-muted-foreground mb-8">Start your free trial today. No credit card required.</p>
+        <h2 className="text-3xl font-bold mb-4">
+          Want to see these features in action?
+        </h2>
+        <p className="text-muted-foreground mb-8">
+          Start your free trial today. No credit card required.
+        </p>
       </div>
     </div>
   );

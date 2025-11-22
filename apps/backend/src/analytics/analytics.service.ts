@@ -1,9 +1,6 @@
-import { Inject, Injectable, Logger, NotFoundException } from "@nestjs/common";
-import { feedback, projects } from "../db/schema";
-import {
-  GET_USER_INTERNAL_ID,
-  GET_USER_PROJECTS
-} from "../user/providers";
+import { Inject, Injectable, Logger } from "@nestjs/common";
+import { feedback } from "../db/schema";
+import { GET_USER_INTERNAL_ID, GET_USER_PROJECTS } from "../user/providers";
 import { eq, and, gte, lte, sql } from "drizzle-orm";
 import type {
   FeedbackStats,
@@ -57,7 +54,10 @@ export class AnalyticsService {
 
     const whereClause = and(...conditions);
 
-    const allFeedback = await this.db.select().from(feedback).where(whereClause);
+    const allFeedback = await this.db
+      .select()
+      .from(feedback)
+      .where(whereClause);
 
     if (allFeedback.length === 0) {
       return this.emptyStats();
