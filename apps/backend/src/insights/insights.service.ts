@@ -1,13 +1,17 @@
 import { Inject, Injectable, Logger } from "@nestjs/common";
-import { feedback } from "../db/schema";
 import { GET_USER_INTERNAL_ID, GET_USER_PROJECTS } from "../user/providers";
-import { eq, and, gte, lte, sql, desc } from "drizzle-orm";
 import type { Feedback } from "@reactly/shared";
-import { NodePgDatabase } from "drizzle-orm/node-postgres";
-import * as sc from "../db/schema";
-import { DRIZZLE_ASYNC_PROVIDER } from "../db/providers/drizzle.provider";
 import { GlmAiService } from "../ai/glm-ai.service";
-import type { NewInsights } from "../db/schema";
+import {
+  GET_FEEDBACK_FOR_INSIGHTS,
+  SAVE_INSIGHTS,
+  GET_EXISTING_INSIGHTS,
+} from "./providers/tokens";
+import type {
+  GetFeedbackForInsightsProvider,
+  SaveInsightsProvider,
+  GetExistingInsightsProvider,
+} from "./providers";
 
 export interface Insight {
   type: "theme" | "recommendation" | "alert" | "trend";
@@ -36,13 +40,17 @@ export class InsightsService {
   private readonly logger = new Logger(InsightsService.name);
 
   constructor(
-    @Inject(DRIZZLE_ASYNC_PROVIDER)
-    private readonly db: NodePgDatabase<typeof sc>,
     @Inject(GET_USER_INTERNAL_ID)
     private readonly getUserInternalId: any,
     @Inject(GET_USER_PROJECTS)
     private readonly getUserProjects: any,
-    private readonly glmAiService: GlmAiService
+    private readonly glmAiService: GlmAiService,
+    @Inject(GET_FEEDBACK_FOR_INSIGHTS)
+    private readonly getFeedbackForInsightsProvider: GetFeedbackForInsightsProvider,
+    @Inject(SAVE_INSIGHTS)
+    private readonly saveInsightsProvider: SaveInsightsProvider,
+    @Inject(GET_EXISTING_INSIGHTS)
+    private readonly getExistingInsightsProvider: GetExistingInsightsProvider
   ) {}
 
   async generateInsights(
@@ -61,26 +69,12 @@ export class InsightsService {
       return this.emptyInsights();
     }
 
-    const conditions = [sql`${feedback.projectId} IN ${projectIds}`];
-
-    if (projectId) {
-      conditions.push(eq(feedback.projectId, projectId));
-    }
-
-    if (startDate) {
-      conditions.push(gte(feedback.createdAt, startDate));
-    }
-
-    if (endDate) {
-      conditions.push(lte(feedback.createdAt, endDate));
-    }
-
-    const whereClause = and(...conditions);
-
-    const allFeedback = await this.db
-      .select()
-      .from(feedback)
-      .where(whereClause);
+    const allFeedback = await this.getFeedbackForInsightsProvider.execute(
+      projectIds,
+      projectId,
+      startDate,
+      endDate
+    );
 
     if (allFeedback.length === 0) {
       return this.emptyInsights();
@@ -101,7 +95,7 @@ export class InsightsService {
       generatedAt: new Date(),
     };
 
-    await this.saveInsights(internalUserId, projectId, result, {
+    await this.saveInsightsProvider.execute(internalUserId, projectId, result, {
       startDate,
       endDate,
     });
@@ -236,34 +230,6 @@ Rules:
     };
   }
 
-  private async saveInsights(
-    userId: string,
-    projectId: string | undefined,
-    insightsData: InsightsResult,
-    filters: { startDate?: Date; endDate?: Date }
-  ): Promise<void> {
-    try {
-      const newInsight: NewInsights = {
-        userId,
-        projectId: projectId || null,
-        summary: insightsData.summary,
-        keyThemes: insightsData.keyThemes,
-        recommendations: insightsData.recommendations,
-        insights: insightsData.insights,
-        statistics: insightsData.statistics,
-        filters: {
-          startDate: filters.startDate?.toISOString(),
-          endDate: filters.endDate?.toISOString(),
-        },
-      };
-
-      await this.db.insert(sc.insights).values(newInsight);
-      this.logger.log(`Saved insights for user ${userId}`);
-    } catch (error) {
-      this.logger.error(`Failed to save insights: ${error}`);
-    }
-  }
-
   async getExistingInsights(
     clerkUserId: string,
     projectId?: string,
@@ -280,7 +246,7 @@ Rules:
       return null;
     }
 
-    const existing = await this.getDbExistingInsights(
+    const existing = await this.getExistingInsightsProvider.execute(
       internalUserId,
       projectId,
       startDate,
@@ -321,49 +287,6 @@ Rules:
       );
     } catch (error) {
       this.logger.warn(`Failed to get cached insights: ${error.message}`);
-      return null;
-    }
-  }
-
-  private async getDbExistingInsights(
-    userId: string,
-    projectId?: string,
-    startDate?: Date,
-    endDate?: Date
-  ): Promise<sc.Insights | null> {
-    try {
-      const conditions = [eq(sc.insights.userId, userId)];
-
-      if (projectId) {
-        conditions.push(eq(sc.insights.projectId, projectId));
-      } else {
-        conditions.push(sql`${sc.insights.projectId} IS NULL`);
-      }
-
-      if (startDate || endDate) {
-        const filterConditions: any[] = [];
-        if (startDate) {
-          filterConditions.push(gte(sc.insights.createdAt, startDate));
-        }
-        if (endDate) {
-          filterConditions.push(lte(sc.insights.createdAt, endDate));
-        }
-
-        if (filterConditions.length > 0) {
-          conditions.push(and(...filterConditions) as any);
-        }
-      }
-
-      const existing = await this.db
-        .select()
-        .from(sc.insights)
-        .where(and(...conditions))
-        .orderBy(desc(sc.insights.createdAt))
-        .limit(1);
-
-      return existing[0] || null;
-    } catch (error) {
-      this.logger.error(`Failed to get existing insights: ${error}`);
       return null;
     }
   }

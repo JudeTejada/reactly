@@ -3,7 +3,6 @@ import { ConfigModule, ConfigService } from "@nestjs/config";
 import { CacheModule } from "@nestjs/cache-manager";
 import { BullModule } from "@nestjs/bullmq";
 import { redisStore } from "cache-manager-redis-yet";
-import { InsightsQueueService } from "./insights-queue.service";
 
 @Global()
 @Module({
@@ -60,7 +59,7 @@ import { InsightsQueueService } from "./insights-queue.service";
       name: "insights-generate",
     }),
   ],
-  providers: [InsightsQueueService],
-  exports: [CacheModule, BullModule, InsightsQueueService],
+  providers: [],
+  exports: [CacheModule, BullModule],
 })
 export class RedisModule {}

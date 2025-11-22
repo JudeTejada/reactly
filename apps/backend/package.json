@@ -27,7 +27,6 @@
   },
   "dependencies": {
     "@clerk/backend": "^1.6.3",
-    "@google/genai": "^1.30.0",
     "@neondatabase/serverless": "^1.0.2",
     "@nestjs/bullmq": "^11.0.4",
     "@nestjs/cache-manager": "^3.0.1",

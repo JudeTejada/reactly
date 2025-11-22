@@ -2,11 +2,11 @@ import { Module } from "@nestjs/common";
 import { FeedbackController } from "./feedback.controller";
 import { FeedbackService } from "./feedback.service";
 import { FeedbackProcessor } from "./feedback.processor";
-import { FeedbackQueueService } from "./feedback-queue.service";
 import { AiModule } from "../ai/ai.module";
 import { WebhookModule } from "../webhook/webhook.module";
 import { AuthModule } from "../auth/auth.module";
 import { queryProviders, authorizationProviders } from "../user/providers";
+import { feedbackProviders } from "./providers";
 import { BullModule } from "@nestjs/bullmq";
 
 @Module({
@@ -22,7 +22,7 @@ import { BullModule } from "@nestjs/bullmq";
   providers: [
     FeedbackService,
     FeedbackProcessor,
-    FeedbackQueueService,
+    ...feedbackProviders,
     ...queryProviders,
     ...authorizationProviders,
   ],

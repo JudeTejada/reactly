@@ -7,12 +7,22 @@ import {
   Param,
   Body,
   UseGuards,
+  Inject,
 } from "@nestjs/common";
 import { ApiTags, ApiOperation, ApiBearerAuth } from "@nestjs/swagger";
 import { InsightsService } from "./insights.service";
-import { InsightsQueueService } from "./insights-queue.service";
 import { ClerkAuthGuard } from "../auth/clerk-auth.guard";
 import { CurrentUser } from "../auth/decorators";
+import {
+  ENQUEUE_GENERATE_INSIGHTS,
+  GET_INSIGHTS_JOB_STATUS,
+  CANCEL_INSIGHTS_JOB,
+} from "./providers/tokens";
+import type {
+  EnqueueGenerateInsightsProvider,
+  GetInsightsJobStatusProvider,
+  CancelInsightsJobProvider,
+} from "./providers";
 
 @ApiTags("insights")
 @Controller("insights")
@@ -21,7 +31,12 @@ import { CurrentUser } from "../auth/decorators";
 export class InsightsController {
   constructor(
     private readonly insightsService: InsightsService,
-    private readonly insightsQueueService: InsightsQueueService
+    @Inject(ENQUEUE_GENERATE_INSIGHTS)
+    private readonly enqueueGenerateInsightsProvider: EnqueueGenerateInsightsProvider,
+    @Inject(GET_INSIGHTS_JOB_STATUS)
+    private readonly getInsightsJobStatusProvider: GetInsightsJobStatusProvider,
+    @Inject(CANCEL_INSIGHTS_JOB)
+    private readonly cancelInsightsJobProvider: CancelInsightsJobProvider
   ) {}
 
   @Get()
@@ -56,7 +71,7 @@ export class InsightsController {
     }
 
     // Queue new generation
-    const job = await this.insightsQueueService.generateInsights(
+    const job = await this.enqueueGenerateInsightsProvider.execute(
       user.clerkUserId,
       projectId,
       filters
@@ -125,7 +140,7 @@ export class InsightsController {
       filters?: { startDate?: string; endDate?: string; category?: string };
     }
   ) {
-    const job = await this.insightsQueueService.generateInsights(
+    const job = await this.enqueueGenerateInsightsProvider.execute(
       user.clerkUserId,
       body.projectId,
       body.filters
@@ -154,7 +169,7 @@ export class InsightsController {
   @Get("jobs/:jobId")
   @ApiOperation({ summary: "Check job status" })
   async getJobStatus(@CurrentUser() user: any, @Param("jobId") jobId: string) {
-    const status = await this.insightsQueueService.getJobStatus(jobId);
+    const status = await this.getInsightsJobStatusProvider.execute(jobId);
 
     return {
       success: true,
@@ -165,7 +180,7 @@ export class InsightsController {
   @Delete("jobs/:jobId")
   @ApiOperation({ summary: "Cancel pending job" })
   async cancelJob(@CurrentUser() user: any, @Param("jobId") jobId: string) {
-    await this.insightsQueueService.cancelJob(jobId);
+    await this.cancelInsightsJobProvider.execute(jobId);
 
     return {
       success: true,
