@@ -12,274 +12,157 @@ A complete, production-ready full-stack application for collecting, analyzing, a
 ## ✨ Features
 
 ### 🎯 Core Features
-- ✅ **AI Sentiment Analysis** - OpenAI-powered emotion detection
-- ✅ **Embeddable Widget** - Copy-paste feedback collection
-- ✅ **Beautiful Dashboard** - Modern UI with charts & analytics
-- ✅ **Real-time Notifications** - Discord webhooks for negative feedback
-- ✅ **Advanced Filtering** - Search, filter, and export feedback
-- ✅ **Multi-Project Management** - Organize feedback by project
-- ✅ **API Key Authentication** - Secure widget integration
-- ✅ **Clerk Authentication** - Seamless user management
+- **AI Sentiment Analysis**: Automatically categorize feedback as positive, negative, or neutral using OpenAI.
+- **Embeddable Widget**: Lightweight, customizable React widget for easy integration into any website.
+- **Real-time Dashboard**: Monitor feedback trends, sentiment distribution, and recent activity.
+- **Smart Filtering**: Filter feedback by sentiment, category, project, or date range.
+- **Multi-Project Support**: Manage multiple projects and API keys from a single account.
+- **Team Collaboration**: Invite team members (coming soon).
+- **Notifications**: Get alerts via Discord for negative feedback.
 
-### 📊 Analytics
-- Sentiment distribution (positive/negative/neutral)
-- Category breakdown (bugs, features, improvements, etc.)
-- Trend analysis over time
-- Average ratings and statistics
-- Recent feedback monitoring
+### 🛠️ Technical Highlights
+- **Monorepo Architecture**: Efficiently managed with pnpm workspaces and Turborepo.
+- **Full-Stack Type Safety**: Shared types between frontend, backend, and widget.
+- **Modern Auth**: Secure authentication using Clerk (JWT + API Keys).
+- **Database**: PostgreSQL with Drizzle ORM for type-safe database interactions.
+- **Performance**: Next.js 15 App Router, React 19, and optimized Vite build for the widget.
 
 ## 🏗️ Architecture
 
-### Monorepo Structure
+```mermaid
+graph TD
+    User[User/Visitor] -->|Interacts| Widget[Feedback Widget]
+    User -->|Manages| Web[Web Dashboard]
+    Widget -->|Submits| API[Backend API]
+    Web -->|Queries| API
+    API -->|Auth| Clerk[Clerk Auth]
+    API -->|Stores| DB[(PostgreSQL)]
+    API -->|Analyzes| AI[OpenAI]
+    API -->|Notifies| Discord[Discord Webhook]
 ```
-reactly/
-├── apps/
-│   ├── web/          # Next.js 15 Dashboard & Marketing
-│   ├── backend/      # NestJS API Server
-│   └── widget/       # Embeddable React Widget
-└── packages/
-    └── shared/       # Shared TypeScript types & utilities
-```
 
-## 🛠️ Tech Stack
-
-### Frontend (apps/web)
-- **Framework:** Next.js 15 (App Router, React 19)
-- **Styling:** TailwindCSS + shadcn/ui
-- **Auth:** Clerk
-- **Data Fetching:** TanStack React Query
-- **Charts:** Recharts
-- **Animations:** Framer Motion
-
-### Backend (apps/backend)
-- **Framework:** NestJS
-- **Database:** PostgreSQL (NeonDB)
-- **ORM:** Drizzle
-- **AI:** OpenAI GPT-3.5
-- **Auth:** Clerk JWT + API Keys
-- **Webhooks:** Discord
-
-### Widget (apps/widget)
-- **Build Tool:** Vite
-- **Framework:** React 18
-- **Validation:** Zod
-
-### Shared
-- **TypeScript** - 100% type-safe
-- **pnpm Workspaces** - Dependency management
-- **Turborepo** - Build system
+### Apps & Packages
+- **`apps/web`**: Next.js 15 dashboard and marketing site.
+- **`apps/backend`**: NestJS API server handling logic, DB, and AI.
+- **`apps/widget`**: Embeddable feedback widget (Vite + React).
+- **`packages/shared`**: Shared TypeScript schemas (Zod), types, and utilities.
 
 ## 🚀 Quick Start
 
 ### Prerequisites
-```bash
-node >= 22.0.0
-pnpm >= 9.0.0
-```
+- Node.js >= 22.0.0
+- pnpm >= 9.0.0
+- Docker (for local database)
 
-### Installation
+### 1. Installation
 
-1. **Clone & Install**
+Clone the repo and install dependencies:
+
 ```bash
 git clone <your-repo-url>
 cd reactly
 pnpm install
 ```
 
-2. **Configure Backend** (`apps/backend/.env`)
+### 2. Environment Setup
+
+Set up environment variables for the backend and web apps.
+
+**Backend (`apps/backend/.env`):**
 ```env
-DATABASE_URL=postgresql://user:pass@host/db
-CLERK_SECRET_KEY=sk_test_xxxxx
-OPENAI_API_KEY=sk-xxxxx
-DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/xxxxx (optional)
+PORT=3001
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/reactly_dev
+CLERK_SECRET_KEY=sk_test_...
+OPENAI_API_KEY=sk-...
+DISCORD_WEBHOOK_URL=... (optional)
 ```
 
-3. **Configure Frontend** (`apps/web/.env.local`)
+**Web (`apps/web/.env.local`):**
 ```env
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
-CLERK_SECRET_KEY=sk_test_xxxxx
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_...
+CLERK_SECRET_KEY=sk_test_...
 NEXT_PUBLIC_API_URL=http://localhost:3001/api
 ```
 
-4. **Run Database Migrations**
+### 3. Database Setup
+
+Start a local PostgreSQL instance and run migrations:
+
 ```bash
+# Start local DB in Docker
 cd apps/backend
+pnpm db:setup:local
+
+# Run migrations
 pnpm db:migrate
 ```
 
-5. **Start All Services**
+### 4. Run the Development Server
+
+Start all applications (Web, Backend, Widget) in parallel:
+
 ```bash
-cd ../..
+# From the root directory
 pnpm dev
 ```
 
-Access:
-- **Web:** http://localhost:3000
-- **API:** http://localhost:3001
-- **API Docs:** http://localhost:3001/api/docs
-- **Widget:** http://localhost:5173
+- **Web Dashboard**: [http://localhost:3000](http://localhost:3000)
+- **API Server**: [http://localhost:3001](http://localhost:3001)
+- **API Docs (Swagger)**: [http://localhost:3001/api/docs](http://localhost:3001/api/docs)
+- **Widget Demo**: [http://localhost:5173](http://localhost:5173)
 
 ## 📁 Project Structure
 
-### Web App (apps/web)
-```
-app/
-├── (marketing)/       # Public pages
-│   ├── page.tsx      # Landing page
-│   ├── features/     # Features showcase
-│   └── pricing/      # Pricing tiers
-├── (auth)/           # Sign in/up
-├── (dashboard)/      # Protected pages
-│   ├── dashboard/    # Overview
-│   ├── feedback/     # Feedback list
-│   ├── analytics/    # Charts & insights
-│   ├── projects/     # Project management
-│   └── settings/     # User settings
-components/
-├── ui/               # shadcn/ui components (18)
-└── dashboard/        # Custom components
-lib/
-├── api.ts           # API client
-├── constants.ts     # App constants
-└── utils.ts         # Utilities
-hooks/
-├── use-projects.ts
-├── use-feedback.ts
-└── use-analytics.ts
+```text
+reactly/
+├── apps/
+│   ├── backend/          # NestJS API
+│   │   ├── src/
+│   │   │   ├── ai/       # Sentiment analysis service
+│   │   │   ├── analytics/# Stats & trends
+│   │   │   ├── auth/     # Clerk & API Key guards
+│   │   │   ├── db/       # Drizzle schema & config
+│   │   │   ├── feedback/ # CRUD operations
+│   │   │   └── projects/ # Project management
+│   ├── web/              # Next.js Dashboard
+│   │   ├── app/
+│   │   │   ├── (auth)/   # Sign-in/Sign-up
+│   │   │   ├── (dashboard)/ # Protected app routes
+│   │   │   └── (marketing)/ # Landing pages
+│   └── widget/           # Embeddable Widget
+│       └── src/          # React component logic
+└── packages/
+    └── shared/           # Shared code (Types, Zod Schemas)
 ```
 
-### Backend (apps/backend)
-```
-src/
-├── ai/              # OpenAI sentiment service
-├── auth/            # Clerk & API key guards
-├── feedback/        # Feedback CRUD
-├── projects/        # Project management
-├── analytics/       # Stats & trends
-├── webhook/         # Discord notifications
-├── db/              # Drizzle schema & client
-└── common/          # Filters & utilities
-```
-
-## 📚 Documentation
-
-| Document | Description |
-|----------|-------------|
-| [SETUP.md](./SETUP.md) | Detailed setup instructions |
-| [PROJECT_STATUS.md](./PROJECT_STATUS.md) | Implementation progress |
-| [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) | Command cheat sheet |
-| [BACKEND_COMPLETE.md](./BACKEND_COMPLETE.md) | Backend implementation details |
-| [WEB_APP_COMPLETE.md](./WEB_APP_COMPLETE.md) | Frontend implementation details |
-| [Backend README](./apps/backend/README.md) | API documentation |
-
-## 🎯 Key Features Breakdown
-
-### Dashboard
-- **Overview:** Stats, recent feedback, sentiment distribution
-- **Feedback List:** Advanced filtering, search, pagination, CSV export
-- **Analytics:** Pie charts, bar charts, line graphs with Recharts
-- **Projects:** Create, manage, toggle active, regenerate API keys
-- **Settings:** Account info, plan details, danger zone
-
-### Marketing
-- **Landing Page:** Hero, features grid, testimonials, CTA
-- **Features Page:** 12 detailed features
-- **Pricing Page:** 3 tiers (Free, Pro, Enterprise) with FAQ
-
-### Widget
-- Star rating (1-5)
-- Category selection
-- Text feedback
-- Theme customization
-- Position options
-- Success/error states
-
-## 🔌 API Endpoints
-
-### Public (API Key)
-- `POST /api/feedback` - Submit feedback
-
-### Protected (Clerk JWT)
-- `GET /api/projects` - List projects
-- `POST /api/projects` - Create project
-- `POST /api/projects/:id/regenerate-key` - Regenerate API key
-- `GET /api/feedback` - List feedback with filters
-- `GET /api/analytics/overview` - Statistics
-- `GET /api/analytics/trends` - Sentiment trends
-
-Full API docs: http://localhost:3001/api/docs
-
-## 🧪 Testing
+## 🧪 Testing & Quality
 
 ```bash
-# Type checking
+# Run type checking across all packages
 pnpm type-check
 
-# Build all packages
-pnpm build
+# Run linting
+pnpm lint
 
-# Backend tests
+# Run backend tests
 cd apps/backend
 pnpm test
 ```
 
-## 🚢 Deployment
+## 📚 Documentation
 
-### Frontend (Vercel)
-```bash
-# Connect GitHub repo to Vercel
-# Set environment variables
-# Deploy automatically on push
-```
+- [Backend Documentation](./apps/backend/README.md)
+- [Widget Documentation](./apps/widget/README.md)
+- [Setup Guide](./SETUP.md)
 
-### Backend (Railway/Fly.io)
-```bash
-# Railway
-railway up
+## 🤝 Contributing
 
-# Fly.io
-fly deploy
-```
-
-### Database (NeonDB)
-- Create project at https://neon.tech
-- Copy connection string to `DATABASE_URL`
-
-## 📊 Performance
-
-- **Build Time:** ~10s with Turbo cache
-- **First Load JS:** 102 kB (shared)
-- **Page Load:** <1s on fast 3G
-- **Lighthouse:** 90+ (estimated)
-
-## 🎨 Design System
-
-### Colors
-- Primary: Purple gradient (#8b5cf6 → #ec4899)
-- Positive: Green (#22c55e)
-- Negative: Red (#ef4444)
-- Neutral: Gray (#6b7280)
-
-### Components
-- 18 shadcn/ui components
-- Custom dashboard components
-- Recharts visualizations
-- Framer Motion animations
-
-## 🛣️ Roadmap
-
-- [ ] Email notifications
-- [ ] Slack integration
-- [ ] Multi-language support
-- [ ] Custom AI models
-- [ ] Team collaboration
-- [ ] Advanced permissions
-- [ ] White-label option
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
 ## 📝 License
 
-MIT
-
----
-
-Built with ❤️ using modern web technologies
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
