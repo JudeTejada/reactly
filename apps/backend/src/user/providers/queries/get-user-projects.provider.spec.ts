@@ -1,20 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { GetUserProjectsProvider } from './get-user-projects.provider';
-import { DRIZZLE_ASYNC_PROVIDER } from '../../../db/providers/drizzle.provider';
+import { Test, TestingModule } from "@nestjs/testing";
+import { GetUserProjectsProvider } from "./get-user-projects.provider";
+import { DRIZZLE_ASYNC_PROVIDER } from "../../../db/providers/drizzle.provider";
 
 // Mock the schema to avoid ES module issues
-jest.mock('../../../db/schema', () => ({
+jest.mock("../../../db/schema", () => ({
   projects: {
-    id: 'id',
-    userId: 'user_id',
-    name: 'name',
-    apiKey: 'api_key',
-    domain: 'domain',
-    createdAt: 'created_at'
+    id: "id",
+    userId: "user_id",
+    name: "name",
+    apiKey: "api_key",
+    domain: "domain",
+    createdAt: "created_at",
   },
 }));
 
-describe('GetUserProjectsProvider', () => {
+describe("GetUserProjectsProvider", () => {
   let provider: GetUserProjectsProvider;
   let mockDb: any;
   let mockQueryBuilder: any;
@@ -49,53 +49,53 @@ describe('GetUserProjectsProvider', () => {
     jest.clearAllMocks();
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(provider).toBeDefined();
   });
 
-  describe('execute', () => {
-    it('should return user projects', async () => {
+  describe("execute", () => {
+    it("should return user projects", async () => {
       const mockProjects = [
         {
-          id: 'project-1',
-          userId: 'user-123',
-          name: 'Project 1',
-          apiKey: 'key-1',
-          domain: 'example.com',
-          createdAt: new Date('2023-01-01')
+          id: "project-1",
+          userId: "user-123",
+          name: "Project 1",
+          apiKey: "key-1",
+          domain: "example.com",
+          createdAt: new Date("2023-01-01"),
         },
         {
-          id: 'project-2',
-          userId: 'user-123',
-          name: 'Project 2',
-          apiKey: 'key-2',
-          domain: 'test.com',
-          createdAt: new Date('2023-01-02')
-        }
+          id: "project-2",
+          userId: "user-123",
+          name: "Project 2",
+          apiKey: "key-2",
+          domain: "test.com",
+          createdAt: new Date("2023-01-02"),
+        },
       ];
       mockQueryBuilder.orderBy.mockResolvedValue(mockProjects);
 
-      const result = await provider.execute('user-123');
+      const result = await provider.execute("user-123");
 
       expect(result).toEqual(mockProjects);
       expect(mockDb.select).toHaveBeenCalled();
       expect(mockQueryBuilder.orderBy).toHaveBeenCalled();
     });
 
-    it('should return empty array when user has no projects', async () => {
+    it("should return empty array when user has no projects", async () => {
       mockQueryBuilder.orderBy.mockResolvedValue([]);
 
-      const result = await provider.execute('user-456');
+      const result = await provider.execute("user-456");
 
       expect(result).toEqual([]);
       expect(mockDb.select).toHaveBeenCalled();
       expect(mockQueryBuilder.orderBy).toHaveBeenCalled();
     });
 
-    it('should call database with correct parameters', async () => {
+    it("should call database with correct parameters", async () => {
       mockQueryBuilder.orderBy.mockResolvedValue([]);
 
-      await provider.execute('user-789');
+      await provider.execute("user-789");
 
       expect(mockDb.select).toHaveBeenCalled();
       expect(mockQueryBuilder.orderBy).toHaveBeenCalled();

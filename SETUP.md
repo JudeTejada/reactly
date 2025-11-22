@@ -3,6 +3,7 @@
 ## 🎯 What's Been Set Up
 
 ### 1. **Monorepo Structure** ✅
+
 - pnpm workspaces with Turborepo
 - Node 22 configuration
 - Shared packages architecture
@@ -10,6 +11,7 @@
 ### 2. **Apps**
 
 #### **Web App** (`apps/web`) ✅
+
 - Next.js 15 with App Router
 - Clerk authentication configured
 - TailwindCSS + shadcn/ui ready
@@ -17,6 +19,7 @@
 - Route middleware for protected pages
 
 #### **Backend API** (`apps/backend`) ✅
+
 - NestJS with TypeScript
 - Drizzle ORM configured for NeonDB
 - Database schema (users, projects, feedback)
@@ -24,6 +27,7 @@
 - Environment variables template
 
 #### **Widget** (`apps/widget`) ✅
+
 - Vite + React (optimized for embedding)
 - Feedback form component
 - Multiple embed options (npm + script tag)
@@ -31,6 +35,7 @@
 - CSS animations and responsive design
 
 ### 3. **Shared Package** (`packages/shared`) ✅
+
 - TypeScript types and interfaces
 - Zod validation schemas
 - Utility functions
@@ -41,6 +46,7 @@
 ### 1. Environment Setup
 
 #### Backend (`apps/backend/.env`)
+
 ```bash
 PORT=3001
 DATABASE_URL=postgresql://user:password@host:5432/reactly
@@ -50,6 +56,7 @@ ALLOWED_ORIGINS=http://localhost:3000
 ```
 
 #### Web App (`apps/web/.env.local`)
+
 ```bash
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
 CLERK_SECRET_KEY=sk_test_xxxxx
@@ -57,6 +64,7 @@ NEXT_PUBLIC_API_URL=http://localhost:3001/api
 ```
 
 ### 2. Database Migration
+
 ```bash
 cd apps/backend
 pnpm db:generate  # Generate migrations
@@ -66,11 +74,13 @@ pnpm db:migrate   # Run migrations
 ### 3. Development
 
 Start all apps:
+
 ```bash
 pnpm dev
 ```
 
 Or start individually:
+
 ```bash
 # Backend API
 cd apps/backend && pnpm dev
@@ -85,6 +95,7 @@ cd apps/widget && pnpm dev
 ### 4. What to Build Next
 
 #### Backend Modules (Priority Order)
+
 1. ✅ Database schema created
 2. ⏳ Auth guard with Clerk
 3. ⏳ AI sentiment service (OpenAI integration)
@@ -94,6 +105,7 @@ cd apps/widget && pnpm dev
 7. ⏳ Discord webhook service
 
 #### Frontend Pages (Priority Order)
+
 1. ⏳ Landing page (hero, features, CTA)
 2. ⏳ Pricing page
 3. ⏳ Dashboard overview
@@ -103,6 +115,7 @@ cd apps/widget && pnpm dev
 7. ⏳ Settings page
 
 #### Widget Enhancements
+
 1. ✅ Basic feedback form
 2. ⏳ Testing with real API
 3. ⏳ CDN deployment configuration
@@ -133,16 +146,16 @@ pnpm build        # Build widget bundle
 
 ## 🔧 Tech Stack Summary
 
-| Layer | Technology |
-|-------|-----------|
-| Monorepo | pnpm + Turborepo |
-| Frontend | Next.js 15, React 18, TailwindCSS, shadcn/ui |
-| Backend | NestJS, TypeScript |
-| Database | PostgreSQL (NeonDB) + Drizzle ORM |
-| Auth | Clerk |
-| AI | OpenAI API |
-| Widget | Vite + React |
-| Deployment | Vercel (frontend), Railway (backend) |
+| Layer      | Technology                                   |
+| ---------- | -------------------------------------------- |
+| Monorepo   | pnpm + Turborepo                             |
+| Frontend   | Next.js 15, React 18, TailwindCSS, shadcn/ui |
+| Backend    | NestJS, TypeScript                           |
+| Database   | PostgreSQL (NeonDB) + Drizzle ORM            |
+| Auth       | Clerk                                        |
+| AI         | OpenAI API                                   |
+| Widget     | Vite + React                                 |
+| Deployment | Vercel (frontend), Railway (backend)         |
 
 ## 📝 File Structure
 
@@ -186,18 +199,21 @@ reactly/
 ## 🚢 Deployment
 
 ### Backend (Railway)
+
 1. Create new project on Railway
 2. Add NeonDB PostgreSQL
 3. Set environment variables
 4. Deploy from `apps/backend`
 
 ### Frontend (Vercel)
+
 1. Import GitHub repo to Vercel
 2. Set root directory to `apps/web`
 3. Add environment variables
 4. Deploy
 
 ### Widget (CDN)
+
 1. Build: `cd apps/widget && pnpm build`
 2. Upload `dist/widget.umd.js` to CDN or Vercel
 3. Users include via script tag

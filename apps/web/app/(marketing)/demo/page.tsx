@@ -11,7 +11,7 @@ export default function WidgetDemoPage() {
     script.setAttribute("data-reactly-api-key", "demo-api-key");
     script.setAttribute("data-reactly-project-id", "demo-project");
     script.setAttribute("data-position", "bottom-right");
-    
+
     document.head.appendChild(script);
 
     return () => {
@@ -30,10 +30,10 @@ export default function WidgetDemoPage() {
             Widget Demo Page
           </h1>
           <p className="text-lg text-gray-600 mb-8">
-            This page demonstrates the Reactly feedback widget in action. 
-            Look for the feedback button in the bottom-right corner!
+            This page demonstrates the Reactly feedback widget in action. Look
+            for the feedback button in the bottom-right corner!
           </p>
-          
+
           <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
             <h2 className="text-2xl font-semibold mb-4">How It Works</h2>
             <div className="text-left space-y-4">
@@ -41,19 +41,25 @@ export default function WidgetDemoPage() {
                 <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <span className="text-purple-600 text-sm font-bold">1</span>
                 </div>
-                <p className="text-gray-700">The widget loads automatically from the script tag</p>
+                <p className="text-gray-700">
+                  The widget loads automatically from the script tag
+                </p>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <span className="text-purple-600 text-sm font-bold">2</span>
                 </div>
-                <p className="text-gray-700">Click the feedback button in the bottom-right corner</p>
+                <p className="text-gray-700">
+                  Click the feedback button in the bottom-right corner
+                </p>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-6 h-6 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0 mt-0.5">
                   <span className="text-purple-600 text-sm font-bold">3</span>
                 </div>
-                <p className="text-gray-700">Submit feedback and see the real-time sentiment analysis</p>
+                <p className="text-gray-700">
+                  Submit feedback and see the real-time sentiment analysis
+                </p>
               </div>
             </div>
           </div>
@@ -84,8 +90,8 @@ export default function WidgetDemoPage() {
 
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
             <p className="text-sm text-yellow-800">
-              <strong>Note:</strong> This demo uses a development server. 
-              Make sure the widget dev server is running on port 5173.
+              <strong>Note:</strong> This demo uses a development server. Make
+              sure the widget dev server is running on port 5173.
             </p>
           </div>
         </div>

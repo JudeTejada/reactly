@@ -14,14 +14,15 @@ export class WebhookService {
   constructor(
     @Inject(DRIZZLE_ASYNC_PROVIDER)
     private db: NodePgDatabase<typeof sc>,
-    @Inject(ConfigService) private readonly configService: ConfigService,
+    @Inject(ConfigService) private readonly configService: ConfigService
   ) {}
 
   async handleUserCreated(data: any): Promise<void> {
     try {
       const email =
-        data.email_addresses?.find((e: any) => e.id === data.primary_email_address_id)
-          ?.email_address || data.email_addresses?.[0]?.email_address;
+        data.email_addresses?.find(
+          (e: any) => e.id === data.primary_email_address_id
+        )?.email_address || data.email_addresses?.[0]?.email_address;
 
       if (!email) {
         this.logger.error("No email found in user data");
@@ -32,7 +33,10 @@ export class WebhookService {
         ? `${data.first_name} ${data.last_name || ""}`.trim()
         : data.username || email;
 
-      const defaultPlan = this.configService.get<string>('DEFAULT_USER_PLAN', 'free');
+      const defaultPlan = this.configService.get<string>(
+        "DEFAULT_USER_PLAN",
+        "free"
+      );
 
       await this.db.insert(users).values({
         clerkUserId: data.id,
@@ -50,8 +54,9 @@ export class WebhookService {
   async handleUserUpdated(data: any): Promise<void> {
     try {
       const email =
-        data.email_addresses?.find((e: any) => e.id === data.primary_email_address_id)
-          ?.email_address || data.email_addresses?.[0]?.email_address;
+        data.email_addresses?.find(
+          (e: any) => e.id === data.primary_email_address_id
+        )?.email_address || data.email_addresses?.[0]?.email_address;
 
       const name = data.first_name
         ? `${data.first_name} ${data.last_name || ""}`.trim()
@@ -85,7 +90,9 @@ export class WebhookService {
     feedback: Feedback,
     webhookUrl?: string
   ): Promise<void> {
-    const discordWebhookUrl = this.configService.get<string>('DISCORD_WEBHOOK_URL');
+    const discordWebhookUrl = this.configService.get<string>(
+      "DISCORD_WEBHOOK_URL"
+    );
 
     if (!webhookUrl && !discordWebhookUrl) {
       this.logger.debug("No Discord webhook URL configured");

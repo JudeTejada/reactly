@@ -30,6 +30,7 @@ pnpm test:cov         # Run test coverage
 This is a NestJS backend for AI-powered feedback management with the following key architectural components:
 
 ### Core Architecture
+
 - **Framework**: NestJS with TypeScript
 - **Database**: PostgreSQL with Drizzle ORM
 - **Authentication**: Dual auth system - Clerk JWT for users, API keys for public endpoints
@@ -37,6 +38,7 @@ This is a NestJS backend for AI-powered feedback management with the following k
 - **API Documentation**: Swagger with interactive docs at `/api/docs`
 
 ### Module Structure
+
 The application follows NestJS's modular architecture:
 
 - **`ai/`** - Sentiment analysis service using OpenAI API
@@ -48,17 +50,21 @@ The application follows NestJS's modular architecture:
 - **`db/`** - Database schema, client, and migrations
 
 ### Database Schema
+
 Uses Drizzle ORM with three main tables:
+
 - **users** - Clerk user integration with plan management
 - **projects** - API key management and domain restrictions
 - **feedback** - Feedback entries with AI-analyzed sentiment
 
 ### Authentication Flow
+
 1. **User endpoints**: Clerk JWT verification (`Bearer` token)
 2. **Widget endpoints**: API key authentication (`x-api-key` and `x-project-id` headers)
 3. Guards implement both authentication methods
 
 ### AI Sentiment Analysis
+
 - Primary: OpenAI GPT-3.5-turbo analysis
 - Fallback: Keyword-based sentiment detection
 - Results stored with confidence scores
@@ -67,6 +73,7 @@ Uses Drizzle ORM with three main tables:
 ## Key Patterns
 
 ### Environment Configuration
+
 **Always use NestJS ConfigService for accessing environment variables** in services and controllers:
 
 ```typescript
@@ -78,6 +85,7 @@ const clerkSecret = this.configService.get<string>('CLERK_SECRET_KEY');
 ```
 
 Required environment variables:
+
 - `DATABASE_URL` - PostgreSQL connection
 - `CLERK_SECRET_KEY` - Clerk authentication
 - `CLERK_WEBHOOK_SECRET` - Clerk webhook verification
@@ -86,6 +94,7 @@ Required environment variables:
 - `ALLOWED_ORIGINS` - CORS configuration
 
 ### API Design
+
 - RESTful endpoints with `/api` global prefix
 - Comprehensive query filtering and pagination
 - Global validation with class-validator
@@ -93,6 +102,7 @@ Required environment variables:
 - Global exception handling
 
 ### Error Handling
+
 Global HTTP exception filter in `src/common/filters/http-exception.filter.ts`
 
 ## Development Workflow
@@ -117,4 +127,3 @@ Global HTTP exception filter in `src/common/filters/http-exception.filter.ts`
 - API keys are automatically generated with `rly_` prefix
 - Sentiment analysis is asynchronous - feedback can be created before analysis completes
 - All timestamps use UTC timezone
-

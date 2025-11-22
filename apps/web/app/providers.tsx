@@ -10,29 +10,27 @@ export function Providers({ children }: { children: React.ReactNode }) {
   const { getToken, isLoaded, isSignedIn } = useAuth();
 
   useEffect(() => {
-    console.log('[Providers] Auth state:', { isLoaded, isSignedIn });
-    
+    console.log("[Providers] Auth state:", { isLoaded, isSignedIn });
+
     // Set up the token provider for API calls
     setTokenProvider(async () => {
       if (!isLoaded || !isSignedIn) {
-        console.log('[Providers] Not authenticated, no token available');
+        console.log("[Providers] Not authenticated, no token available");
         return null;
       }
-      
+
       try {
         const token = await getToken();
-        console.log('[Providers] Token obtained:', token ? 'yes' : 'no');
+        console.log("[Providers] Token obtained:", token ? "yes" : "no");
         return token;
       } catch (error) {
-        console.error('[Providers] Error getting token:', error);
+        console.error("[Providers] Error getting token:", error);
         return null;
       }
     });
   }, [getToken, isLoaded, isSignedIn]);
 
   return (
-    <QueryClientProvider client={queryClient}>
-      {children}
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }

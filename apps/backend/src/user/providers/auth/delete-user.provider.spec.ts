@@ -1,18 +1,18 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { DeleteUserProvider } from './delete-user.provider';
-import { DRIZZLE_ASYNC_PROVIDER } from '../../../db/providers/drizzle.provider';
+import { Test, TestingModule } from "@nestjs/testing";
+import { DeleteUserProvider } from "./delete-user.provider";
+import { DRIZZLE_ASYNC_PROVIDER } from "../../../db/providers/drizzle.provider";
 
 // Mock the schema to avoid ES module issues
-jest.mock('../../../db/schema', () => ({
+jest.mock("../../../db/schema", () => ({
   users: {
-    id: 'id',
-    clerkUserId: 'clerk_user_id',
-    email: 'email',
-    name: 'name'
+    id: "id",
+    clerkUserId: "clerk_user_id",
+    email: "email",
+    name: "name",
   },
 }));
 
-describe('DeleteUserProvider', () => {
+describe("DeleteUserProvider", () => {
   let provider: DeleteUserProvider;
   let mockDb: any;
   let mockQueryBuilder: any;
@@ -45,13 +45,13 @@ describe('DeleteUserProvider', () => {
     jest.clearAllMocks();
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(provider).toBeDefined();
   });
 
-  describe('execute', () => {
-    it('should delete user by internal ID', async () => {
-      const userId = 'user-uuid-123';
+  describe("execute", () => {
+    it("should delete user by internal ID", async () => {
+      const userId = "user-uuid-123";
 
       await provider.execute(userId);
 
@@ -59,14 +59,14 @@ describe('DeleteUserProvider', () => {
       expect(mockQueryBuilder.where).toHaveBeenCalled();
     });
 
-    it('should resolve without error when deletion is successful', async () => {
-      const userId = 'user-uuid-456';
+    it("should resolve without error when deletion is successful", async () => {
+      const userId = "user-uuid-456";
 
       await expect(provider.execute(userId)).resolves.toBeUndefined();
     });
 
-    it('should call database operations in correct order', async () => {
-      const userId = 'user-uuid-789';
+    it("should call database operations in correct order", async () => {
+      const userId = "user-uuid-789";
 
       await provider.execute(userId);
 

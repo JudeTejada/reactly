@@ -5,6 +5,7 @@ The best **100% FREE** way to host your embeddable widget.
 ## Recommended Solution: NPM + jsDelivr CDN
 
 This approach is:
+
 - ✅ **Completely Free** - No costs, ever
 - ✅ **Unlimited Bandwidth** - jsDelivr is free for open source
 - ✅ **Global CDN** - Fast worldwide
@@ -27,9 +28,7 @@ Make sure `apps/widget/package.json` is ready for publishing:
   "main": "./dist/widget.umd.js",
   "module": "./dist/widget.es.js",
   "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
+  "files": ["dist"],
   "keywords": [
     "feedback",
     "widget",
@@ -56,6 +55,7 @@ pnpm build
 ```
 
 This creates `dist/` folder with:
+
 - `widget.umd.js` - For script tag usage
 - `widget.es.js` - For bundlers
 - `index.d.ts` - TypeScript types
@@ -121,12 +121,12 @@ Once published to NPM, jsDelivr automatically provides a global CDN.
 ### With Auto-initialization
 
 ```html
-<script 
+<script
   src="https://cdn.jsdelivr.net/npm/@yourusername/reactly-widget@latest/dist/widget.umd.js"
   data-reactly-api-key="YOUR_API_KEY"
   data-reactly-project-id="YOUR_PROJECT_ID"
-  data-position="bottom-right">
-</script>
+  data-position="bottom-right"
+></script>
 ```
 
 ---
@@ -140,17 +140,17 @@ Perfect for non-technical users:
 ```html
 <!DOCTYPE html>
 <html>
-<body>
-  <h1>My Website</h1>
-  
-  <!-- Add before </body> -->
-  <script 
-    src="https://cdn.jsdelivr.net/npm/@yourusername/reactly-widget@latest/dist/widget.umd.js"
-    data-reactly-api-key="rly_xxxxxxxxxxxxx"
-    data-reactly-project-id="proj_xxxxxxxxxx"
-    data-position="bottom-right">
-  </script>
-</body>
+  <body>
+    <h1>My Website</h1>
+
+    <!-- Add before </body> -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/@yourusername/reactly-widget@latest/dist/widget.umd.js"
+      data-reactly-api-key="rly_xxxxxxxxxxxxx"
+      data-reactly-project-id="proj_xxxxxxxxxx"
+      data-position="bottom-right"
+    ></script>
+  </body>
 </html>
 ```
 
@@ -163,16 +163,16 @@ npm install @yourusername/reactly-widget
 ```
 
 ```javascript
-import { initFeedbackWidget } from '@yourusername/reactly-widget';
+import { initFeedbackWidget } from "@yourusername/reactly-widget";
 
 initFeedbackWidget({
-  apiKey: 'rly_xxxxxxxxxxxxx',
-  projectId: 'proj_xxxxxxxxxx',
-  apiUrl: 'https://api.yourdomain.com/api',
-  position: 'bottom-right',
+  apiKey: "rly_xxxxxxxxxxxxx",
+  projectId: "proj_xxxxxxxxxx",
+  apiUrl: "https://api.yourdomain.com/api",
+  position: "bottom-right",
   theme: {
-    primaryColor: '#3b82f6',
-  }
+    primaryColor: "#3b82f6",
+  },
 });
 ```
 
@@ -187,6 +187,7 @@ Host directly from your GitHub repository:
 #### Setup
 
 1. Create `docs/` folder in root:
+
    ```bash
    mkdir -p docs
    cp apps/widget/dist/* docs/
@@ -240,6 +241,7 @@ vercel --prod
 ```
 
 Configure in `vercel.json`:
+
 ```json
 {
   "buildCommand": "pnpm build",
@@ -259,15 +261,15 @@ Access at: `https://your-widget.vercel.app/widget.umd.js`
 
 Here's why this is the **best free option**:
 
-| Feature | NPM + jsDelivr | GitHub Pages | Cloudflare | Vercel |
-|---------|----------------|--------------|------------|--------|
-| **Cost** | Free | Free | Free | Free |
-| **Bandwidth** | Unlimited | Limited | Unlimited | 100GB/mo |
-| **Global CDN** | ✅ Yes | ❌ No | ✅ Yes | ✅ Yes |
-| **Setup Time** | 5 min | 2 min | 10 min | 5 min |
-| **Versioning** | ✅ Built-in | ⚠️ Manual | ⚠️ Manual | ⚠️ Manual |
-| **NPM Install** | ✅ Yes | ❌ No | ❌ No | ❌ No |
-| **Auto Updates** | ✅ @latest | ❌ No | ❌ No | ❌ No |
+| Feature          | NPM + jsDelivr | GitHub Pages | Cloudflare | Vercel    |
+| ---------------- | -------------- | ------------ | ---------- | --------- |
+| **Cost**         | Free           | Free         | Free       | Free      |
+| **Bandwidth**    | Unlimited      | Limited      | Unlimited  | 100GB/mo  |
+| **Global CDN**   | ✅ Yes         | ❌ No        | ✅ Yes     | ✅ Yes    |
+| **Setup Time**   | 5 min          | 2 min        | 10 min     | 5 min     |
+| **Versioning**   | ✅ Built-in    | ⚠️ Manual    | ⚠️ Manual  | ⚠️ Manual |
+| **NPM Install**  | ✅ Yes         | ❌ No        | ❌ No      | ❌ No     |
+| **Auto Updates** | ✅ @latest     | ❌ No        | ❌ No      | ❌ No     |
 
 ---
 
@@ -326,7 +328,7 @@ npm publish
 
 ### Embed Instructions (Script Tag)
 
-```markdown
+````markdown
 # Add Reactly Feedback Widget
 
 1. Get your credentials from dashboard:
@@ -336,18 +338,20 @@ npm publish
 2. Add this code before `</body>` tag:
 
    ```html
-   <script 
+   <script
      src="https://cdn.jsdelivr.net/npm/@yourusername/reactly-widget@latest/dist/widget.umd.js"
      data-reactly-api-key="YOUR_API_KEY"
      data-reactly-project-id="YOUR_PROJECT_ID"
-     data-position="bottom-right">
-   </script>
+     data-position="bottom-right"
+   ></script>
    ```
+````
 
 3. Replace YOUR_API_KEY and YOUR_PROJECT_ID with your actual values
 
 4. Done! The feedback button will appear on your site.
-```
+
+````
 
 ### NPM Installation (For Developers)
 
@@ -357,25 +361,27 @@ npm publish
 1. Install package:
    ```bash
    npm install @yourusername/reactly-widget
-   ```
+````
 
 2. Initialize in your app:
+
    ```javascript
-   import { initFeedbackWidget } from '@yourusername/reactly-widget';
-   
+   import { initFeedbackWidget } from "@yourusername/reactly-widget";
+
    initFeedbackWidget({
-     apiKey: 'rly_xxxxx',
-     projectId: 'proj_xxxxx',
-     apiUrl: 'https://api.yourdomain.com/api',
-     position: 'bottom-right',
+     apiKey: "rly_xxxxx",
+     projectId: "proj_xxxxx",
+     apiUrl: "https://api.yourdomain.com/api",
+     position: "bottom-right",
      theme: {
-       primaryColor: '#3b82f6',
-     }
+       primaryColor: "#3b82f6",
+     },
    });
    ```
 
 3. Widget appears automatically on your site!
-```
+
+````
 
 ---
 
@@ -395,10 +401,10 @@ npm publish
    ```html
    <!-- Good: Won't break if new version has bugs -->
    <script src=".../@yourusername/reactly-widget@1.0.0/..."></script>
-   
+
    <!-- Avoid in production: Auto-updates might break things -->
    <script src=".../@yourusername/reactly-widget@latest/..."></script>
-   ```
+````
 
 2. **Minification**: Already done by Vite build
 
@@ -416,6 +422,7 @@ npm publish
 Check downloads at: `https://www.npmjs.com/package/@yourusername/reactly-widget`
 
 Or via API:
+
 ```bash
 curl https://api.npmjs.org/downloads/point/last-month/@yourusername/reactly-widget
 ```
@@ -428,14 +435,14 @@ View traffic at: `https://www.jsdelivr.com/package/npm/@yourusername/reactly-wid
 
 ## Cost Analysis
 
-| Solution | Storage | Bandwidth | CDN | Total Cost |
-|----------|---------|-----------|-----|------------|
-| **NPM + jsDelivr** | Free | Unlimited | Free | **$0** |
-| GitHub Pages | Free | 100GB | No | $0 |
-| Cloudflare Pages | Free | Unlimited | Free | $0 |
-| Vercel | Free | 100GB | Free | $0 |
+| Solution            | Storage   | Bandwidth | CDN      | Total Cost |
+| ------------------- | --------- | --------- | -------- | ---------- |
+| **NPM + jsDelivr**  | Free      | Unlimited | Free     | **$0**     |
+| GitHub Pages        | Free      | 100GB     | No       | $0         |
+| Cloudflare Pages    | Free      | Unlimited | Free     | $0         |
+| Vercel              | Free      | 100GB     | Free     | $0         |
 | AWS S3 + CloudFront | $0.023/GB | $0.085/GB | $0.10/GB | ~$20/month |
-| DigitalOcean CDN | $5 | $0.01/GB | $0.01/GB | $5+/month |
+| DigitalOcean CDN    | $5        | $0.01/GB  | $0.01/GB | $5+/month  |
 
 **Winner**: NPM + jsDelivr = **$0/month forever!**
 
@@ -457,14 +464,15 @@ View traffic at: `https://www.jsdelivr.com/package/npm/@yourusername/reactly-wid
 Use Subresource Integrity (SRI) for extra security:
 
 ```html
-<script 
+<script
   src="https://cdn.jsdelivr.net/npm/@yourusername/reactly-widget@1.0.0/dist/widget.umd.js"
   integrity="sha384-xxxxx"
-  crossorigin="anonymous">
-</script>
+  crossorigin="anonymous"
+></script>
 ```
 
 Generate SRI hash:
+
 ```bash
 curl https://cdn.jsdelivr.net/npm/@yourusername/reactly-widget@1.0.0/dist/widget.umd.js | openssl dgst -sha384 -binary | openssl base64 -A
 ```

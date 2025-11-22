@@ -28,13 +28,13 @@ class ApiClient {
     options: RequestInit = {}
   ): Promise<T> {
     const token = tokenProvider ? await tokenProvider() : null;
-    
-    console.log('[API] Request:', {
+
+    console.log("[API] Request:", {
       endpoint,
       hasToken: !!token,
-      tokenPreview: token ? `${token.substring(0, 20)}...` : 'none'
+      tokenPreview: token ? `${token.substring(0, 20)}...` : "none",
     });
-    
+
     const response = await fetch(`${this.baseUrl}${endpoint}`, {
       ...options,
       headers: {
@@ -45,14 +45,16 @@ class ApiClient {
     });
 
     if (!response.ok) {
-      const error = await response.json().catch(() => ({ message: response.statusText }));
-      console.error('[API] Error:', error);
+      const error = await response
+        .json()
+        .catch(() => ({ message: response.statusText }));
+      console.error("[API] Error:", error);
       throw new Error(error.message || error.error || "API request failed");
     }
 
     const data = await response.json();
-    console.log('[API] Response:', { endpoint, success: data.success });
-    
+    console.log("[API] Response:", { endpoint, success: data.success });
+
     // Unwrap the backend response format { success: true, data: ... }
     return data.data !== undefined ? data.data : data;
   }
@@ -73,7 +75,10 @@ class ApiClient {
     });
   }
 
-  async updateProject(id: string, data: Partial<CreateProjectDto>): Promise<Project> {
+  async updateProject(
+    id: string,
+    data: Partial<CreateProjectDto>
+  ): Promise<Project> {
     return this.fetch(`/projects/${id}`, {
       method: "PUT",
       body: JSON.stringify(data),
@@ -150,7 +155,9 @@ class ApiClient {
     startDate?: string;
     endDate?: string;
     days?: number;
-  }): Promise<Array<{ date: string; positive: number; negative: number; neutral: number }>> {
+  }): Promise<
+    Array<{ date: string; positive: number; negative: number; neutral: number }>
+  > {
     const queryParams = new URLSearchParams();
     Object.entries(params).forEach(([key, value]) => {
       if (value !== undefined) {

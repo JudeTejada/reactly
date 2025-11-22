@@ -1,10 +1,10 @@
-import { Injectable, Inject } from '@nestjs/common';
-import { projects } from '../../../db/schema';
-import { eq } from 'drizzle-orm';
-import type { Project } from '../../../db/schema';
-import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import * as sc from '../../../db/schema';
-import { DRIZZLE_ASYNC_PROVIDER } from '../../../db/providers/drizzle.provider';
+import { Injectable, Inject } from "@nestjs/common";
+import { projects } from "../../../db/schema";
+import { eq } from "drizzle-orm";
+import type { Project } from "../../../db/schema";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as sc from "../../../db/schema";
+import { DRIZZLE_ASYNC_PROVIDER } from "../../../db/providers/drizzle.provider";
 
 @Injectable()
 export class GetUserProjectsProvider {

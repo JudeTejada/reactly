@@ -18,6 +18,7 @@
 ## 🏗️ Current Architecture Overview
 
 ### Module Structure
+
 ```
 src/
 ├── ai/              # Gemini AI sentiment analysis
@@ -31,6 +32,7 @@ src/
 ```
 
 ### Current Strengths
+
 - ✅ Clean NestJS modular architecture
 - ✅ Proper separation of concerns
 - ✅ Environment-based configuration
@@ -41,7 +43,9 @@ src/
 ## 🚨 Critical Security Issues (Priority 1)
 
 ### 1. API Key Timing Attack Vulnerability
+
 **File**: `src/auth/api-key.guard.ts:35`
+
 ```typescript
 // ❌ Current vulnerable code
 if (apiKey === storedApiKey) {
@@ -49,58 +53,65 @@ if (apiKey === storedApiKey) {
 }
 
 // ✅ Secure fix
-import { timingSafeEqual } from 'crypto';
-import { createHash } from 'crypto';
+import { timingSafeEqual } from "crypto";
+import { createHash } from "crypto";
 
-if (storedApiKey && timingSafeEqual(
-  Buffer.from(createHash('sha256').update(apiKey).digest()),
-  Buffer.from(storedApiKey)
-)) {
+if (
+  storedApiKey &&
+  timingSafeEqual(
+    Buffer.from(createHash("sha256").update(apiKey).digest()),
+    Buffer.from(storedApiKey)
+  )
+) {
   return true;
 }
 ```
 
 ### 2. Plain Text API Key Storage
+
 **File**: `src/db/schema.ts:26`
+
 ```typescript
 // ❌ Current vulnerable schema
-export const apiKeys = pgTable('api_keys', {
-  id: serial('id').primaryKey(),
-  key: text('key').notNull().unique(), // Plain text!
+export const apiKeys = pgTable("api_keys", {
+  id: serial("id").primaryKey(),
+  key: text("key").notNull().unique(), // Plain text!
   // ...
 });
 
 // ✅ Secure schema with hashed keys
-export const apiKeys = pgTable('api_keys', {
-  id: serial('id').primaryKey(),
-  keyHash: text('key_hash').notNull().unique(),
-  keyPrefix: text('key_prefix').notNull(), // For identification
+export const apiKeys = pgTable("api_keys", {
+  id: serial("id").primaryKey(),
+  keyHash: text("key_hash").notNull().unique(),
+  keyPrefix: text("key_prefix").notNull(), // For identification
   // ...
 });
 ```
 
 ### 3. CORS Security Gap
+
 **File**: `src/main.ts:16`
+
 ```typescript
 // ❌ Current insecure fallback
 app.enableCors({
-  origin: process.env.ALLOWED_ORIGINS?.split(',') || '*',
+  origin: process.env.ALLOWED_ORIGINS?.split(",") || "*",
   credentials: true,
 });
 
 // ✅ Secure configuration
 app.enableCors({
   origin: (origin, callback) => {
-    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(',') || [];
+    const allowedOrigins = process.env.ALLOWED_ORIGINS?.split(",") || [];
     if (!origin || allowedOrigins.includes(origin)) {
       callback(null, true);
     } else {
-      callback(new Error('Not allowed by CORS'));
+      callback(new Error("Not allowed by CORS"));
     }
   },
   credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization'],
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  allowedHeaders: ["Content-Type", "Authorization"],
 });
 ```
 
@@ -111,17 +122,19 @@ app.enableCors({
 ### 1. Repository Pattern Implementation
 
 #### Create Base Repository
+
 **New File**: `src/database/repositories/base.repository.ts`
+
 ```typescript
-import { Injectable } from '@nestjs/common';
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { Pool } from 'pg';
+import { Injectable } from "@nestjs/common";
+import { drizzle } from "drizzle-orm/node-postgres";
+import { Pool } from "pg";
 
 @Injectable()
 export abstract class BaseRepository<T> {
   protected constructor(
     protected readonly db: ReturnType<typeof drizzle>,
-    protected readonly table: any,
+    protected readonly table: any
   ) {}
 
   async create(data: Partial<T>): Promise<T> {
@@ -157,12 +170,14 @@ export abstract class BaseRepository<T> {
 ```
 
 #### User Repository Implementation
+
 **New File**: `src/database/repositories/user.repository.ts`
+
 ```typescript
-import { Injectable } from '@nestjs/common';
-import { BaseRepository } from './base.repository';
-import { users } from '../schema';
-import { eq } from 'drizzle-orm';
+import { Injectable } from "@nestjs/common";
+import { BaseRepository } from "./base.repository";
+import { users } from "../schema";
+import { eq } from "drizzle-orm";
 
 @Injectable()
 export class UserRepository extends BaseRepository<typeof users.$inferSelect> {
@@ -170,7 +185,9 @@ export class UserRepository extends BaseRepository<typeof users.$inferSelect> {
     super(db, users);
   }
 
-  async findByClerkId(clerkId: string): Promise<typeof users.$inferSelect | null> {
+  async findByClerkId(
+    clerkId: string
+  ): Promise<typeof users.$inferSelect | null> {
     const [user] = await this.db
       .select()
       .from(users)
@@ -178,7 +195,10 @@ export class UserRepository extends BaseRepository<typeof users.$inferSelect> {
     return user || null;
   }
 
-  async getOrCreateUser(clerkId: string, email: string): Promise<typeof users.$inferSelect> {
+  async getOrCreateUser(
+    clerkId: string,
+    email: string
+  ): Promise<typeof users.$inferSelect> {
     let user = await this.findByClerkId(clerkId);
 
     if (!user) {
@@ -196,10 +216,12 @@ export class UserRepository extends BaseRepository<typeof users.$inferSelect> {
 ### 2. Centralized User Service
 
 #### Eliminate Code Duplication
+
 **New File**: `src/modules/users/user.service.ts`
+
 ```typescript
-import { Injectable } from '@nestjs/common';
-import { UserRepository } from '../../database/repositories/user.repository';
+import { Injectable } from "@nestjs/common";
+import { UserRepository } from "../../database/repositories/user.repository";
 
 @Injectable()
 export class UserService {
@@ -208,7 +230,7 @@ export class UserService {
   async getUserInternalId(clerkId: string): Promise<number> {
     const user = await this.userRepository.findByClerkId(clerkId);
     if (!user) {
-      throw new Error('User not found');
+      throw new Error("User not found");
     }
     return user.id;
   }
@@ -221,7 +243,9 @@ export class UserService {
 ```
 
 #### Update Services to Use Centralized User Service
+
 **File**: `src/modules/feedback/feedback.service.ts`
+
 ```typescript
 // ❌ Remove this duplicated code
 // private async getUserInternalId(clerkId: string): Promise<number> {
@@ -246,11 +270,13 @@ async createFeedback(createFeedbackDto: CreateFeedbackDto, clerkId: string) {
 ### 3. Configuration Management
 
 #### Centralized Configuration
+
 **New File**: `src/config/configuration.ts`
+
 ```typescript
-import { plainToClass } from 'class-transformer';
-import { IsString, IsOptional, IsArray, IsNumber } from 'class-validator';
-import { validateSync } from 'class-validator';
+import { plainToClass } from "class-transformer";
+import { IsString, IsOptional, IsArray, IsNumber } from "class-validator";
+import { validateSync } from "class-validator";
 
 class EnvironmentVariables {
   @IsString()
@@ -298,7 +324,9 @@ export function validate(config: Record<string, unknown>) {
 ### 1. Database Indexes
 
 #### Add Critical Indexes
+
 **New Migration**: `src/db/migrations/002_add_indexes.sql`
+
 ```sql
 -- User queries
 CREATE INDEX idx_users_clerk_id ON users(clerk_user_id);
@@ -320,7 +348,9 @@ CREATE INDEX idx_api_keys_project_id ON api_keys(project_id);
 ### 2. Query Optimization
 
 #### Fix N+1 Query Problems
+
 **File**: `src/modules/analytics/analytics.service.ts`
+
 ```typescript
 // ❌ Current N+1 queries
 async getProjectAnalytics(projectId: number) {
@@ -352,18 +382,20 @@ async getProjectAnalytics(projectId: number) {
 ### 3. Caching Layer
 
 #### Redis Cache Implementation
+
 **New File**: `src/cache/cache.module.ts`
+
 ```typescript
-import { Module } from '@nestjs/common';
-import { CacheModule } from '@nestjs/cache-manager';
-import { redisStore } from 'cache-manager-redis-store';
+import { Module } from "@nestjs/common";
+import { CacheModule } from "@nestjs/cache-manager";
+import { redisStore } from "cache-manager-redis-store";
 
 @Module({
   imports: [
     CacheModule.register({
       store: redisStore,
-      host: process.env.REDIS_HOST || 'localhost',
-      port: parseInt(process.env.REDIS_PORT || '6379'),
+      host: process.env.REDIS_HOST || "localhost",
+      port: parseInt(process.env.REDIS_PORT || "6379"),
       ttl: 3600, // 1 hour default
     }),
   ],
@@ -379,7 +411,9 @@ export class CustomCacheModule {}
 ### 1. Exception Filter Fix
 
 #### Fix Critical Bug
+
 **File**: `src/common/filters/http-exception.filter.ts:18`
+
 ```typescript
 // ❌ Current bug
 catch(exception: unknown, host: ArgumentsHost) {
@@ -453,31 +487,35 @@ catch(exception: unknown, host: ArgumentsHost) {
 ### 2. Testing Infrastructure
 
 #### Jest Configuration
+
 **New File**: `test/jest.config.js`
+
 ```javascript
 module.exports = {
-  moduleFileExtensions: ['js', 'json', 'ts'],
-  rootDir: '.',
-  testEnvironment: 'node',
-  testRegex: '.e2e-spec.ts$',
+  moduleFileExtensions: ["js", "json", "ts"],
+  rootDir: ".",
+  testEnvironment: "node",
+  testRegex: ".e2e-spec.ts$",
   transform: {
-    '^.+\\.(t|j)s$': 'ts-jest',
+    "^.+\\.(t|j)s$": "ts-jest",
   },
   moduleNameMapping: {
-    '^src/(.*)$': '<rootDir>/../src/$1',
+    "^src/(.*)$": "<rootDir>/../src/$1",
   },
-  setupFilesAfterEnv: ['<rootDir>/setup.ts'],
+  setupFilesAfterEnv: ["<rootDir>/setup.ts"],
 };
 ```
 
 #### Service Test Example
-**New File**: `src/modules/users/user.service.spec.ts`
-```typescript
-import { Test, TestingModule } from '@nestjs/testing';
-import { UserService } from './user.service';
-import { UserRepository } from '../../database/repositories/user.repository';
 
-describe('UserService', () => {
+**New File**: `src/modules/users/user.service.spec.ts`
+
+```typescript
+import { Test, TestingModule } from "@nestjs/testing";
+import { UserService } from "./user.service";
+import { UserRepository } from "../../database/repositories/user.repository";
+
+describe("UserService", () => {
   let service: UserService;
   let userRepository: jest.Mocked<UserRepository>;
 
@@ -501,21 +539,27 @@ describe('UserService', () => {
     userRepository = module.get(UserRepository);
   });
 
-  describe('getUserInternalId', () => {
-    it('should return user ID when user exists', async () => {
-      const mockUser = { id: 1, clerkUserId: 'test123', email: 'test@test.com' };
+  describe("getUserInternalId", () => {
+    it("should return user ID when user exists", async () => {
+      const mockUser = {
+        id: 1,
+        clerkUserId: "test123",
+        email: "test@test.com",
+      };
       userRepository.findByClerkId.mockResolvedValue(mockUser);
 
-      const result = await service.getUserInternalId('test123');
+      const result = await service.getUserInternalId("test123");
 
       expect(result).toBe(1);
-      expect(userRepository.findByClerkId).toHaveBeenCalledWith('test123');
+      expect(userRepository.findByClerkId).toHaveBeenCalledWith("test123");
     });
 
-    it('should throw error when user not found', async () => {
+    it("should throw error when user not found", async () => {
       userRepository.findByClerkId.mockResolvedValue(null);
 
-      await expect(service.getUserInternalId('nonexistent')).rejects.toThrow('User not found');
+      await expect(service.getUserInternalId("nonexistent")).rejects.toThrow(
+        "User not found"
+      );
     });
   });
 });
@@ -528,61 +572,71 @@ describe('UserService', () => {
 ### 1. API Documentation
 
 #### Swagger/OpenAPI Setup
+
 **File**: `src/main.ts`
+
 ```typescript
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerModule } from "@nestjs/swagger";
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   // Swagger configuration
   const config = new DocumentBuilder()
-    .setTitle('Feedback API')
-    .setDescription('API documentation for Feedback service')
-    .setVersion('1.0')
-    .addTag('auth', 'Authentication endpoints')
-    .addTag('feedback', 'Feedback management')
-    .addTag('analytics', 'Analytics and reporting')
+    .setTitle("Feedback API")
+    .setDescription("API documentation for Feedback service")
+    .setVersion("1.0")
+    .addTag("auth", "Authentication endpoints")
+    .addTag("feedback", "Feedback management")
+    .addTag("analytics", "Analytics and reporting")
     .addBearerAuth()
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document);
+  SwaggerModule.setup("api/docs", app, document);
 
   await app.listen(process.env.PORT || 3001);
 }
 ```
 
 #### Controller Documentation Example
-**File**: `src/modules/feedback/feedback.controller.ts`
-```typescript
-import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth } from '@nestjs/swagger';
 
-@ApiTags('feedback')
+**File**: `src/modules/feedback/feedback.controller.ts`
+
+```typescript
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiBearerAuth,
+} from "@nestjs/swagger";
+
+@ApiTags("feedback")
 @ApiBearerAuth()
-@Controller('feedback')
+@Controller("feedback")
 export class FeedbackController {
   @Post()
   @ApiOperation({
-    summary: 'Create new feedback',
-    description: 'Submit feedback for a specific project with sentiment analysis'
+    summary: "Create new feedback",
+    description:
+      "Submit feedback for a specific project with sentiment analysis",
   })
   @ApiResponse({
     status: 201,
-    description: 'Feedback successfully created',
-    type: FeedbackResponse
+    description: "Feedback successfully created",
+    type: FeedbackResponse,
   })
   @ApiResponse({
     status: 400,
-    description: 'Invalid input data'
+    description: "Invalid input data",
   })
   @ApiResponse({
     status: 401,
-    description: 'Unauthorized'
+    description: "Unauthorized",
   })
   async createFeedback(
     @Body() createFeedbackDto: CreateFeedbackDto,
-    @Req() req: Request,
+    @Req() req: Request
   ) {
     // Implementation
   }
@@ -592,7 +646,8 @@ export class FeedbackController {
 ### 2. Code Documentation Standards
 
 #### TypeScript Documentation
-```typescript
+
+````typescript
 /**
  * Service for managing user operations and authentication
  *
@@ -623,18 +678,21 @@ export class UserService {
     // Implementation
   }
 }
-```
+````
 
 ### 3. README Templates
 
 #### Project README Structure
+
 ```markdown
 # Backend Service Name
 
 ## Overview
+
 Brief description of the service purpose and functionality.
 
 ## Technology Stack
+
 - **Framework**: NestJS
 - **Database**: PostgreSQL with Drizzle ORM
 - **Authentication**: Clerk JWT + API Keys
@@ -642,33 +700,43 @@ Brief description of the service purpose and functionality.
 - **Testing**: Jest
 
 ## Quick Start
+
 \`\`\`bash
+
 # Install dependencies
+
 npm install
 
 # Set up environment
+
 cp .env.example .env
 
 # Run migrations
+
 npm run migrate
 
 # Start development server
+
 npm run start:dev
 \`\`\`
 
 ## API Documentation
+
 Visit `/api/docs` for interactive Swagger documentation.
 
 ## Environment Variables
-| Variable | Description | Required |
-|----------|-------------|----------|
-| DATABASE_URL | PostgreSQL connection string | ✅ |
-| CLERK_PEM_PUBLIC_KEY | Clerk public key for JWT verification | ✅ |
+
+| Variable             | Description                           | Required |
+| -------------------- | ------------------------------------- | -------- |
+| DATABASE_URL         | PostgreSQL connection string          | ✅       |
+| CLERK_PEM_PUBLIC_KEY | Clerk public key for JWT verification | ✅       |
 
 ## Development Guide
+
 See [DEVELOPMENT.md](./DEVELOPMENT.md) for detailed development instructions.
 
 ## Deployment
+
 See [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment guidelines.
 ```
 
@@ -677,24 +745,28 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment guidelines.
 ## ⏱️ Implementation Timeline
 
 ### Week 1: Critical Security (4-6 hours)
+
 - [ ] Fix API key timing attack vulnerability
 - [ ] Implement API key hashing with migration
 - [ ] Secure CORS configuration
 - [ ] Add configuration validation
 
 ### Week 2: Architecture Foundation (8-10 hours)
+
 - [ ] Create repository pattern with base class
 - [ ] Implement centralized UserService
 - [ ] Fix exception filter bug
 - [ ] Add database indexes migration
 
 ### Week 3: Performance & Quality (6-8 hours)
+
 - [ ] Implement Redis caching layer
 - [ ] Optimize N+1 queries with JOINs
 - [ ] Set up Jest testing infrastructure
 - [ ] Add structured logging
 
 ### Week 4: Documentation & Polish (4-6 hours)
+
 - [ ] Implement Swagger/OpenAPI documentation
 - [ ] Create comprehensive test coverage
 - [ ] Update README and documentation
@@ -705,21 +777,25 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment guidelines.
 ## 🎯 Success Metrics
 
 ### Security
+
 - [ ] Zero high-severity security vulnerabilities
 - [ ] All API keys stored hashed
 - [ ] Proper CORS and authentication
 
 ### Performance
+
 - [ ] <100ms average response time
 - [ ] 90%+ cache hit rate for frequent queries
 - [ ] Zero N+1 query issues
 
 ### Code Quality
+
 - [ ] 80%+ test coverage
 - [ ] Zero TypeScript errors
 - [ ] Consistent code formatting and documentation
 
 ### Maintainability
+
 - [ ] Clear separation of concerns
 - [ ] Reusable components and patterns
 - [ ] Comprehensive documentation
@@ -729,6 +805,7 @@ See [DEPLOYMENT.md](./DEPLOYMENT.md) for deployment guidelines.
 ## 📞 Support & Questions
 
 For questions about this refactoring guide:
+
 1. Check the [NestJS Documentation](https://docs.nestjs.com/)
 2. Review existing code patterns in the codebase
 3. Consult with the development team

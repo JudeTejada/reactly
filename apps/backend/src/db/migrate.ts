@@ -11,24 +11,26 @@ const runMigrations = async () => {
   });
 
   const configService = app.get(ConfigService);
-  const connectionString = configService.get<string>('DATABASE_URL');
+  const connectionString = configService.get<string>("DATABASE_URL");
 
   if (!connectionString) {
-    throw new Error("DATABASE_URL is not defined. Please check your configuration.");
+    throw new Error(
+      "DATABASE_URL is not defined. Please check your configuration."
+    );
   }
 
   console.log("Connecting to database...");
 
   // Check if using Neon (contains .neon.tech) or local PostgreSQL
-  const isNeon = connectionString.includes('.neon.tech');
-  console.log(`Detected ${isNeon ? 'Neon' : 'local PostgreSQL'} database`);
+  const isNeon = connectionString.includes(".neon.tech");
+  console.log(`Detected ${isNeon ? "Neon" : "local PostgreSQL"} database`);
 
   // For both Neon and local PostgreSQL, use postgres-js driver
   // It works for both connection types
   const migrationClient = postgres(connectionString, {
     max: 1,
     // Add SSL for Neon connections
-    ssl: isNeon ? { rejectUnauthorized: false } : false
+    ssl: isNeon ? { rejectUnauthorized: false } : false,
   });
 
   const db = drizzle(migrationClient);

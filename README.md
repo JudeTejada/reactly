@@ -12,6 +12,7 @@ A complete, production-ready full-stack application for collecting, analyzing, a
 ## ✨ Features
 
 ### 🎯 Core Features
+
 - ✅ **AI Sentiment Analysis** - OpenAI-powered emotion detection
 - ✅ **Embeddable Widget** - Copy-paste feedback collection
 - ✅ **Beautiful Dashboard** - Modern UI with charts & analytics
@@ -22,6 +23,7 @@ A complete, production-ready full-stack application for collecting, analyzing, a
 - ✅ **Clerk Authentication** - Seamless user management
 
 ### 📊 Analytics
+
 - Sentiment distribution (positive/negative/neutral)
 - Category breakdown (bugs, features, improvements, etc.)
 - Trend analysis over time
@@ -31,6 +33,7 @@ A complete, production-ready full-stack application for collecting, analyzing, a
 ## 🏗️ Architecture
 
 ### Monorepo Structure
+
 ```
 reactly/
 ├── apps/
@@ -44,6 +47,7 @@ reactly/
 ## 🛠️ Tech Stack
 
 ### Frontend (apps/web)
+
 - **Framework:** Next.js 15 (App Router, React 19)
 - **Styling:** TailwindCSS + shadcn/ui
 - **Auth:** Clerk
@@ -52,6 +56,7 @@ reactly/
 - **Animations:** Framer Motion
 
 ### Backend (apps/backend)
+
 - **Framework:** NestJS
 - **Database:** PostgreSQL (NeonDB)
 - **ORM:** Drizzle
@@ -60,11 +65,13 @@ reactly/
 - **Webhooks:** Discord
 
 ### Widget (apps/widget)
+
 - **Build Tool:** Vite
 - **Framework:** React 18
 - **Validation:** Zod
 
 ### Shared
+
 - **TypeScript** - 100% type-safe
 - **pnpm Workspaces** - Dependency management
 - **Turborepo** - Build system
@@ -72,6 +79,7 @@ reactly/
 ## 🚀 Quick Start
 
 ### Prerequisites
+
 ```bash
 node >= 22.0.0
 pnpm >= 9.0.0
@@ -80,6 +88,7 @@ pnpm >= 9.0.0
 ### Installation
 
 1. **Clone & Install**
+
 ```bash
 git clone <your-repo-url>
 cd reactly
@@ -87,6 +96,7 @@ pnpm install
 ```
 
 2. **Configure Backend** (`apps/backend/.env`)
+
 ```env
 DATABASE_URL=postgresql://user:pass@host/db
 CLERK_SECRET_KEY=sk_test_xxxxx
@@ -95,6 +105,7 @@ DISCORD_WEBHOOK_URL=https://discord.com/api/webhooks/xxxxx (optional)
 ```
 
 3. **Configure Frontend** (`apps/web/.env.local`)
+
 ```env
 NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxxx
 CLERK_SECRET_KEY=sk_test_xxxxx
@@ -102,18 +113,21 @@ NEXT_PUBLIC_API_URL=http://localhost:3001/api
 ```
 
 4. **Run Database Migrations**
+
 ```bash
 cd apps/backend
 pnpm db:migrate
 ```
 
 5. **Start All Services**
+
 ```bash
 cd ../..
 pnpm dev
 ```
 
 Access:
+
 - **Web:** http://localhost:3000
 - **API:** http://localhost:3001
 - **API Docs:** http://localhost:3001/api/docs
@@ -122,6 +136,7 @@ Access:
 ## 📁 Project Structure
 
 ### Web App (apps/web)
+
 ```
 app/
 ├── (marketing)/       # Public pages
@@ -149,6 +164,7 @@ hooks/
 ```
 
 ### Backend (apps/backend)
+
 ```
 src/
 ├── ai/              # OpenAI sentiment service
@@ -163,18 +179,19 @@ src/
 
 ## 📚 Documentation
 
-| Document | Description |
-|----------|-------------|
-| [SETUP.md](./SETUP.md) | Detailed setup instructions |
-| [PROJECT_STATUS.md](./PROJECT_STATUS.md) | Implementation progress |
-| [QUICK_REFERENCE.md](./QUICK_REFERENCE.md) | Command cheat sheet |
-| [BACKEND_COMPLETE.md](./BACKEND_COMPLETE.md) | Backend implementation details |
+| Document                                     | Description                     |
+| -------------------------------------------- | ------------------------------- |
+| [SETUP.md](./SETUP.md)                       | Detailed setup instructions     |
+| [PROJECT_STATUS.md](./PROJECT_STATUS.md)     | Implementation progress         |
+| [QUICK_REFERENCE.md](./QUICK_REFERENCE.md)   | Command cheat sheet             |
+| [BACKEND_COMPLETE.md](./BACKEND_COMPLETE.md) | Backend implementation details  |
 | [WEB_APP_COMPLETE.md](./WEB_APP_COMPLETE.md) | Frontend implementation details |
-| [Backend README](./apps/backend/README.md) | API documentation |
+| [Backend README](./apps/backend/README.md)   | API documentation               |
 
 ## 🎯 Key Features Breakdown
 
 ### Dashboard
+
 - **Overview:** Stats, recent feedback, sentiment distribution
 - **Feedback List:** Advanced filtering, search, pagination, CSV export
 - **Analytics:** Pie charts, bar charts, line graphs with Recharts
@@ -182,11 +199,13 @@ src/
 - **Settings:** Account info, plan details, danger zone
 
 ### Marketing
+
 - **Landing Page:** Hero, features grid, testimonials, CTA
 - **Features Page:** 12 detailed features
 - **Pricing Page:** 3 tiers (Free, Pro, Enterprise) with FAQ
 
 ### Widget
+
 - Star rating (1-5)
 - Category selection
 - Text feedback
@@ -197,9 +216,11 @@ src/
 ## 🔌 API Endpoints
 
 ### Public (API Key)
+
 - `POST /api/feedback` - Submit feedback
 
 ### Protected (Clerk JWT)
+
 - `GET /api/projects` - List projects
 - `POST /api/projects` - Create project
 - `POST /api/projects/:id/regenerate-key` - Regenerate API key
@@ -226,6 +247,7 @@ pnpm test
 ## 🚢 Deployment
 
 ### Frontend (Vercel)
+
 ```bash
 # Connect GitHub repo to Vercel
 # Set environment variables
@@ -233,6 +255,7 @@ pnpm test
 ```
 
 ### Backend (Railway/Fly.io)
+
 ```bash
 # Railway
 railway up
@@ -242,6 +265,7 @@ fly deploy
 ```
 
 ### Database (NeonDB)
+
 - Create project at https://neon.tech
 - Copy connection string to `DATABASE_URL`
 
@@ -255,12 +279,14 @@ fly deploy
 ## 🎨 Design System
 
 ### Colors
+
 - Primary: Purple gradient (#8b5cf6 → #ec4899)
 - Positive: Green (#22c55e)
 - Negative: Red (#ef4444)
 - Neutral: Gray (#6b7280)
 
 ### Components
+
 - 18 shadcn/ui components
 - Custom dashboard components
 - Recharts visualizations

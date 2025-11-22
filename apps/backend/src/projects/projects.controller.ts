@@ -24,10 +24,7 @@ export class ProjectsController {
 
   @Post()
   @ApiOperation({ summary: "Create a new project" })
-  async createProject(
-    @Body() dto: CreateProjectDto,
-    @CurrentUser() user: any
-  ) {
+  async createProject(@Body() dto: CreateProjectDto, @CurrentUser() user: any) {
     const validated = createProjectSchema.parse(dto);
 
     const project = await this.projectsService.createProject(

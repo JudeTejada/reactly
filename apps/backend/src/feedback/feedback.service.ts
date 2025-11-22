@@ -5,7 +5,7 @@ import { WebhookService } from "../webhook/webhook.service";
 import {
   GET_USER_INTERNAL_ID,
   GET_USER_PROJECTS,
-  CHECK_PROJECT_OWNERSHIP
+  CHECK_PROJECT_OWNERSHIP,
 } from "../user/providers";
 import type { SubmitFeedbackDto, PaginatedResponse } from "@reactly/shared";
 import type { Feedback } from "../db/schema";
@@ -170,7 +170,10 @@ export class FeedbackService {
 
     // Verify user owns the project this feedback belongs to
     const internalUserId = await this.getUserInternalId.execute(clerkUserId);
-    const ownsProject = await this.checkProjectOwnership.execute(internalUserId, item.feedback.projectId);
+    const ownsProject = await this.checkProjectOwnership.execute(
+      internalUserId,
+      item.feedback.projectId
+    );
     if (!ownsProject) {
       throw new NotFoundException("Feedback not found");
     }

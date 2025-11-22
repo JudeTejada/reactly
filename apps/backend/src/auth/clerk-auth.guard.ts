@@ -14,10 +14,12 @@ export class ClerkAuthGuard implements CanActivate {
   private readonly logger = new Logger(ClerkAuthGuard.name);
   private clerkClient: ReturnType<typeof createClerkClient>;
 
-  constructor(@Inject(ConfigService) private readonly configService: ConfigService) {
-    const secretKey = this.configService.get<string>('CLERK_SECRET_KEY');
+  constructor(
+    @Inject(ConfigService) private readonly configService: ConfigService
+  ) {
+    const secretKey = this.configService.get<string>("CLERK_SECRET_KEY");
     if (!secretKey) {
-      throw new Error('CLERK_SECRET_KEY not configured');
+      throw new Error("CLERK_SECRET_KEY not configured");
     }
     this.clerkClient = createClerkClient({ secretKey });
   }
@@ -28,23 +30,27 @@ export class ClerkAuthGuard implements CanActivate {
 
     // Debug logging
     this.logger.debug(`Request path: ${request.path}`);
-    this.logger.debug(`Auth header present: ${!!request.headers.authorization}`);
+    this.logger.debug(
+      `Auth header present: ${!!request.headers.authorization}`
+    );
     this.logger.debug(`Cookie header present: ${!!request.headers.cookie}`);
-    this.logger.debug(`Token extracted: ${token ? 'Yes (length: ' + token.length + ')' : 'No'}`);
+    this.logger.debug(
+      `Token extracted: ${token ? "Yes (length: " + token.length + ")" : "No"}`
+    );
 
     if (!token) {
       this.logger.warn(`No token found for ${request.path}`);
       throw new UnauthorizedException("No authentication token provided");
     }
 
-    const clerkSecretKey = this.configService.get<string>('CLERK_SECRET_KEY');
+    const clerkSecretKey = this.configService.get<string>("CLERK_SECRET_KEY");
     if (!clerkSecretKey) {
-      this.logger.error('CLERK_SECRET_KEY not configured!');
+      this.logger.error("CLERK_SECRET_KEY not configured!");
       throw new UnauthorizedException("Server configuration error");
     }
 
     try {
-      this.logger.debug('Verifying token with Clerk...');
+      this.logger.debug("Verifying token with Clerk...");
       const verified = await verifyToken(token, {
         secretKey: clerkSecretKey,
       });
@@ -59,7 +65,9 @@ export class ClerkAuthGuard implements CanActivate {
           clerkUserId: verified.sub,
           sessionId: verified.sid,
           email: clerkUser.emailAddresses[0]?.emailAddress || null,
-          name: `${clerkUser.firstName || ''} ${clerkUser.lastName || ''}`.trim() || null,
+          name:
+            `${clerkUser.firstName || ""} ${clerkUser.lastName || ""}`.trim() ||
+            null,
         };
       } catch (userError) {
         this.logger.warn(`Could not fetch user details: ${userError.message}`);

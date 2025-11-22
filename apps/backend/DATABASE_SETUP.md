@@ -5,8 +5,9 @@
 Your database migration has been created: `drizzle/0000_melted_callisto.sql`
 
 This migration will create:
+
 - ✅ **users** table (7 columns)
-- ✅ **projects** table (9 columns)  
+- ✅ **projects** table (9 columns)
 - ✅ **feedback** table (10 columns)
 - ✅ Foreign key relationships with cascade delete
 - ✅ Unique constraints on `api_key` and `clerk_user_id`
@@ -23,6 +24,7 @@ pnpm db:migrate
 ```
 
 This will:
+
 1. Read the migration SQL file
 2. Execute it against your NeonDB database
 3. Create all tables and relationships
@@ -40,6 +42,7 @@ pnpm db:push
 ## 📊 Database Schema Overview
 
 ### Users Table
+
 ```sql
 - id (UUID, primary key)
 - clerk_user_id (unique, from Clerk)
@@ -50,6 +53,7 @@ pnpm db:push
 ```
 
 ### Projects Table
+
 ```sql
 - id (UUID, primary key)
 - name
@@ -62,6 +66,7 @@ pnpm db:push
 ```
 
 ### Feedback Table
+
 ```sql
 - id (UUID, primary key)
 - project_id (FK to projects)
@@ -109,6 +114,7 @@ pnpm db:migrate
 ```
 
 You should see:
+
 ```
 Running migrations...
 Migrations completed!
@@ -123,6 +129,7 @@ pnpm db:studio
 ```
 
 Opens a GUI at http://localhost:4983 where you can:
+
 - Browse tables
 - View schema
 - Run queries
@@ -172,6 +179,7 @@ pnpm db:studio     # Open Drizzle Studio GUI
 ### "relation already exists"
 
 Tables already exist. Either:
+
 1. Drop tables and re-run migration
 2. Or skip to next step if tables are correct
 
@@ -202,6 +210,7 @@ pnpm dev
 ```
 
 The backend will:
+
 - ✅ Connect to your database
 - ✅ Accept API requests
 - ✅ Store feedback with AI sentiment analysis

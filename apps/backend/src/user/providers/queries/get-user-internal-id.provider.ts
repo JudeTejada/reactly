@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException, Inject } from '@nestjs/common';
-import { users } from '../../../db/schema';
-import { eq } from 'drizzle-orm';
-import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import * as sc from '../../../db/schema';
-import { DRIZZLE_ASYNC_PROVIDER } from '../../../db/providers/drizzle.provider';
+import { Injectable, NotFoundException, Inject } from "@nestjs/common";
+import { users } from "../../../db/schema";
+import { eq } from "drizzle-orm";
+import { NodePgDatabase } from "drizzle-orm/node-postgres";
+import * as sc from "../../../db/schema";
+import { DRIZZLE_ASYNC_PROVIDER } from "../../../db/providers/drizzle.provider";
 
 @Injectable()
 export class GetUserInternalIdProvider {
@@ -23,7 +23,7 @@ export class GetUserInternalIdProvider {
       .limit(1);
 
     if (user.length === 0) {
-      throw new NotFoundException('User not found');
+      throw new NotFoundException("User not found");
     }
 
     return user[0].id;

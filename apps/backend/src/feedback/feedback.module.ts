@@ -11,7 +11,8 @@ import { queryProviders, authorizationProviders } from "../user/providers";
   controllers: [FeedbackController],
   providers: [
     FeedbackService,
-    ...queryProviders, ...authorizationProviders, // Include user query and authorization providers
+    ...queryProviders,
+    ...authorizationProviders, // Include user query and authorization providers
   ],
   exports: [FeedbackService],
 })

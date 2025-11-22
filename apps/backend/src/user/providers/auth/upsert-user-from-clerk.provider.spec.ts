@@ -1,20 +1,20 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { UpsertUserFromClerkProvider } from './upsert-user-from-clerk.provider';
-import { DRIZZLE_ASYNC_PROVIDER } from '../../../db/providers/drizzle.provider';
+import { Test, TestingModule } from "@nestjs/testing";
+import { UpsertUserFromClerkProvider } from "./upsert-user-from-clerk.provider";
+import { DRIZZLE_ASYNC_PROVIDER } from "../../../db/providers/drizzle.provider";
 
 // Mock the schema to avoid ES module issues
-jest.mock('../../../db/schema', () => ({
+jest.mock("../../../db/schema", () => ({
   users: {
-    id: 'id',
-    clerkUserId: 'clerk_user_id',
-    email: 'email',
-    name: 'name',
-    createdAt: 'created_at',
-    updatedAt: 'updated_at'
+    id: "id",
+    clerkUserId: "clerk_user_id",
+    email: "email",
+    name: "name",
+    createdAt: "created_at",
+    updatedAt: "updated_at",
   },
 }));
 
-describe('UpsertUserFromClerkProvider', () => {
+describe("UpsertUserFromClerkProvider", () => {
   let provider: UpsertUserFromClerkProvider;
   let mockDb: any;
   let mockQueryBuilder: any;
@@ -63,27 +63,29 @@ describe('UpsertUserFromClerkProvider', () => {
       ],
     }).compile();
 
-    provider = module.get<UpsertUserFromClerkProvider>(UpsertUserFromClerkProvider);
+    provider = module.get<UpsertUserFromClerkProvider>(
+      UpsertUserFromClerkProvider
+    );
   });
 
   afterEach(() => {
     jest.clearAllMocks();
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(provider).toBeDefined();
   });
 
-  describe('execute', () => {
+  describe("execute", () => {
     const mockClerkUser = {
-      id: 'clerk-user-123',
-      email_addresses: [{ email_address: 'test@example.com' }],
-      first_name: 'John',
-      last_name: 'Doe',
+      id: "clerk-user-123",
+      email_addresses: [{ email_address: "test@example.com" }],
+      first_name: "John",
+      last_name: "Doe",
     };
 
-    it('should create new user when user does not exist', async () => {
-      const mockNewUser = { id: 'user-uuid', clerkUserId: mockClerkUser.id };
+    it("should create new user when user does not exist", async () => {
+      const mockNewUser = { id: "user-uuid", clerkUserId: mockClerkUser.id };
       mockQueryBuilder.select.limit.mockResolvedValueOnce([]); // User doesn't exist
       mockQueryBuilder.insert.returning.mockResolvedValueOnce([mockNewUser]); // Insert result
 
@@ -94,35 +96,43 @@ describe('UpsertUserFromClerkProvider', () => {
       expect(mockDb.insert).toHaveBeenCalled();
       expect(mockQueryBuilder.insert.values).toHaveBeenCalledWith({
         clerkUserId: mockClerkUser.id,
-        email: 'test@example.com',
-        name: 'John Doe',
+        email: "test@example.com",
+        name: "John Doe",
       });
     });
 
-    it('should update existing user when user exists', async () => {
-      const mockExistingUser = { id: 'user-uuid', clerkUserId: mockClerkUser.id };
+    it("should update existing user when user exists", async () => {
+      const mockExistingUser = {
+        id: "user-uuid",
+        clerkUserId: mockClerkUser.id,
+      };
       mockQueryBuilder.select.limit.mockResolvedValueOnce([mockExistingUser]); // User exists
-      mockQueryBuilder.update.returning.mockResolvedValueOnce([{ ...mockExistingUser, name: 'John Smith' }]); // Update result
+      mockQueryBuilder.update.returning.mockResolvedValueOnce([
+        { ...mockExistingUser, name: "John Smith" },
+      ]); // Update result
 
-      const updatedClerkUser = { ...mockClerkUser, last_name: 'Smith' };
+      const updatedClerkUser = { ...mockClerkUser, last_name: "Smith" };
       const result = await provider.execute(updatedClerkUser);
 
-      expect(result.name).toBe('John Smith');
+      expect(result.name).toBe("John Smith");
       expect(mockDb.select).toHaveBeenCalled();
       expect(mockDb.update).toHaveBeenCalled();
       expect(mockQueryBuilder.update.set).toHaveBeenCalledWith({
-        email: 'test@example.com',
-        name: 'John Smith',
+        email: "test@example.com",
+        name: "John Smith",
         updatedAt: expect.any(Date),
       });
     });
 
-    it('should handle user with no name', async () => {
+    it("should handle user with no name", async () => {
       const clerkUserNoName = {
-        id: 'clerk-user-456',
-        email_addresses: [{ email_address: 'noname@example.com' }],
+        id: "clerk-user-456",
+        email_addresses: [{ email_address: "noname@example.com" }],
       };
-      const mockNewUser = { id: 'user-uuid-2', clerkUserId: clerkUserNoName.id };
+      const mockNewUser = {
+        id: "user-uuid-2",
+        clerkUserId: clerkUserNoName.id,
+      };
 
       mockQueryBuilder.select.limit.mockResolvedValueOnce([]);
       mockQueryBuilder.insert.returning.mockResolvedValueOnce([mockNewUser]);
@@ -133,18 +143,21 @@ describe('UpsertUserFromClerkProvider', () => {
       expect(mockDb.insert).toHaveBeenCalled();
       expect(mockQueryBuilder.insert.values).toHaveBeenCalledWith({
         clerkUserId: clerkUserNoName.id,
-        email: 'noname@example.com',
+        email: "noname@example.com",
         name: null,
       });
     });
 
-    it('should handle user with only first name', async () => {
+    it("should handle user with only first name", async () => {
       const clerkUserFirstName = {
-        id: 'clerk-user-789',
-        email_addresses: [{ email_address: 'firstname@example.com' }],
-        first_name: 'Jane',
+        id: "clerk-user-789",
+        email_addresses: [{ email_address: "firstname@example.com" }],
+        first_name: "Jane",
       };
-      const mockNewUser = { id: 'user-uuid-3', clerkUserId: clerkUserFirstName.id };
+      const mockNewUser = {
+        id: "user-uuid-3",
+        clerkUserId: clerkUserFirstName.id,
+      };
 
       mockQueryBuilder.select.limit.mockResolvedValueOnce([]);
       mockQueryBuilder.insert.returning.mockResolvedValueOnce([mockNewUser]);
@@ -155,8 +168,8 @@ describe('UpsertUserFromClerkProvider', () => {
       expect(mockDb.insert).toHaveBeenCalled();
       expect(mockQueryBuilder.insert.values).toHaveBeenCalledWith({
         clerkUserId: clerkUserFirstName.id,
-        email: 'firstname@example.com',
-        name: 'Jane',
+        email: "firstname@example.com",
+        name: "Jane",
       });
     });
   });

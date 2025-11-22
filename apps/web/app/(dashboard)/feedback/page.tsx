@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -53,7 +59,7 @@ export default function FeedbackPage() {
 
   const handleExport = () => {
     if (!data?.items) return;
-    
+
     const csv = [
       ["Date", "Rating", "Sentiment", "Category", "Text"].join(","),
       ...data.items.map((item) =>
@@ -80,7 +86,9 @@ export default function FeedbackPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Feedback</h1>
-          <p className="text-muted-foreground">Manage and analyze user feedback</p>
+          <p className="text-muted-foreground">
+            Manage and analyze user feedback
+          </p>
         </div>
         <Button onClick={handleExport} disabled={!data?.items?.length}>
           <Download className="mr-2 h-4 w-4" />
@@ -91,7 +99,9 @@ export default function FeedbackPage() {
       <Card>
         <CardHeader>
           <CardTitle>Filter Feedback</CardTitle>
-          <CardDescription>Search and filter to find specific feedback</CardDescription>
+          <CardDescription>
+            Search and filter to find specific feedback
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-3">
@@ -104,7 +114,10 @@ export default function FeedbackPage() {
                 className="pl-9"
               />
             </div>
-            <Select value={sentiment} onValueChange={(v) => setSentiment(v as any)}>
+            <Select
+              value={sentiment}
+              onValueChange={(v) => setSentiment(v as any)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="All Sentiments" />
               </SelectTrigger>
@@ -115,7 +128,10 @@ export default function FeedbackPage() {
                 <SelectItem value="negative">Negative</SelectItem>
               </SelectContent>
             </Select>
-            <Select value={category} onValueChange={(v) => setCategory(v as any)}>
+            <Select
+              value={category}
+              onValueChange={(v) => setCategory(v as any)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
@@ -136,7 +152,9 @@ export default function FeedbackPage() {
       <Card>
         <CardContent className="p-0">
           {isLoading ? (
-            <div className="p-8 text-center text-muted-foreground">Loading...</div>
+            <div className="p-8 text-center text-muted-foreground">
+              Loading...
+            </div>
           ) : !data?.items?.length ? (
             <EmptyState
               icon={Inbox}
@@ -160,7 +178,9 @@ export default function FeedbackPage() {
                   {data.items.map((feedback) => (
                     <TableRow key={feedback.id}>
                       <TableCell className="whitespace-nowrap">
-                        {formatDistanceToNow(new Date(feedback.createdAt), { addSuffix: true })}
+                        {formatDistanceToNow(new Date(feedback.createdAt), {
+                          addSuffix: true,
+                        })}
                       </TableCell>
                       <TableCell>
                         <RatingStars rating={feedback.rating} size="sm" />
@@ -187,7 +207,7 @@ export default function FeedbackPage() {
                   ))}
                 </TableBody>
               </Table>
-              
+
               {data.hasMore && (
                 <div className="p-4 flex items-center justify-between border-t">
                   <p className="text-sm text-muted-foreground">
@@ -197,7 +217,7 @@ export default function FeedbackPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setPage(p => Math.max(1, p - 1))}
+                      onClick={() => setPage((p) => Math.max(1, p - 1))}
                       disabled={page === 1}
                     >
                       Previous
@@ -205,7 +225,7 @@ export default function FeedbackPage() {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => setPage(p => p + 1)}
+                      onClick={() => setPage((p) => p + 1)}
                       disabled={!data.hasMore}
                     >
                       Next

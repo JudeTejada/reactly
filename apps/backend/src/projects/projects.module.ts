@@ -7,11 +7,7 @@ import { queryProviders, authorizationProviders } from "../user/providers";
 @Module({
   imports: [AuthModule],
   controllers: [ProjectsController],
-  providers: [
-    ProjectsService,
-    ...queryProviders,
-    ...authorizationProviders,
-  ],
+  providers: [ProjectsService, ...queryProviders, ...authorizationProviders],
   exports: [ProjectsService],
 })
 export class ProjectsModule {}

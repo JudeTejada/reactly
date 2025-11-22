@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -45,12 +51,17 @@ export default function ProjectDetailPage() {
     await updateMutation.mutateAsync({
       name,
       webhookUrl: webhookUrl || undefined,
-      allowedDomains: domains.split(",").map((d) => d.trim()).filter(Boolean),
+      allowedDomains: domains
+        .split(",")
+        .map((d) => d.trim())
+        .filter(Boolean),
     });
   };
 
   const handleRegenerateKey = async () => {
-    if (confirm("Are you sure? The old API key will stop working immediately.")) {
+    if (
+      confirm("Are you sure? The old API key will stop working immediately.")
+    ) {
       await regenerateMutation.mutateAsync(projectId);
     }
   };
@@ -128,7 +139,9 @@ initFeedbackWidget({
               {project.isActive ? "Active" : "Inactive"}
             </Badge>
           </h1>
-          <p className="text-muted-foreground">Configure your project settings</p>
+          <p className="text-muted-foreground">
+            Configure your project settings
+          </p>
         </div>
       </div>
 
@@ -143,7 +156,9 @@ initFeedbackWidget({
           <Card>
             <CardHeader>
               <CardTitle>Project Settings</CardTitle>
-              <CardDescription>Update your project configuration</CardDescription>
+              <CardDescription>
+                Update your project configuration
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleUpdate} className="space-y-4">
@@ -157,7 +172,9 @@ initFeedbackWidget({
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="webhook">Discord Webhook URL (Optional)</Label>
+                  <Label htmlFor="webhook">
+                    Discord Webhook URL (Optional)
+                  </Label>
                   <Input
                     id="webhook"
                     type="url"
@@ -178,7 +195,8 @@ initFeedbackWidget({
                     onChange={(e) => setDomains(e.target.value)}
                   />
                   <p className="text-xs text-muted-foreground">
-                    Comma-separated list of domains where the widget can be embedded. Leave empty to allow all domains.
+                    Comma-separated list of domains where the widget can be
+                    embedded. Leave empty to allow all domains.
                   </p>
                 </div>
                 <Button type="submit" disabled={updateMutation.isPending}>
@@ -193,7 +211,9 @@ initFeedbackWidget({
           <Card>
             <CardHeader>
               <CardTitle>Script Tag (Quick Start)</CardTitle>
-              <CardDescription>Copy and paste this code before the closing &lt;/body&gt; tag</CardDescription>
+              <CardDescription>
+                Copy and paste this code before the closing &lt;/body&gt; tag
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="relative">
@@ -214,7 +234,8 @@ initFeedbackWidget({
                 <div className="text-sm">
                   <p className="font-medium text-green-900">Ready to use!</p>
                   <p className="text-green-700 mt-1">
-                    Paste this code into your HTML and the widget will automatically appear.
+                    Paste this code into your HTML and the widget will
+                    automatically appear.
                   </p>
                 </div>
               </div>
@@ -224,11 +245,15 @@ initFeedbackWidget({
           <Card>
             <CardHeader>
               <CardTitle>NPM Package (Advanced)</CardTitle>
-              <CardDescription>Install the widget as an NPM package for React/Next.js apps</CardDescription>
+              <CardDescription>
+                Install the widget as an NPM package for React/Next.js apps
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label className="text-sm font-medium mb-2 block">Install</Label>
+                <Label className="text-sm font-medium mb-2 block">
+                  Install
+                </Label>
                 <div className="relative">
                   <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-xs">
                     <code>{npmInstall}</code>
@@ -237,7 +262,9 @@ initFeedbackWidget({
                     size="sm"
                     variant="outline"
                     className="absolute top-2 right-2"
-                    onClick={() => copyToClipboard(npmInstall, "Install command")}
+                    onClick={() =>
+                      copyToClipboard(npmInstall, "Install command")
+                    }
                   >
                     <Copy className="h-4 w-4" />
                   </Button>
@@ -267,13 +294,19 @@ initFeedbackWidget({
           <Card>
             <CardHeader>
               <CardTitle>API Key</CardTitle>
-              <CardDescription>Use this key to authenticate API requests</CardDescription>
+              <CardDescription>
+                Use this key to authenticate API requests
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label>Current API Key</Label>
                 <div className="flex gap-2">
-                  <Input value={project.apiKey} readOnly className="font-mono text-sm" />
+                  <Input
+                    value={project.apiKey}
+                    readOnly
+                    className="font-mono text-sm"
+                  />
                   <Button
                     variant="outline"
                     size="icon"
@@ -285,7 +318,8 @@ initFeedbackWidget({
               </div>
               <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <p className="text-sm text-yellow-900">
-                  <strong>Keep your API key secure!</strong> Don't commit it to version control or expose it in client-side code.
+                  <strong>Keep your API key secure!</strong> Don't commit it to
+                  version control or expose it in client-side code.
                 </p>
               </div>
               <Button
@@ -297,7 +331,8 @@ initFeedbackWidget({
                 Regenerate API Key
               </Button>
               <p className="text-xs text-muted-foreground">
-                Regenerating will invalidate the old key immediately. Update your widget configuration after regenerating.
+                Regenerating will invalidate the old key immediately. Update
+                your widget configuration after regenerating.
               </p>
             </CardContent>
           </Card>

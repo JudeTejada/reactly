@@ -17,6 +17,7 @@ Reactly is a well-architected TypeScript monorepo for an AI-powered SaaS platfor
 ## 1. Architecture & Structure
 
 ### Strengths ✅
+
 - **Well-organized monorepo** using pnpm workspaces with clear separation: `apps/` (backend, web, widget) and `packages/` (shared types)
 - **Shared type system** in `@reactly/shared` eliminates duplication and ensures consistency across applications
 - **Modular NestJS backend** with feature-based modules (auth, feedback, projects, analytics, AI, webhook)
@@ -26,9 +27,11 @@ Reactly is a well-architected TypeScript monorepo for an AI-powered SaaS platfor
 ### Observations & Recommendations
 
 #### 1.1 Monorepo Organization
+
 **Status:** ✅ Excellent
 
 The monorepo structure is clean and follows industry best practices. Each app has clear responsibilities:
+
 ```
 apps/backend/   → API & business logic
 apps/web/       → Admin dashboard & marketing
@@ -43,21 +46,27 @@ packages/shared → TypeScript types & utilities
 ## 2. Backend Analysis (NestJS)
 
 ### 2.1 Application Bootstrap (`main.ts`)
+
 **Status:** ✅ Well-configured
 
 **Strengths:**
+
 - Proper CORS configuration with environment-based origins
 - Global validation pipe with whitelist and automatic transformation
 - Swagger/OpenAPI documentation with dual authentication schemes
 - Clear console output for debugging
 
 **Minor Issue:**
+
 ```typescript
 // Line 16: CORS origin handling
 origin: configService.get<string>('ALLOWED_ORIGINS')?.split(",") || "*",
 ```
+
 ⚠️ **Concern:** Fallback to `"*"` is risky in production
+
 - **Recommendation:** Default to empty array or throw error if not configured
+
 ```typescript
 const origins = configService.get<string>('ALLOWED_ORIGINS');
 if (!origins) {
@@ -67,19 +76,23 @@ origin: origins.split(",").map(o => o.trim()),
 ```
 
 **Logger Configuration:** ✅ Good
+
 - Debug logging enabled for development, can be environment-based
 
 ---
 
 ### 2.2 Module Organization (`app.module.ts`)
+
 **Status:** ✅ Clean and modular
 
 **Strengths:**
+
 - Clear import order and dependencies
 - Async throttler configuration with config injection
 - All modules properly exported
 
 **Observations:**
+
 - 7 feature modules + DatabaseModule - good separation
 - Throttler configuration is environment-driven ✅
 - Consider adding module documentation/comments for complex patterns
@@ -89,23 +102,30 @@ origin: origins.split(",").map(o => o.trim()),
 ### 2.3 Authentication System
 
 #### 2.3.1 Clerk Auth Guard (`clerk-auth.guard.ts`)
+
 **Status:** ✅ Robust implementation
 
 **Strengths:**
+
 - Comprehensive error handling with proper logging
 - Fallback user data population when Clerk API unavailable
 - Token extraction from both Bearer header and cookies
 - Type-safe user context attachment to request
 
 **Observations:**
+
 ```typescript
 // Lines 29-33: Extensive debug logging
 this.logger.debug(`Request path: ${request.path}`);
 this.logger.debug(`Auth header present: ${!!request.headers.authorization}`);
 this.logger.debug(`Cookie header present: ${!!request.headers.cookie}`);
-this.logger.debug(`Token extracted: ${token ? 'Yes (length: ' + token.length + ')' : 'No'}`);
+this.logger.debug(
+  `Token extracted: ${token ? "Yes (length: " + token.length + ")" : "No"}`
+);
 ```
+
 ✅ Good for debugging, but consider making this debug-level only:
+
 ```typescript
 if (this.logger.isDebugEnabled?.()) {
   // Log debug info
@@ -113,19 +133,23 @@ if (this.logger.isDebugEnabled?.()) {
 ```
 
 **Token Extraction:** ✅ Good
+
 - Supports both Bearer scheme and session cookies
 - Proper substring extraction to avoid leaking tokens in logs
 
 #### 2.3.2 API Key Guard (`api-key.guard.ts`)
+
 **Status:** ✅ Secure implementation
 
 **Strengths:**
+
 - Proper project validation
 - Active status check before authentication
 - Deterministic hashing for security
 - Error handling with appropriate HTTP status
 
 **Observation:**
+
 ```typescript
 // Line 44: Uses hashed API key for verification
 const isValid = await this.apiKeyService.verifyApiKey(
@@ -133,6 +157,7 @@ const isValid = await this.apiKeyService.verifyApiKey(
   project.hashedApiKey
 );
 ```
+
 ✅ Good practice - only hashed keys stored in DB
 
 ---
@@ -142,6 +167,7 @@ const isValid = await this.apiKeyService.verifyApiKey(
 **Status:** ✅ Well-designed
 
 **Strengths:**
+
 - Proper use of Drizzle ORM with type safety
 - Cascade delete configured for referential integrity
 - Appropriate indexing on frequently queried fields
@@ -149,12 +175,13 @@ const isValid = await this.apiKeyService.verifyApiKey(
 - JSON/JSONB for flexible metadata storage
 
 **Schema Quality:**
+
 ```typescript
 // Users table
 clerkUserId: text("clerk_user_id").notNull().unique() ✅
 emailIdx & clerkUserIdIdx ✅
 
-// Projects table  
+// Projects table
 hashedApiKey + encryptedApiKey ✅ (dual storage for security)
 allowedDomains: jsonb ✅ (flexible domain management)
 isActive flag ✅ (soft control without deletion)
@@ -165,6 +192,7 @@ category enum support ✅
 ```
 
 **Minor Recommendations:**
+
 1. Consider adding soft-delete columns (`deletedAt`) if audit trails are needed
 2. Add comments to schema fields for documentation generation
 3. Consider partitioning `feedback` table by date for large-scale deployments
@@ -176,11 +204,13 @@ category enum support ✅
 **Status:** ✅ Comprehensive
 
 **Strengths:**
+
 - Joi schema validation for all environment variables
 - Required vs optional field distinction
 - Type coercion setup
 
 **Observations:**
+
 ```typescript
 // Security-related variables properly validated
 API_KEY_DETERMINISTIC_SECRET: Joi.string().required(),
@@ -188,18 +218,21 @@ API_KEY_ENCRYPTION_SECRET: Joi.string().required(),
 API_KEY_ENCRYPTION_SALT_ROUNDS: Joi.string().required(),
 API_KEY_ENCRYPTION_ALGORITHM: Joi.string().required(),
 ```
+
 ✅ Good - cryptographic settings are validated
 
 **Recommendations:**
+
 1. Add `min()` / `max()` validators for strings (especially secrets)
 2. Add custom validation for `ALLOWED_ORIGINS` format
 3. Consider environment-specific defaults:
+
 ```typescript
-OPENAI_API_KEY: Joi.string().when('NODE_ENV', {
-  is: 'production',
+OPENAI_API_KEY: Joi.string().when("NODE_ENV", {
+  is: "production",
   then: Joi.required(),
-  otherwise: Joi.optional()
-})
+  otherwise: Joi.optional(),
+});
 ```
 
 ---
@@ -207,15 +240,18 @@ OPENAI_API_KEY: Joi.string().when('NODE_ENV', {
 ### 2.6 Controllers & Services
 
 #### 2.6.1 Feedback Controller (`feedback.controller.ts`)
+
 **Status:** ✅ Good REST design
 
 **Strengths:**
+
 - Clear separation of public (API key) vs protected (Clerk JWT) endpoints
 - Proper HTTP methods (POST for submit, GET for retrieve, DELETE for remove)
 - Request validation using Zod schemas
 - Metadata capture for analytics (user-agent, origin, IP)
 
 **Observations:**
+
 ```typescript
 // Lines 67-74: Query parameters handled
 @Query("startDate") startDate?: string,
@@ -223,13 +259,15 @@ OPENAI_API_KEY: Joi.string().when('NODE_ENV', {
 @Query("page") page?: string,
 @Query("pageSize") pageSize?: string
 ```
+
 ✅ Good, but consider using a DTO for pagination:
+
 ```typescript
 export class GetFeedbackQueryDto {
   @IsOptional()
   @Type(() => Number)
   page: number = 1;
-  
+
   @IsOptional()
   @Type(() => Number)
   pageSize: number = 20;
@@ -239,19 +277,23 @@ async getAllFeedback(@Query() query: GetFeedbackQueryDto) { ... }
 ```
 
 #### 2.6.2 Projects Controller (`projects.controller.ts`)
+
 **Status:** ✅ Complete REST API
 
 **Strengths:**
+
 - Full CRUD operations
 - API key regeneration endpoint ✅
 - Toggle active status without deletion ✅
 - Proper authorization on all endpoints
 
 **Good Pattern:**
+
 ```typescript
 @Post(":id/regenerate-key")
 async regenerateApiKey(@Param("id") id: string, @CurrentUser() user: any)
 ```
+
 Clean, RESTful sub-resource endpoint
 
 ---
@@ -259,24 +301,29 @@ Clean, RESTful sub-resource endpoint
 ### 2.7 Services & Business Logic
 
 #### 2.7.1 Feedback Service (`feedback.service.ts`)
+
 **Status:** ✅ Well-structured
 
 **Strengths:**
+
 - Async AI sentiment analysis integration
 - Webhook notifications for negative feedback
 - Comprehensive querying with multiple filters
 - User authorization checks
 
 **Good Pattern:**
+
 ```typescript
 // Line 56-68: Negative feedback notification
 if (sentimentResult.sentiment === "negative" || dto.rating <= 2) {
   // Send to webhook
 }
 ```
+
 Intelligent prioritization of critical feedback
 
 **Observations:**
+
 ```typescript
 // Lines 26-31: Injected dependencies
 @Inject(GET_USER_INTERNAL_ID)
@@ -286,7 +333,9 @@ private readonly getUserProjects: any,
 @Inject(CHECK_PROJECT_OWNERSHIP)
 private readonly checkProjectOwnership: any
 ```
+
 ⚠️ Using `any` type - consider proper interfaces:
+
 ```typescript
 interface IUserService {
   getUserInternalId(clerkId: string): Promise<User>;
@@ -296,27 +345,38 @@ private readonly userService: IUserService,
 ```
 
 #### 2.7.2 Projects Service (`projects.service.ts`)
+
 **Status:** ✅ Secure implementation
 
 **Strengths:**
+
 - Dual API key storage (hashed + encrypted)
 - Key rotation via regeneration
 - User authorization enforcement
 - Proper error handling
 
 **Security Best Practice:**
+
 ```typescript
 // Line 49: Dual key handling
-const { plainKey: apiKey, hashedKey: hashedApiKey, encryptedKey: encryptedApiKey } 
-  = await this.apiKeyService.generateApiKeyPairWithEncryption();
+const {
+  plainKey: apiKey,
+  hashedKey: hashedApiKey,
+  encryptedKey: encryptedApiKey,
+} = await this.apiKeyService.generateApiKeyPairWithEncryption();
 ```
+
 ✅ Excellent - hashed for verification, encrypted for display
 
 **Minor Issue:**
+
 ```typescript
 // Line 78: Error handling in map
-encryptedApiKey ? this.apiKeyService.decryptApiKey(project.encryptedApiKey) : ''
+encryptedApiKey
+  ? this.apiKeyService.decryptApiKey(project.encryptedApiKey)
+  : "";
 ```
+
 ⚠️ Empty string fallback hides errors - should throw or handle explicitly
 
 ---
@@ -326,6 +386,7 @@ encryptedApiKey ? this.apiKeyService.decryptApiKey(project.encryptedApiKey) : ''
 **Status:** ⚠️ Needs improvement
 
 **Current Implementation:**
+
 ```typescript
 catch(exception: unknown, host: ArgumentsHost) {
   // ... type detection
@@ -339,6 +400,7 @@ catch(exception: unknown, host: ArgumentsHost) {
 ```
 
 **Issues:**
+
 1. Line 18: Wrong variable - should be `getResponse()` not `getResponse()` for request
    ```typescript
    const request = ctx.getRequest<Request>(); // Fixed
@@ -347,6 +409,7 @@ catch(exception: unknown, host: ArgumentsHost) {
 3. Consider error tracking (Sentry) for production errors
 
 **Recommendation:**
+
 ```typescript
 @Catch()
 export class AllExceptionsFilter implements ExceptionFilter {
@@ -357,26 +420,29 @@ export class AllExceptionsFilter implements ExceptionFilter {
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
 
-    const status = exception instanceof HttpException
-      ? exception.getStatus()
-      : HttpStatus.INTERNAL_SERVER_ERROR;
+    const status =
+      exception instanceof HttpException
+        ? exception.getStatus()
+        : HttpStatus.INTERNAL_SERVER_ERROR;
 
-    const errorMessage = exception instanceof HttpException
-      ? exception.getResponse()
-      : 'Internal server error';
+    const errorMessage =
+      exception instanceof HttpException
+        ? exception.getResponse()
+        : "Internal server error";
 
     const errorId = uuid(); // Add for error tracking
-    
+
     this.logger.error(
       `[${errorId}] ${request.method} ${request.url}: ${JSON.stringify(errorMessage)}`,
-      exception instanceof Error ? exception.stack : ''
+      exception instanceof Error ? exception.stack : ""
     );
 
     response.status(status).json({
       success: false,
-      error: typeof errorMessage === "string" 
-        ? errorMessage 
-        : (errorMessage as any).message || "An error occurred",
+      error:
+        typeof errorMessage === "string"
+          ? errorMessage
+          : (errorMessage as any).message || "An error occurred",
       errorId, // For support reference
       statusCode: status,
       timestamp: new Date().toISOString(),
@@ -392,16 +458,19 @@ export class AllExceptionsFilter implements ExceptionFilter {
 **Status:** ✅ Configured
 
 **Observation:**
+
 ```typescript
 // app.module.ts, lines 27-36
 ThrottlerModule.forRootAsync({
-  ttl: configService.get<number>('THROTTLE_TTL', 60000),
-  limit: configService.get<number>('THROTTLE_LIMIT', 100),
-})
+  ttl: configService.get<number>("THROTTLE_TTL", 60000),
+  limit: configService.get<number>("THROTTLE_LIMIT", 100),
+});
 ```
+
 - 100 requests/minute default is reasonable for SaaS
 - Consider stricter limits for authentication endpoints
 - **Recommendation:** Add per-endpoint throttle decorators
+
 ```typescript
 @Throttle({ default: { limit: 5, ttl: 60000 } }) // 5/min for login
 async submitFeedback() { ... }
@@ -416,15 +485,18 @@ async submitFeedback() { ... }
 **Status:** ✅ Clean setup
 
 **Strengths:**
+
 - Proper metadata configuration
 - ClerkProvider setup for authentication
 - Toast notifications system included
 - Toaster component at root level ✅
 
 **Observation:**
+
 ```typescript
 const inter = Inter({ subsets: ["latin"] });
 ```
+
 ✅ Good - optimized font subsetting
 
 ---
@@ -436,16 +508,20 @@ const inter = Inter({ subsets: ["latin"] });
 **Current Issues:**
 
 1. **Console logging in production:**
+
    ```typescript
-   console.log('[Providers] Auth state:', { isLoaded, isSignedIn });
-   console.log('[Providers] Token obtained:', token ? 'yes' : 'no');
+   console.log("[Providers] Auth state:", { isLoaded, isSignedIn });
+   console.log("[Providers] Token obtained:", token ? "yes" : "no");
    ```
+
    ⚠️ Remove these debug logs or gate them behind environment check
 
 2. **Error logging:**
+
    ```typescript
-   console.error('[Providers] Error getting token:', error);
+   console.error("[Providers] Error getting token:", error);
    ```
+
    ✅ Error logging is appropriate, but consider error boundary wrapper
 
 3. **Dependency array:**
@@ -455,6 +531,7 @@ const inter = Inter({ subsets: ["latin"] });
    ✅ Correct dependencies
 
 **Recommended Refactor:**
+
 ```typescript
 "use client";
 
@@ -473,7 +550,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
     if (isDevelopment) {
       console.log('[Providers] Auth state:', { isLoaded, isSignedIn });
     }
-    
+
     setTokenProvider(async () => {
       if (!isLoaded || !isSignedIn) {
         if (isDevelopment) {
@@ -481,7 +558,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         }
         return null;
       }
-      
+
       try {
         const token = await getToken();
         if (isDevelopment) {
@@ -514,15 +591,19 @@ export function Providers({ children }: { children: React.ReactNode }) {
 **Issues:**
 
 1. **Debug logging:**
+
    ```typescript
    console.log(config, "confiog EMBED"); // Line 9: Typo + log
    ```
+
    ⚠️ Remove debug log and fix typo
+
    ```typescript
    // Remove or gate behind isDevelopment
    ```
 
 2. **Container handling:**
+
    ```typescript
    let container = document.getElementById(containerId);
    if (!container) {
@@ -531,7 +612,9 @@ export function Providers({ children }: { children: React.ReactNode }) {
      document.body.appendChild(container);
    }
    ```
+
    ✅ Good approach, but consider adding styling:
+
    ```typescript
    if (!container) {
      container = document.createElement("div");
@@ -550,7 +633,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
    ✅ Good SSR check, but consider race condition:
    ```typescript
    if (typeof window !== "undefined") {
-     if (document.readyState === 'loading') {
+     if (document.readyState === "loading") {
        window.addEventListener("DOMContentLoaded", initWidget);
      } else {
        // DOM already loaded, init immediately
@@ -560,6 +643,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
    ```
 
 **Recommended Refactor:**
+
 ```typescript
 import { createRoot } from "react-dom/client";
 import { createElement } from "react";
@@ -567,7 +651,7 @@ import { FeedbackWidget } from "./components/FeedbackWidget";
 import type { WidgetConfig } from "@reactly/shared";
 
 const WIDGET_ID = "reactly-feedback-widget";
-const isDevelopment = process.env.NODE_ENV === 'development';
+const isDevelopment = process.env.NODE_ENV === "development";
 
 export function initFeedbackWidget(config: WidgetConfig) {
   let container = document.getElementById(WIDGET_ID);
@@ -605,7 +689,8 @@ if (typeof window !== "undefined") {
         initFeedbackWidget({
           apiKey,
           projectId,
-          position: (script.getAttribute("data-position") as any) || "bottom-right",
+          position:
+            (script.getAttribute("data-position") as any) || "bottom-right",
         });
       }
     }
@@ -626,6 +711,7 @@ if (typeof window !== "undefined") {
 **Status:** ⚠️ Hardcoded credentials
 
 **Critical Issue:**
+
 ```typescript
 initFeedbackWidget({
   apiKey: "rly_ryib8Mn1Tj4L3ttR5Wap7UFWZSO3Wf6h", // ⚠️ HARDCODED!
@@ -637,11 +723,12 @@ initFeedbackWidget({
 ⚠️ **SECURITY ISSUE:** Real API keys and project IDs exposed in source code
 
 **Recommendation:**
+
 ```typescript
 import { initFeedbackWidget } from "./embed";
 
 // Development demo - use environment variables
-if (process.env.NODE_ENV === 'development') {
+if (process.env.NODE_ENV === "development") {
   const apiKey = import.meta.env.VITE_DEMO_API_KEY;
   const projectId = import.meta.env.VITE_DEMO_PROJECT_ID;
 
@@ -663,6 +750,7 @@ if (process.env.NODE_ENV === 'development') {
 ```
 
 Create `.env.local`:
+
 ```
 VITE_DEMO_API_KEY=rly_xxx
 VITE_DEMO_PROJECT_ID=xxx
@@ -675,12 +763,14 @@ VITE_DEMO_PROJECT_ID=xxx
 **Status:** ✅ Well-designed
 
 **Strengths:**
+
 - Comprehensive Zod schemas for runtime validation
 - Clear type definitions across all domains
 - Sentiment analysis types properly defined
 - Pagination response wrapper
 
 **Observation:**
+
 ```typescript
 export interface ApiResponse<T> {
   success: boolean;
@@ -689,9 +779,11 @@ export interface ApiResponse<T> {
   message?: string;
 }
 ```
+
 ✅ Good, but consider making error and message mutually exclusive:
+
 ```typescript
-export type ApiResponse<T> = 
+export type ApiResponse<T> =
   | { success: true; data: T; message?: string }
   | { success: false; error: string };
 ```
@@ -701,13 +793,17 @@ export type ApiResponse<T> =
 ## 6. Security Analysis
 
 ### 6.1 Authentication ✅
+
 - **Clerk integration:** Properly implemented with secret key validation
 - **API key security:** Hashed + encrypted storage ✅
 - **Dual authentication:** Bearer tokens + API keys ✅
 
 ### 6.2 Data Protection ⚠️
+
 **Observations:**
+
 1. Metadata collection for analytics - consider privacy implications
+
    ```typescript
    const metadata = {
      userAgent: req.headers["user-agent"],
@@ -716,18 +812,22 @@ export type ApiResponse<T> =
      ip: req.ip,
    };
    ```
+
    ✅ Good for debugging, but document privacy policy
 
 2. CORS configuration - see earlier note about default to `*`
 
 ### 6.3 Input Validation ✅
+
 - Zod schemas for all DTOs
 - Global validation pipe with whitelist
 
 ### 6.4 Rate Limiting ✅
+
 - Throttler implemented (100 req/min default)
 
 ### 6.5 Environment Secrets ⚠️
+
 - Widget hardcoded credentials (see earlier recommendation)
 - Backend secrets properly managed via env validation
 
@@ -736,11 +836,13 @@ export type ApiResponse<T> =
 ## 7. Error Handling & Logging
 
 ### Strengths ✅
+
 - Global exception filter with consistent response format
 - Per-module loggers via NestJS Logger
 - Comprehensive error messages
 
 ### Issues ⚠️
+
 1. Error correlation IDs not implemented - recommended for debugging
 2. No structured logging (JSON) for aggregation tools
 3. Some sensitive data may leak in logs (tokens)
@@ -750,11 +852,13 @@ export type ApiResponse<T> =
 ## 8. Performance & Scalability
 
 ### Database
+
 ✅ Proper indexing on frequently queried fields (user_id, clerk_user_id, hashed_api_key)
 ⚠️ Consider pagination for large feedback queries (already implemented)
 ⚠️ Consider caching layer for projects (consider Redis)
 
 ### Caching Strategy
+
 - TanStack Query on frontend ✅
 - Consider backend caching for:
   - Project list (invalidate on write)
@@ -762,6 +866,7 @@ export type ApiResponse<T> =
   - Analytics aggregations
 
 ### Code Splitting
+
 ✅ Next.js automatic code splitting
 ✅ Widget bundled with Vite
 
@@ -772,6 +877,7 @@ export type ApiResponse<T> =
 **Observation:** No test files found in repository
 
 **Recommendation:** Add tests for:
+
 1. **Unit tests:** Services, utilities
    ```bash
    apps/backend/src/**/*.spec.ts
@@ -790,6 +896,7 @@ export type ApiResponse<T> =
    ```
 
 **Setup Recommendation:**
+
 ```json
 {
   "devDependencies": {
@@ -808,6 +915,7 @@ export type ApiResponse<T> =
 **Current State:** Good README and setup guides
 
 **Recommendations:**
+
 1. **API Documentation:** Swagger enabled ✅
    - Add example responses in `@ApiResponse()` decorators
    - Document rate limiting headers
@@ -823,10 +931,12 @@ export type ApiResponse<T> =
    - Non-obvious design patterns
 
 **Example:**
+
 ```typescript
 // API key is hashed for verification but also encrypted to allow display in UI
 // This dual storage approach ensures security while maintaining UX
-const { plainKey, hashedKey, encryptedKey } = await this.apiKeyService.generateApiKeyPairWithEncryption();
+const { plainKey, hashedKey, encryptedKey } =
+  await this.apiKeyService.generateApiKeyPairWithEncryption();
 ```
 
 ---
@@ -834,12 +944,14 @@ const { plainKey, hashedKey, encryptedKey } = await this.apiKeyService.generateA
 ## 11. DevOps & Deployment
 
 **Observations:**
+
 - ✅ Environment validation configured
 - ✅ Docker support mentioned in docs
 - ✅ Database migrations with Drizzle
 - ⚠️ No CI/CD pipeline configuration in review scope
 
 **Recommendations:**
+
 1. Add health checks endpoints ✅ (already has `/health`)
 2. Add readiness probes for deployments
 3. Database migration strategy for deployments
@@ -851,6 +963,7 @@ const { plainKey, hashedKey, encryptedKey } = await this.apiKeyService.generateA
 **Status:** ✅ Good
 
 **Observations:**
+
 - Type-safe database queries with Drizzle
 - Comprehensive environment variable typing
 - Proper use of generics and utility types
@@ -872,21 +985,25 @@ const { plainKey, hashedKey, encryptedKey } = await this.apiKeyService.generateA
 ## Summary of Issues
 
 ### Critical 🔴
+
 1. **Widget: Hardcoded credentials** in `main.tsx` - MOVE TO ENV VARS
 2. **Exception Filter: Wrong variable** getting request object (line 18)
 
 ### High Priority 🟠
-1. **CORS fallback to "*"** - Set explicit default or throw error
+
+1. **CORS fallback to "\*"** - Set explicit default or throw error
 2. **Providers: Remove debug logging** from production builds
 3. **API Service: Fix type coercion** (using `any` for injected dependencies)
 
 ### Medium Priority 🟡
+
 1. **Widget: Fix typo** in console.log "confiog"
 2. **Query parameters:** Consider DTO classes instead of individual @Query decorators
 3. **Error tracking:** Add error IDs for production debugging
 4. **Rate limiting:** Add per-endpoint throttle decorators
 
 ### Low Priority 🟢
+
 1. **Documentation:** Add architecture diagrams
 2. **Testing:** Add comprehensive test suite
 3. **Logging:** Consider structured JSON logging
@@ -897,18 +1014,21 @@ const { plainKey, hashedKey, encryptedKey } = await this.apiKeyService.generateA
 ## Recommendations by Priority
 
 ### Immediate (Next PR)
+
 - [ ] Move widget credentials to environment variables
 - [ ] Fix exception filter request object
 - [ ] Fix CORS fallback handling
 - [ ] Remove/gate debug logging in providers
 
 ### Short Term (Next Sprint)
+
 - [ ] Add unit/integration tests for critical paths
 - [ ] Implement structured logging
 - [ ] Add error correlation IDs
 - [ ] Refactor query parameters to DTOs
 
 ### Medium Term (Next Quarter)
+
 - [ ] Add API documentation with examples
 - [ ] Implement Redis caching layer
 - [ ] Add architecture diagrams
@@ -916,6 +1036,7 @@ const { plainKey, hashedKey, encryptedKey } = await this.apiKeyService.generateA
 - [ ] Add performance monitoring
 
 ### Long Term
+
 - [ ] Database partitioning strategy
 - [ ] Multi-region deployment support
 - [ ] Advanced analytics/dashboards
@@ -925,16 +1046,16 @@ const { plainKey, hashedKey, encryptedKey } = await this.apiKeyService.generateA
 
 ## Code Quality Metrics
 
-| Metric | Status | Notes |
-|--------|--------|-------|
-| **Type Safety** | ✅ Excellent | TypeScript throughout, Zod validation |
-| **Code Organization** | ✅ Good | Modular structure, clear separation |
-| **Error Handling** | ⚠️ Good | Global filter, but no correlation IDs |
-| **Security** | ⚠️ Good | Auth working, but env variable exposure |
-| **Testing** | ❌ Missing | No test files found |
-| **Documentation** | ✅ Good | README and setup guides present |
-| **Performance** | ✅ Good | Indexing, pagination, code splitting |
-| **Scalability** | ✅ Good | Modular, but no caching/CDN |
+| Metric                | Status       | Notes                                   |
+| --------------------- | ------------ | --------------------------------------- |
+| **Type Safety**       | ✅ Excellent | TypeScript throughout, Zod validation   |
+| **Code Organization** | ✅ Good      | Modular structure, clear separation     |
+| **Error Handling**    | ⚠️ Good      | Global filter, but no correlation IDs   |
+| **Security**          | ⚠️ Good      | Auth working, but env variable exposure |
+| **Testing**           | ❌ Missing   | No test files found                     |
+| **Documentation**     | ✅ Good      | README and setup guides present         |
+| **Performance**       | ✅ Good      | Indexing, pagination, code splitting    |
+| **Scalability**       | ✅ Good      | Modular, but no caching/CDN             |
 
 ---
 
@@ -943,6 +1064,7 @@ const { plainKey, hashedKey, encryptedKey } = await this.apiKeyService.generateA
 **Reactly** demonstrates a **production-grade architecture** with professional-level implementation. The codebase shows:
 
 ✅ **What's Working Well:**
+
 - Clean, modular architecture
 - Strong type safety
 - Comprehensive authentication
@@ -950,6 +1072,7 @@ const { plainKey, hashedKey, encryptedKey } = await this.apiKeyService.generateA
 - Error handling foundation
 
 ⚠️ **Areas for Improvement:**
+
 - Add test coverage
 - Fix environment variable exposure
 - Implement error correlation IDs

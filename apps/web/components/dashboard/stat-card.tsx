@@ -12,7 +12,13 @@ interface StatCardProps {
   };
 }
 
-export function StatCard({ title, value, description, icon: Icon, trend }: StatCardProps) {
+export function StatCard({
+  title,
+  value,
+  description,
+  icon: Icon,
+  trend,
+}: StatCardProps) {
   return (
     <Card>
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -25,8 +31,11 @@ export function StatCard({ title, value, description, icon: Icon, trend }: StatC
           <p className="text-xs text-muted-foreground mt-1">{description}</p>
         )}
         {trend && (
-          <p className={`text-xs mt-1 ${trend.isPositive ? "text-green-600" : "text-red-600"}`}>
-            {trend.isPositive ? "+" : ""}{trend.value}% from last month
+          <p
+            className={`text-xs mt-1 ${trend.isPositive ? "text-green-600" : "text-red-600"}`}
+          >
+            {trend.isPositive ? "+" : ""}
+            {trend.value}% from last month
           </p>
         )}
       </CardContent>

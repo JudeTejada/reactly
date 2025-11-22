@@ -2,16 +2,22 @@
 
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  MessageSquare, 
-  Sparkles, 
-  BarChart3, 
-  Zap, 
-  Shield, 
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  MessageSquare,
+  Sparkles,
+  BarChart3,
+  Zap,
+  Shield,
   Code2,
   Star,
-  CheckCircle2
+  CheckCircle2,
 } from "lucide-react";
 import { useEffect } from "react";
 
@@ -24,7 +30,7 @@ export default function LandingPage() {
     script.setAttribute("data-reactly-api-key", "demo-api-key");
     script.setAttribute("data-reactly-project-id", "demo-project");
     script.setAttribute("data-position", "bottom-right");
-    
+
     document.head.appendChild(script);
 
     return () => {
@@ -50,8 +56,9 @@ export default function LandingPage() {
                 </span>
               </h1>
               <p className="mx-auto max-w-[700px] text-gray-600 md:text-xl">
-                Collect, analyze, and understand user feedback with AI-powered sentiment analysis. 
-                Make data-driven decisions to improve your product.
+                Collect, analyze, and understand user feedback with AI-powered
+                sentiment analysis. Make data-driven decisions to improve your
+                product.
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4">
@@ -62,7 +69,11 @@ export default function LandingPage() {
                 </Button>
               </Link>
               <Link href="/features">
-                <Button size="lg" variant="outline" className="w-full sm:w-auto">
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full sm:w-auto"
+                >
                   View Features
                 </Button>
               </Link>
@@ -93,25 +104,33 @@ export default function LandingPage() {
               <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 10k+
               </div>
-              <div className="text-sm text-muted-foreground mt-1">Feedback Analyzed</div>
+              <div className="text-sm text-muted-foreground mt-1">
+                Feedback Analyzed
+              </div>
             </div>
             <div className="flex flex-col items-center text-center">
               <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 98%
               </div>
-              <div className="text-sm text-muted-foreground mt-1">Accuracy Rate</div>
+              <div className="text-sm text-muted-foreground mt-1">
+                Accuracy Rate
+              </div>
             </div>
             <div className="flex flex-col items-center text-center">
               <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 500+
               </div>
-              <div className="text-sm text-muted-foreground mt-1">Active Projects</div>
+              <div className="text-sm text-muted-foreground mt-1">
+                Active Projects
+              </div>
             </div>
             <div className="flex flex-col items-center text-center">
               <div className="text-4xl font-bold bg-gradient-to-r from-purple-600 to-pink-600 bg-clip-text text-transparent">
                 24/7
               </div>
-              <div className="text-sm text-muted-foreground mt-1">Real-time Analysis</div>
+              <div className="text-sm text-muted-foreground mt-1">
+                Real-time Analysis
+              </div>
             </div>
           </div>
         </div>
@@ -136,7 +155,8 @@ export default function LandingPage() {
                 </div>
                 <CardTitle>AI-Powered Analysis</CardTitle>
                 <CardDescription>
-                  Advanced sentiment analysis using OpenAI to understand user emotions and intent
+                  Advanced sentiment analysis using OpenAI to understand user
+                  emotions and intent
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -147,7 +167,8 @@ export default function LandingPage() {
                 </div>
                 <CardTitle>Easy Integration</CardTitle>
                 <CardDescription>
-                  Embeddable widget that works on any website. Copy, paste, and start collecting feedback
+                  Embeddable widget that works on any website. Copy, paste, and
+                  start collecting feedback
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -158,7 +179,8 @@ export default function LandingPage() {
                 </div>
                 <CardTitle>Beautiful Analytics</CardTitle>
                 <CardDescription>
-                  Visualize trends, track sentiment over time, and discover insights with interactive charts
+                  Visualize trends, track sentiment over time, and discover
+                  insights with interactive charts
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -169,7 +191,8 @@ export default function LandingPage() {
                 </div>
                 <CardTitle>Real-time Notifications</CardTitle>
                 <CardDescription>
-                  Get instant Discord alerts for negative feedback so you can respond quickly
+                  Get instant Discord alerts for negative feedback so you can
+                  respond quickly
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -180,7 +203,8 @@ export default function LandingPage() {
                 </div>
                 <CardTitle>Secure & Private</CardTitle>
                 <CardDescription>
-                  Enterprise-grade security with domain whitelisting and API key authentication
+                  Enterprise-grade security with domain whitelisting and API key
+                  authentication
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -191,7 +215,8 @@ export default function LandingPage() {
                 </div>
                 <CardTitle>Developer Friendly</CardTitle>
                 <CardDescription>
-                  RESTful API, comprehensive docs, and TypeScript SDK for custom integrations
+                  RESTful API, comprehensive docs, and TypeScript SDK for custom
+                  integrations
                 </CardDescription>
               </CardHeader>
             </Card>
@@ -207,7 +232,8 @@ export default function LandingPage() {
               See It In Action
             </h2>
             <p className="max-w-[700px] text-gray-600 md:text-lg">
-              Try our feedback widget right now. See how easy it is for your users to share feedback.
+              Try our feedback widget right now. See how easy it is for your
+              users to share feedback.
             </p>
           </div>
           <div className="flex justify-center">
@@ -222,7 +248,9 @@ export default function LandingPage() {
                 <div className="aspect-video bg-gradient-to-br from-purple-100 to-pink-100 rounded-lg flex items-center justify-center">
                   <div className="text-center space-y-2">
                     <MessageSquare className="h-12 w-12 mx-auto text-purple-600" />
-                    <p className="text-sm text-muted-foreground">Widget demo coming soon</p>
+                    <p className="text-sm text-muted-foreground">
+                      Widget demo coming soon
+                    </p>
                   </div>
                 </div>
               </CardContent>
@@ -245,12 +273,16 @@ export default function LandingPage() {
                 <CardHeader>
                   <div className="flex gap-1 mb-2">
                     {[...Array(5)].map((_, j) => (
-                      <Star key={j} className="h-4 w-4 fill-yellow-400 text-yellow-400" />
+                      <Star
+                        key={j}
+                        className="h-4 w-4 fill-yellow-400 text-yellow-400"
+                      />
                     ))}
                   </div>
                   <CardDescription className="text-base">
-                    &quot;Reactly has completely transformed how we handle user feedback. 
-                    The AI sentiment analysis saves us hours every week.&quot;
+                    &quot;Reactly has completely transformed how we handle user
+                    feedback. The AI sentiment analysis saves us hours every
+                    week.&quot;
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -258,7 +290,9 @@ export default function LandingPage() {
                     <div className="w-10 h-10 rounded-full bg-gradient-to-br from-purple-400 to-pink-400" />
                     <div className="flex flex-col">
                       <div className="text-sm font-medium">Product Manager</div>
-                      <div className="text-xs text-muted-foreground">Tech Startup</div>
+                      <div className="text-xs text-muted-foreground">
+                        Tech Startup
+                      </div>
                     </div>
                   </div>
                 </CardContent>
@@ -276,7 +310,8 @@ export default function LandingPage() {
               Ready to Get Started?
             </h2>
             <p className="max-w-[600px] text-purple-100 md:text-lg">
-              Join hundreds of teams using Reactly to understand their users better
+              Join hundreds of teams using Reactly to understand their users
+              better
             </p>
             <Link href="/sign-up">
               <Button size="lg" variant="secondary">

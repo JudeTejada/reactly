@@ -17,18 +17,29 @@ export default function MarketingLayout({
             </span>
           </Link>
           <nav className="ml-auto flex items-center space-x-6">
-            <Link href="/features" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link
+              href="/features"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
               Features
             </Link>
-            <Link href="/pricing" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link
+              href="/pricing"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
               Pricing
             </Link>
-            <Link href="/demo" className="text-sm font-medium transition-colors hover:text-primary">
+            <Link
+              href="/demo"
+              className="text-sm font-medium transition-colors hover:text-primary"
+            >
               Demo
             </Link>
             <SignedOut>
               <Link href="/sign-in">
-                <Button variant="ghost" size="sm">Sign In</Button>
+                <Button variant="ghost" size="sm">
+                  Sign In
+                </Button>
               </Link>
               <Link href="/sign-up">
                 <Button size="sm">Get Started</Button>
@@ -52,13 +63,22 @@ export default function MarketingLayout({
             </p>
           </div>
           <div className="flex gap-4">
-            <Link href="/features" className="text-sm text-muted-foreground hover:text-primary">
+            <Link
+              href="/features"
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
               Features
             </Link>
-            <Link href="/pricing" className="text-sm text-muted-foreground hover:text-primary">
+            <Link
+              href="/pricing"
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
               Pricing
             </Link>
-            <Link href="https://github.com" className="text-sm text-muted-foreground hover:text-primary">
+            <Link
+              href="https://github.com"
+              className="text-sm text-muted-foreground hover:text-primary"
+            >
               GitHub
             </Link>
           </div>
