@@ -129,6 +129,7 @@
   font-size: 14px;
 }
 
+.rly-form-group input,
 .rly-form-group select,
 .rly-form-group textarea {
   width: 100%;
@@ -140,6 +141,7 @@
   box-sizing: border-box;
 }
 
+.rly-form-group input:focus,
 .rly-form-group select:focus,
 .rly-form-group textarea:focus {
   outline: none;
