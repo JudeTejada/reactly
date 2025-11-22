@@ -50,6 +50,13 @@
       "when": 1763735408976,
       "tag": "0006_classy_dexter_bennett",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1763784176696,
+      "tag": "0007_daffy_gunslinger",
+      "breakpoints": true
     }
   ]
 }

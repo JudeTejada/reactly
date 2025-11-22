@@ -5739,3 +5739,908 @@ Error: error:1C800064:Provider routines::bad decrypt
 [95m[Nest] 80432  - [39m11/22/2025, 11:01:56 AM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: Yes (length: 798)[39m
 [95m[Nest] 80432  - [39m11/22/2025, 11:01:56 AM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mVerifying token with Clerk...[39m
 [95m[Nest] 80432  - [39m11/22/2025, 11:01:56 AM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken verified for user: user_35F65advslxNhhHBHq8v5Kh8nvs[39m
+[2J[3J[H[[90m11:27:47 AM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/auth/api-key.service.ts[0m:[93m140[0m:[93m12[0m - [91merror[0m[90m TS2339: [0mProperty 'logger' does not exist on type 'ApiKeyService'.
+
+[7m140[0m       this.logger.warn(
+[7m   [0m [91m           ~~~~~~[0m
+
+[[90m11:27:48 AM[0m] Found 1 error. Watching for file changes.
+
+[2J[3J[H[[90m11:34:27 AM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/auth/api-key.service.ts[0m:[93m140[0m:[93m12[0m - [91merror[0m[90m TS2339: [0mProperty 'logger' does not exist on type 'ApiKeyService'.
+
+[7m140[0m       this.logger.warn(
+[7m   [0m [91m           ~~~~~~[0m
+
+[[90m11:34:27 AM[0m] Found 1 error. Watching for file changes.
+
+[2J[3J[H[[90m11:39:14 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m11:39:14 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRedisModule dependencies initialized[39m[38;5;3m +9ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDiscoveryModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[GlmAiService] [39m[32mGLM AI service initialized successfully with model: glm-4.5-flash[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDatabaseModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAiModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mWebhookModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUserModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAnalyticsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mFeedbackModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCacheModule dependencies initialized[39m[38;5;3m +4ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInsightsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api}:[39m[38;5;3m +169ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/health, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mFeedbackController {/api/feedback}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id/status, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mWebhookController {/api/webhook}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/webhook/clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/regenerate-key, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/toggle-active, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAnalyticsController {/api/analytics}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/overview, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/trends, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/recent, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInsightsController {/api/insights}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/generate, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/existing, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUserController {/api/users}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/project-ids, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/sync-from-clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/account, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/owns-project/:projectId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +3ms[39m
+[31m[Nest] 86421  - [39m11/22/2025, 11:39:15 AM [31m  ERROR[39m [38;5;3m[NestApplication] [39m[31mError: listen EADDRINUSE: address already in use :::3001[39m[38;5;3m +1ms[39m
+node:net:1940
+    const ex = new UVExceptionWithHostPort(err, 'listen', address, port);
+               ^
+
+Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at ExpressAdapter.listen (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+platform-express@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validat_ql4fwl57l4h36yqpjbuui6uipi/node_modules/@nestjs/platform-express/adapters/express-adapter.js:95:32)
+    at /Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/nest-application.js:183:30
+    at new Promise (<anonymous>)
+    at NestApplication.listen (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/nest-application.js:173:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async bootstrap (/Users/judetejada/Desktop/workspace/personal/reactly/apps/backend/src/main.ts:53:3) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 3001
+}
+
+Node.js v22.20.0
+[2J[3J[H[[90m11:39:35 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m11:39:35 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRedisModule dependencies initialized[39m[38;5;3m +8ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDiscoveryModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[GlmAiService] [39m[32mGLM AI service initialized successfully with model: glm-4.5-flash[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDatabaseModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAiModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mWebhookModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUserModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAnalyticsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mFeedbackModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCacheModule dependencies initialized[39m[38;5;3m +4ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInsightsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api}:[39m[38;5;3m +118ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/health, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mFeedbackController {/api/feedback}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id/status, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mWebhookController {/api/webhook}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/webhook/clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/regenerate-key, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/toggle-active, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAnalyticsController {/api/analytics}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/overview, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/trends, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/recent, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInsightsController {/api/insights}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/generate, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/existing, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUserController {/api/users}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/project-ids, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/sync-from-clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/account, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/owns-project/:projectId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91711  - [39m11/22/2025, 11:39:36 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +3ms[39m
+
+🚀 Server running on http://localhost:3001
+📚 API docs: http://localhost:3001/api/docs
+❤️  Health check: http://localhost:3001/health
+
+[2J[3J[H[[90m11:39:36 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m11:39:36 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRedisModule dependencies initialized[39m[38;5;3m +8ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDiscoveryModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[GlmAiService] [39m[32mGLM AI service initialized successfully with model: glm-4.5-flash[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDatabaseModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAiModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mWebhookModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUserModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAnalyticsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mFeedbackModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCacheModule dependencies initialized[39m[38;5;3m +5ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInsightsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api}:[39m[38;5;3m +60ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/health, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mFeedbackController {/api/feedback}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id/status, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mWebhookController {/api/webhook}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/webhook/clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/regenerate-key, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/toggle-active, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAnalyticsController {/api/analytics}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/overview, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/trends, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/recent, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInsightsController {/api/insights}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/generate, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/existing, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUserController {/api/users}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/profile, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/project-ids, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/sync-from-clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/account, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/owns-project/:projectId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +2ms[39m
+[31m[Nest] 91746  - [39m11/22/2025, 11:39:37 AM [31m  ERROR[39m [38;5;3m[NestApplication] [39m[31mError: listen EADDRINUSE: address already in use :::3001[39m[38;5;3m +1ms[39m
+node:net:1940
+    const ex = new UVExceptionWithHostPort(err, 'listen', address, port);
+               ^
+
+Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at ExpressAdapter.listen (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+platform-express@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validat_ql4fwl57l4h36yqpjbuui6uipi/node_modules/@nestjs/platform-express/adapters/express-adapter.js:95:32)
+    at /Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/nest-application.js:183:30
+    at new Promise (<anonymous>)
+    at NestApplication.listen (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/nest-application.js:173:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async bootstrap (/Users/judetejada/Desktop/workspace/personal/reactly/apps/backend/src/main.ts:53:3) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 3001
+}
+
+Node.js v22.20.0
+[2J[3J[H[[90m11:40:29 AM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/auth/api-key.service.ts[0m:[93m183[0m:[93m5[0m - [91merror[0m[90m TS1068: [0mUnexpected token. A constructor, method, accessor, or property was expected.
+
+[7m183[0m     try {
+[7m   [0m [91m    ~~~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m218[0m:[93m3[0m - [91merror[0m[90m TS1128: [0mDeclaration or statement expected.
+
+[7m218[0m   }
+[7m   [0m [91m  ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m223[0m:[93m3[0m - [91merror[0m[90m TS1434: [0mUnexpected keyword or identifier.
+
+[7m223[0m   async generateApiKeyPairWithEncryption(): Promise<{
+[7m   [0m [91m  ~~~~~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m223[0m:[93m43[0m - [91merror[0m[90m TS1005: [0m';' expected.
+
+[7m223[0m   async generateApiKeyPairWithEncryption(): Promise<{
+[7m   [0m [91m                                          ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m224[0m:[93m21[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m224[0m     plainKey: string;
+[7m   [0m [91m                    ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m225[0m:[93m22[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m225[0m     hashedKey: string;
+[7m   [0m [91m                     ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m226[0m:[93m25[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m226[0m     encryptedKey: string;
+[7m   [0m [91m                        ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m228[0m:[93m11[0m - [91merror[0m[90m TS1005: [0m':' expected.
+
+[7m228[0m     const { plainKey, hashedKey } = await this.generateApiKeyPair();
+[7m   [0m [91m          ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m228[0m:[93m68[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m228[0m     const { plainKey, hashedKey } = await this.generateApiKeyPair();
+[7m   [0m [91m                                                                   ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m229[0m:[93m11[0m - [91merror[0m[90m TS1005: [0m':' expected.
+
+[7m229[0m     const encryptedKey = this.encryptApiKey(plainKey);
+[7m   [0m [91m          ~~~~~~~~~~~~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m229[0m:[93m54[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m229[0m     const encryptedKey = this.encryptApiKey(plainKey);
+[7m   [0m [91m                                                     ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m230[0m:[93m12[0m - [91merror[0m[90m TS1005: [0m':' expected.
+
+[7m230[0m     return { plainKey, hashedKey, encryptedKey };
+[7m   [0m [91m           ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m230[0m:[93m49[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m230[0m     return { plainKey, hashedKey, encryptedKey };
+[7m   [0m [91m                                                ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m232[0m:[93m1[0m - [91merror[0m[90m TS1128: [0mDeclaration or statement expected.
+
+[7m232[0m }
+[7m   [0m [91m~[0m
+
+[[90m11:40:29 AM[0m] Found 14 errors. Watching for file changes.
+
+[2J[3J[H[[90m11:41:00 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m11:41:00 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRedisModule dependencies initialized[39m[38;5;3m +10ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDiscoveryModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[GlmAiService] [39m[32mGLM AI service initialized successfully with model: glm-4.5-flash[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDatabaseModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAiModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mWebhookModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUserModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAnalyticsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mFeedbackModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCacheModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInsightsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api}:[39m[38;5;3m +152ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/health, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mFeedbackController {/api/feedback}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id/status, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mWebhookController {/api/webhook}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/webhook/clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/regenerate-key, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/toggle-active, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAnalyticsController {/api/analytics}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/overview, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/trends, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/recent, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInsightsController {/api/insights}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/generate, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/existing, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUserController {/api/users}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/project-ids, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/sync-from-clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/account, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/owns-project/:projectId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92170  - [39m11/22/2025, 11:41:01 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +2ms[39m
+
+🚀 Server running on http://localhost:3001
+📚 API docs: http://localhost:3001/api/docs
+❤️  Health check: http://localhost:3001/health
+
+[2J[3J[H[[90m11:41:11 AM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/auth/api-key.service.ts[0m:[93m179[0m:[93m3[0m - [91merror[0m[90m TS1434: [0mUnexpected keyword or identifier.
+
+[7m179[0m   async generateApiKeyPairWithEncryption(): Promise<{
+[7m   [0m [91m  ~~~~~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m179[0m:[93m43[0m - [91merror[0m[90m TS1005: [0m';' expected.
+
+[7m179[0m   async generateApiKeyPairWithEncryption(): Promise<{
+[7m   [0m [91m                                          ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m180[0m:[93m21[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m180[0m     plainKey: string;
+[7m   [0m [91m                    ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m181[0m:[93m22[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m181[0m     hashedKey: string;
+[7m   [0m [91m                     ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m182[0m:[93m25[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m182[0m     encryptedKey: string;
+[7m   [0m [91m                        ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m184[0m:[93m11[0m - [91merror[0m[90m TS1005: [0m':' expected.
+
+[7m184[0m     const { plainKey, hashedKey } = await this.generateApiKeyPair();
+[7m   [0m [91m          ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m184[0m:[93m68[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m184[0m     const { plainKey, hashedKey } = await this.generateApiKeyPair();
+[7m   [0m [91m                                                                   ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m185[0m:[93m11[0m - [91merror[0m[90m TS1005: [0m':' expected.
+
+[7m185[0m     const encryptedKey = this.encryptApiKey(plainKey);
+[7m   [0m [91m          ~~~~~~~~~~~~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m185[0m:[93m54[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m185[0m     const encryptedKey = this.encryptApiKey(plainKey);
+[7m   [0m [91m                                                     ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m186[0m:[93m12[0m - [91merror[0m[90m TS1005: [0m':' expected.
+
+[7m186[0m     return { plainKey, hashedKey, encryptedKey };
+[7m   [0m [91m           ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m186[0m:[93m49[0m - [91merror[0m[90m TS1005: [0m',' expected.
+
+[7m186[0m     return { plainKey, hashedKey, encryptedKey };
+[7m   [0m [91m                                                ~[0m
+
+[96msrc/auth/api-key.service.ts[0m:[93m188[0m:[93m1[0m - [91merror[0m[90m TS1128: [0mDeclaration or statement expected.
+
+[7m188[0m }
+[7m   [0m [91m~[0m
+
+[[90m11:41:11 AM[0m] Found 12 errors. Watching for file changes.
+
+[2J[3J[H[[90m11:41:32 AM[0m] File change detected. Starting incremental compilation...
+
+[[90m11:41:32 AM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRedisModule dependencies initialized[39m[38;5;3m +8ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDiscoveryModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[GlmAiService] [39m[32mGLM AI service initialized successfully with model: glm-4.5-flash[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDatabaseModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAiModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mWebhookModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUserModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAnalyticsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mFeedbackModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCacheModule dependencies initialized[39m[38;5;3m +3ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInsightsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api}:[39m[38;5;3m +57ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/health, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mFeedbackController {/api/feedback}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id/status, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mWebhookController {/api/webhook}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/webhook/clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, POST} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/regenerate-key, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/toggle-active, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAnalyticsController {/api/analytics}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/overview, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/trends, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/recent, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInsightsController {/api/insights}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/generate, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/existing, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUserController {/api/users}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/project-ids, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/sync-from-clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/account, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/owns-project/:projectId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +2ms[39m
+[31m[Nest] 92414  - [39m11/22/2025, 11:41:33 AM [31m  ERROR[39m [38;5;3m[NestApplication] [39m[31mError: listen EADDRINUSE: address already in use :::3001[39m[38;5;3m +1ms[39m
+node:net:1940
+    const ex = new UVExceptionWithHostPort(err, 'listen', address, port);
+               ^
+
+Error: listen EADDRINUSE: address already in use :::3001
+    at Server.setupListenHandle [as _listen2] (node:net:1940:16)
+    at listenInCluster (node:net:1997:12)
+    at Server.listen (node:net:2102:7)
+    at ExpressAdapter.listen (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+platform-express@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validat_ql4fwl57l4h36yqpjbuui6uipi/node_modules/@nestjs/platform-express/adapters/express-adapter.js:95:32)
+    at /Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/nest-application.js:183:30
+    at new Promise (<anonymous>)
+    at NestApplication.listen (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/nest-application.js:173:16)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async bootstrap (/Users/judetejada/Desktop/workspace/personal/reactly/apps/backend/src/main.ts:53:3) {
+  code: 'EADDRINUSE',
+  errno: -48,
+  syscall: 'listen',
+  address: '::',
+  port: 3001
+}
+
+Node.js v22.20.0
+[2J[3J[H[[90m12:02:04 PM[0m] File change detected. Starting incremental compilation...
+
+[[90m12:02:04 PM[0m] Found 0 errors. Watching for file changes.
+
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[NestFactory] [39m[32mStarting Nest application...[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mRedisModule dependencies initialized[39m[38;5;3m +9ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigHostModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDiscoveryModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mConfigModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[GlmAiService] [39m[32mGLM AI service initialized successfully with model: glm-4.5-flash[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mDatabaseModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAiModule dependencies initialized[39m[38;5;3m +1ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mThrottlerModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAppModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAuthModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mWebhookModule dependencies initialized[39m[38;5;3m +2ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mBullModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mUserModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mProjectsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mAnalyticsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mFeedbackModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mCacheModule dependencies initialized[39m[38;5;3m +7ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[InstanceLoader] [39m[32mInsightsModule dependencies initialized[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mHealthController {/api}:[39m[38;5;3m +148ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/health, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mFeedbackController {/api/feedback}:[39m[38;5;3m +1ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id/status, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/feedback/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mWebhookController {/api/webhook}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/webhook/clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mProjectsController {/api/projects}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects, GET} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, PUT} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/regenerate-key, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id/toggle-active, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/projects/:id, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mAnalyticsController {/api/analytics}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/overview, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/trends, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/analytics/recent, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mInsightsController {/api/insights}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/generate, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/existing, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/insights/jobs/:jobId, DELETE} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RoutesResolver] [39m[32mUserController {/api/users}:[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/profile, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/projects, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/project-ids, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/sync-from-clerk, POST} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/account, DELETE} route[39m[38;5;3m +1ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[RouterExplorer] [39m[32mMapped {/api/users/owns-project/:projectId, GET} route[39m[38;5;3m +0ms[39m
+[32m[Nest] 94651  - [39m11/22/2025, 12:02:05 PM [32m    LOG[39m [38;5;3m[NestApplication] [39m[32mNest application successfully started[39m[38;5;3m +2ms[39m
+
+🚀 Server running on http://localhost:3001
+📚 API docs: http://localhost:3001/api/docs
+❤️  Health check: http://localhost:3001/health
+
+[2J[3J[H[[90m12:03:03 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/feedback/feedback.processor.ts[0m:[93m100[0m:[93m17[0m - [91merror[0m[90m TS2345: [0mArgument of type 'string | null | undefined' is not assignable to parameter of type 'string | undefined'.
+  Type 'null' is not assignable to type 'string | undefined'.
+
+[7m100[0m                 project?.webhookUrl
+[7m   [0m [91m                ~~~~~~~~~~~~~~~~~~~[0m
+
+[[90m12:03:03 PM[0m] Found 1 error. Watching for file changes.
+
+[2J[3J[H[[90m12:03:14 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/feedback/feedback.processor.ts[0m:[93m119[0m:[93m5[0m - [91merror[0m[90m TS1128: [0mDeclaration or statement expected.
+
+[7m119[0m     } catch (error) {
+[7m   [0m [91m    ~[0m
+
+[96msrc/feedback/feedback.processor.ts[0m:[93m119[0m:[93m7[0m - [91merror[0m[90m TS1005: [0m'try' expected.
+
+[7m119[0m     } catch (error) {
+[7m   [0m [91m      ~~~~~[0m
+
+[96msrc/feedback/feedback.processor.ts[0m:[93m139[0m:[93m3[0m - [91merror[0m[90m TS1128: [0mDeclaration or statement expected.
+
+[7m139[0m   }
+[7m   [0m [91m  ~[0m
+
+[96msrc/feedback/feedback.processor.ts[0m:[93m140[0m:[93m1[0m - [91merror[0m[90m TS1128: [0mDeclaration or statement expected.
+
+[7m140[0m }
+[7m   [0m [91m~[0m
+
+[[90m12:03:14 PM[0m] Found 4 errors. Watching for file changes.
+
+[2J[3J[H[[90m12:03:40 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/feedback/feedback.processor.ts[0m:[93m119[0m:[93m5[0m - [91merror[0m[90m TS1128: [0mDeclaration or statement expected.
+
+[7m119[0m     } catch (error) {
+[7m   [0m [91m    ~[0m
+
+[96msrc/feedback/feedback.processor.ts[0m:[93m119[0m:[93m7[0m - [91merror[0m[90m TS1005: [0m'try' expected.
+
+[7m119[0m     } catch (error) {
+[7m   [0m [91m      ~~~~~[0m
+
+[96msrc/feedback/feedback.processor.ts[0m:[93m139[0m:[93m3[0m - [91merror[0m[90m TS1128: [0mDeclaration or statement expected.
+
+[7m139[0m   }
+[7m   [0m [91m  ~[0m
+
+[96msrc/feedback/feedback.processor.ts[0m:[93m140[0m:[93m1[0m - [91merror[0m[90m TS1128: [0mDeclaration or statement expected.
+
+[7m140[0m }
+[7m   [0m [91m~[0m
+
+[[90m12:03:40 PM[0m] Found 4 errors. Watching for file changes.
+
+[2J[3J[H[[90m12:03:42 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/projects/projects.service.ts[0m:[93m62[0m:[93m30[0m - [91merror[0m[90m TS2551: [0mProperty 'slackWebhookUrl' does not exist on type '{ name: string; allowedDomains: string[]; webhookUrl?: string | undefined; }'. Did you mean 'webhookUrl'?
+
+[7m62[0m         slackWebhookUrl: dto.slackWebhookUrl,
+[7m  [0m [91m                             ~~~~~~~~~~~~~~~[0m
+
+  [96m../../packages/shared/dist/types.d.ts[0m:[93m67[0m:[93m5[0m
+    [7m67[0m     webhookUrl?: string | undefined;
+    [7m  [0m [96m    ~~~~~~~~~~[0m
+    'webhookUrl' is declared here.
+
+[[90m12:03:43 PM[0m] Found 1 error. Watching for file changes.
+
+[2J[3J[H[[90m12:03:45 PM[0m] File change detected. Starting incremental compilation...
+
+[96msrc/projects/projects.service.ts[0m:[93m62[0m:[93m30[0m - [91merror[0m[90m TS2551: [0mProperty 'slackWebhookUrl' does not exist on type '{ name: string; allowedDomains: string[]; webhookUrl?: string | undefined; }'. Did you mean 'webhookUrl'?
+
+[7m62[0m         slackWebhookUrl: dto.slackWebhookUrl,
+[7m  [0m [91m                             ~~~~~~~~~~~~~~~[0m
+
+  [96m../../packages/shared/dist/types.d.ts[0m:[93m67[0m:[93m5[0m
+    [7m67[0m     webhookUrl?: string | undefined;
+    [7m  [0m [96m    ~~~~~~~~~~[0m
+    'webhookUrl' is declared here.
+
+[96msrc/projects/projects.service.ts[0m:[93m124[0m:[93m19[0m - [91merror[0m[90m TS2551: [0mProperty 'slackWebhookUrl' does not exist on type 'Partial<{ name: string; allowedDomains: string[]; webhookUrl?: string | undefined; }>'. Did you mean 'webhookUrl'?
+
+[7m124[0m           updates.slackWebhookUrl !== undefined
+[7m   [0m [91m                  ~~~~~~~~~~~~~~~[0m
+
+[96msrc/projects/projects.service.ts[0m:[93m125[0m:[93m23[0m - [91merror[0m[90m TS2551: [0mProperty 'slackWebhookUrl' does not exist on type 'Partial<{ name: string; allowedDomains: string[]; webhookUrl?: string | undefined; }>'. Did you mean 'webhookUrl'?
+
+[7m125[0m             ? updates.slackWebhookUrl
+[7m   [0m [91m                      ~~~~~~~~~~~~~~~[0m
+
+[[90m12:03:45 PM[0m] Found 3 errors. Watching for file changes.
+
+ ELIFECYCLE  Command failed.
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/projects[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: true[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: Yes (length: 798)[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mVerifying token with Clerk...[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/analytics/overview[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: true[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: Yes (length: 798)[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mVerifying token with Clerk...[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/analytics/recent[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: true[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: Yes (length: 798)[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mVerifying token with Clerk...[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/analytics/trends[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: true[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: Yes (length: 798)[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mVerifying token with Clerk...[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken verified for user: user_35F65advslxNhhHBHq8v5Kh8nvs[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken verified for user: user_35F65advslxNhhHBHq8v5Kh8nvs[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken verified for user: user_35F65advslxNhhHBHq8v5Kh8nvs[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken verified for user: user_35F65advslxNhhHBHq8v5Kh8nvs[39m
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: "Internal server error"[39m
+PostgresError: column "slack_webhook_url" does not exist
+    at ErrorResponse (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:794:26)
+    at handle (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:480:6)
+    at Socket.data (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: "Internal server error"[39m
+PostgresError: column "slack_webhook_url" does not exist
+    at ErrorResponse (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:794:26)
+    at handle (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:480:6)
+    at Socket.data (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: "Internal server error"[39m
+PostgresError: column "slack_webhook_url" does not exist
+    at ErrorResponse (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:794:26)
+    at handle (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:480:6)
+    at Socket.data (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:17 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: "Internal server error"[39m
+PostgresError: column "slack_webhook_url" does not exist
+    at ErrorResponse (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:794:26)
+    at handle (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:480:6)
+    at Socket.data (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:18 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/projects[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:18 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: true[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:18 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:18 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: Yes (length: 798)[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:18 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mVerifying token with Clerk...[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:18 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken verified for user: user_35F65advslxNhhHBHq8v5Kh8nvs[39m
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:19 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: "Internal server error"[39m
+PostgresError: column "slack_webhook_url" does not exist
+    at ErrorResponse (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:794:26)
+    at handle (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:480:6)
+    at Socket.data (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:19 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/projects/a7c36026-b6c8-432a-ac70-cd59a266197a[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:19 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: true[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:19 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:19 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: Yes (length: 798)[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:19 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mVerifying token with Clerk...[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:19 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken verified for user: user_35F65advslxNhhHBHq8v5Kh8nvs[39m
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:19 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: "Internal server error"[39m
+PostgresError: column "slack_webhook_url" does not exist
+    at ErrorResponse (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:794:26)
+    at handle (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:480:6)
+    at Socket.data (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:20 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/projects/a7c36026-b6c8-432a-ac70-cd59a266197a[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:20 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: true[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:20 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:20 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: Yes (length: 798)[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:20 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mVerifying token with Clerk...[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:20 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken verified for user: user_35F65advslxNhhHBHq8v5Kh8nvs[39m
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:21 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: "Internal server error"[39m
+PostgresError: column "slack_webhook_url" does not exist
+    at ErrorResponse (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:794:26)
+    at handle (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:480:6)
+    at Socket.data (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/projects/a7c36026-b6c8-432a-ac70-cd59a266197a[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: No[39m
+[33m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [33m   WARN[39m [38;5;3m[ClerkAuthGuard] [39m[33mNo token found for /api/projects/a7c36026-b6c8-432a-ac70-cd59a266197a[39m
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: {"message":"No authentication token provided","error":"Unauthorized","statusCode":401}[39m
+UnauthorizedException: No authentication token provided
+    at ClerkAuthGuard.canActivate (/Users/judetejada/Desktop/workspace/personal/reactly/apps/backend/src/auth/clerk-auth.guard.ts:37:13)
+    at GuardsConsumer.tryActivate (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/guards/guards-consumer.js:15:34)
+    at canActivateFn (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/router/router-execution-context.js:135:59)
+    at /Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/router/router-execution-context.js:42:37
+    at /Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/router/router-proxy.js:9:23
+    at Layer.handle [as handle_request] (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/express@4.21.2/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/express@4.21.2/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/express@4.21.2/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/express@4.21.2/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/express@4.21.2/node_modules/express/lib/router/index.js:284:15
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/projects[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: No[39m
+[33m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [33m   WARN[39m [38;5;3m[ClerkAuthGuard] [39m[33mNo token found for /api/projects[39m
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:22 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: {"message":"No authentication token provided","error":"Unauthorized","statusCode":401}[39m
+UnauthorizedException: No authentication token provided
+    at ClerkAuthGuard.canActivate (/Users/judetejada/Desktop/workspace/personal/reactly/apps/backend/src/auth/clerk-auth.guard.ts:37:13)
+    at GuardsConsumer.tryActivate (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/guards/guards-consumer.js:15:34)
+    at canActivateFn (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/router/router-execution-context.js:135:59)
+    at /Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/router/router-execution-context.js:42:37
+    at /Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/@nestjs+core@10.4.20_@nestjs+common@10.4.20_class-transformer@0.5.1_class-validator@0.14.2_re_k7huez7iho2aizymvhasmfsdim/node_modules/@nestjs/core/router/router-proxy.js:9:23
+    at Layer.handle [as handle_request] (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/express@4.21.2/node_modules/express/lib/router/layer.js:95:5)
+    at next (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/express@4.21.2/node_modules/express/lib/router/route.js:149:13)
+    at Route.dispatch (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/express@4.21.2/node_modules/express/lib/router/route.js:119:3)
+    at Layer.handle [as handle_request] (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/express@4.21.2/node_modules/express/lib/router/layer.js:95:5)
+    at /Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/express@4.21.2/node_modules/express/lib/router/index.js:284:15
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/projects/a7c36026-b6c8-432a-ac70-cd59a266197a[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: true[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: Yes (length: 798)[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mVerifying token with Clerk...[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken verified for user: user_35F65advslxNhhHBHq8v5Kh8nvs[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mRequest path: /api/projects[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mAuth header present: true[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mCookie header present: false[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken extracted: Yes (length: 798)[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mVerifying token with Clerk...[39m
+[95m[Nest] 94651  - [39m11/22/2025, 12:07:23 PM [95m  DEBUG[39m [38;5;3m[ClerkAuthGuard] [39m[95mToken verified for user: user_35F65advslxNhhHBHq8v5Kh8nvs[39m
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:24 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: "Internal server error"[39m
+PostgresError: column "slack_webhook_url" does not exist
+    at ErrorResponse (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:794:26)
+    at handle (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:480:6)
+    at Socket.data (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)
+[31m[Nest] 94651  - [39m11/22/2025, 12:07:24 PM [31m  ERROR[39m [38;5;3m[AllExceptionsFilter] [39m[31mError: "Internal server error"[39m
+PostgresError: column "slack_webhook_url" does not exist
+    at ErrorResponse (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:794:26)
+    at handle (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:480:6)
+    at Socket.data (/Users/judetejada/Desktop/workspace/personal/reactly/node_modules/.pnpm/postgres@3.4.7/node_modules/postgres/cjs/src/connection.js:315:9)
+    at Socket.emit (node:events:519:28)
+    at addChunk (node:internal/streams/readable:561:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:512:3)
+    at Readable.push (node:internal/streams/readable:392:5)
+    at TCP.onStreamRead (node:internal/stream_base_commons:189:23)

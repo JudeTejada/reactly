@@ -65,6 +65,7 @@ export interface Project {
   userId: string;
   allowedDomains: string[];
   webhookUrl?: string;
+  slackWebhookUrl?: string;
   isActive: boolean;
   createdAt: Date;
   updatedAt: Date;
@@ -73,7 +74,8 @@ export interface Project {
 export const createProjectSchema = z.object({
   name: z.string().min(1).max(100),
   allowedDomains: z.array(z.string()).optional().default([]),
-  webhookUrl: z.string().url().optional(),
+  webhookUrl: z.string().url().optional().or(z.literal("")),
+  slackWebhookUrl: z.string().url().optional().or(z.literal("")),
 });
 
 export type CreateProjectDto = z.infer<typeof createProjectSchema>;

@@ -41,6 +41,7 @@ export const projects = pgTable(
       .references(() => users.id, { onDelete: "cascade" }),
     allowedDomains: jsonb("allowed_domains").$type<string[]>().default([]),
     webhookUrl: text("webhook_url"),
+    slackWebhookUrl: text("slack_webhook_url"),
     isActive: boolean("is_active").notNull().default(true),
     createdAt: timestamp("created_at").defaultNow().notNull(),
     updatedAt: timestamp("updated_at").defaultNow().notNull(),

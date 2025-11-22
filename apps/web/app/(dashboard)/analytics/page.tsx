@@ -30,11 +30,11 @@ export default function AnalyticsPage() {
 
   if (overviewLoading || trendsLoading) {
     return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Analytics</h1>
+      <div className="space-y-8">
+        <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {[...Array(4)].map((_, i) => (
-            <Card key={i} className="animate-pulse">
+            <Card key={i} className="animate-pulse border-none shadow-sm bg-card">
               <CardHeader className="space-y-0 pb-2">
                 <div className="h-4 bg-muted rounded w-24" />
               </CardHeader>
@@ -50,12 +50,12 @@ export default function AnalyticsPage() {
 
   if (!overview || overview.total === 0) {
     return (
-      <div className="space-y-6">
-        <h1 className="text-3xl font-bold">Analytics</h1>
-        <Card>
-          <CardContent className="pt-6">
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">
+      <div className="space-y-8">
+        <h1 className="text-3xl font-bold tracking-tight">Analytics</h1>
+        <Card className="border-dashed shadow-none bg-muted/30">
+          <CardContent className="pt-12 pb-12">
+            <div className="text-center">
+              <p className="text-muted-foreground font-medium">
                 No data available yet. Start collecting feedback to see analytics.
               </p>
             </div>
@@ -84,9 +84,9 @@ export default function AnalyticsPage() {
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       <div>
-        <h1 className="text-3xl font-bold">Analytics</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">Analytics</h1>
         <p className="text-muted-foreground">Insights and trends from your feedback data</p>
       </div>
 
@@ -121,7 +121,7 @@ export default function AnalyticsPage() {
       {/* Charts Grid */}
       <div className="grid gap-6 md:grid-cols-2">
         {/* Sentiment Distribution Pie Chart */}
-        <Card>
+        <Card className="shadow-sm border-border/50">
           <CardHeader>
             <CardTitle>Sentiment Distribution</CardTitle>
             <CardDescription>Breakdown of feedback sentiment</CardDescription>
@@ -137,9 +137,12 @@ export default function AnalyticsPage() {
                     cy="50%"
                     labelLine={false}
                     label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
-                    outerRadius={80}
+                    outerRadius={100}
+                    innerRadius={60}
+                    paddingAngle={2}
                     fill="#8884d8"
                     dataKey="value"
+                    strokeWidth={0}
                   >
                     {sentimentPieData.map((entry, index) => (
                       <Cell
@@ -158,7 +161,7 @@ export default function AnalyticsPage() {
         </Card>
 
         {/* Category Distribution Bar Chart */}
-        <Card>
+        <Card className="shadow-sm border-border/50">
           <CardHeader>
             <CardTitle>Category Breakdown</CardTitle>
             <CardDescription>Feedback by category type</CardDescription>
@@ -167,19 +170,19 @@ export default function AnalyticsPage() {
             <ChartContainer config={categoryChartConfig}>
               <ResponsiveContainer width="100%" height={300}>
                 <BarChart data={categoryData}>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted))" />
                   <XAxis
                     dataKey="name"
-                    className="text-xs"
+                    className="text-xs text-muted-foreground"
                     tickLine={false}
                     axisLine={false}
                   />
                   <YAxis
-                    className="text-xs"
+                    className="text-xs text-muted-foreground"
                     tickLine={false}
                     axisLine={false}
                   />
-                  <ChartTooltip content={<ChartTooltipContent />} />
+                  <ChartTooltip content={<ChartTooltipContent />} cursor={{ fill: "hsl(var(--muted)/0.2)" }} />
                   <Bar dataKey="count" radius={[4, 4, 0, 0]} fill="hsl(var(--primary))" />
                 </BarChart>
               </ResponsiveContainer>
@@ -190,7 +193,7 @@ export default function AnalyticsPage() {
 
       {/* Trends Line Chart */}
       {trends && trends.length > 0 && (
-        <Card>
+        <Card className="shadow-sm border-border/50">
           <CardHeader>
             <CardTitle>Sentiment Trends (Last 30 Days)</CardTitle>
             <CardDescription>Track how sentiment changes over time</CardDescription>
@@ -199,7 +202,7 @@ export default function AnalyticsPage() {
             <ChartContainer config={sentimentChartConfig}>
               <ResponsiveContainer width="100%" height={400}>
                 <LineChart data={trends}>
-                  <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="hsl(var(--muted))" />
                   <XAxis
                     dataKey="date"
                     tickLine={false}
@@ -210,16 +213,17 @@ export default function AnalyticsPage() {
                         day: "numeric",
                       })
                     }
-                    className="text-xs"
+                    className="text-xs text-muted-foreground"
                   />
                   <YAxis
                     tickLine={false}
                     axisLine={false}
-                    className="text-xs"
+                    className="text-xs text-muted-foreground"
                   />
                   <ChartTooltip
                     content={<ChartTooltipContent />}
                     labelFormatter={(value) => new Date(value).toLocaleDateString()}
+                    cursor={{ stroke: "hsl(var(--muted-foreground))", strokeWidth: 1, strokeDasharray: "4 4" }}
                   />
                   <Line
                     type="monotone"
@@ -229,6 +233,7 @@ export default function AnalyticsPage() {
                     }
                     strokeWidth={2}
                     dot={false}
+                    activeDot={{ r: 6, strokeWidth: 0 }}
                   />
                   <Line
                     type="monotone"
@@ -238,6 +243,7 @@ export default function AnalyticsPage() {
                     }
                     strokeWidth={2}
                     dot={false}
+                    activeDot={{ r: 6, strokeWidth: 0 }}
                   />
                   <Line
                     type="monotone"
@@ -247,6 +253,7 @@ export default function AnalyticsPage() {
                     }
                     strokeWidth={2}
                     dot={false}
+                    activeDot={{ r: 6, strokeWidth: 0 }}
                   />
                 </LineChart>
               </ResponsiveContainer>

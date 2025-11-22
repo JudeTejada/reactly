@@ -77,7 +77,7 @@ export class FeedbackProcessor extends WorkerHost {
       ) {
         const project = await this.getProjectProvider.execute(projectId);
 
-        if (project?.webhookUrl) {
+        if (project?.webhookUrl || project?.slackWebhookUrl) {
           // Get the updated feedback with AI analysis
           // We use findOneFeedbackProvider but need to be careful as it throws if not found
           // In this context, if feedback was just updated, it should exist.
@@ -86,10 +86,19 @@ export class FeedbackProcessor extends WorkerHost {
               await this.findOneFeedbackProvider.execute(feedbackId);
 
             if (updatedFeedback) {
-              await this.webhookService.sendDiscordNotification(
-                updatedFeedback,
-                project.webhookUrl
-              );
+              if (project.webhookUrl) {
+                await this.webhookService.sendDiscordNotification(
+                  updatedFeedback,
+                  project.webhookUrl
+                );
+              }
+
+              if (project.slackWebhookUrl) {
+                await this.webhookService.sendSlackNotification(
+                  updatedFeedback,
+                  project.slackWebhookUrl
+                );
+              }
             }
           } catch (error) {
             this.logger.warn(
