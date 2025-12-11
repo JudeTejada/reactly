@@ -4,21 +4,15 @@ import cssInjectedByJsPlugin from "vite-plugin-css-injected-by-js";
 
 export default defineConfig({
   plugins: [react(), cssInjectedByJsPlugin()],
+  define: {
+    "process.env.NODE_ENV": JSON.stringify("production"),
+  },
   build: {
     lib: {
       entry: "./src/index.ts",
       name: "ReactlyWidget",
       formats: ["es", "umd"],
       fileName: (format) => `widget.${format}.js`,
-    },
-    rollupOptions: {
-      external: ["react", "react-dom"],
-      output: {
-        globals: {
-          react: "React",
-          "react-dom": "ReactDOM",
-        },
-      },
     },
     minify: "terser",
     terserOptions: {

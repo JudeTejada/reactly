@@ -19,8 +19,8 @@
     "build": "tsc && vite build",
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
-    "deploy": "pnpm build && pnpm deploy:r2 && pnpm deploy:worker",
-    "deploy:r2": "wrangler r2 object put reactly-widget-cdn/widget.umd.js --file dist/widget.umd.js && wrangler r2 object put reactly-widget-cdn/widget.es.js --file dist/widget.es.js",
+    "deploy:cdn": "pnpm build && pnpm deploy:r2 && pnpm deploy:worker",
+    "deploy:r2": "wrangler r2 object put reactly-widget-cdn/widget.umd.js --file dist/widget.umd.js --remote && wrangler r2 object put reactly-widget-cdn/widget.es.js --file dist/widget.es.js --remote",
     "deploy:worker": "wrangler deploy"
   },
   "dependencies": {
