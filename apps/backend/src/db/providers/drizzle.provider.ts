@@ -1,8 +1,6 @@
 import { Provider, Scope } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { drizzle } from "drizzle-orm/neon-serverless";
-import { drizzle as drizzlePostgres } from "drizzle-orm/postgres-js";
-import { Pool } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/postgres-js";
 import postgres from "postgres";
 import * as schema from "../schema";
 
@@ -20,18 +18,9 @@ export const DrizzleProvider: Provider = {
       );
     }
 
-    // Detect if we're using NeonDB or local PostgreSQL
-    const isNeon = connectionString.includes("neon.tech");
-
-    if (isNeon) {
-      // Use NeonDB serverless connection
-      const pool = new Pool({ connectionString });
-      return drizzle(pool, { schema });
-    } else {
-      // Use local PostgreSQL connection
-      const client = postgres(connectionString);
-      return drizzlePostgres(client, { schema });
-    }
+    // Use standard PostgreSQL connection
+    const client = postgres(connectionString);
+    return drizzle(client, { schema });
   },
   scope: Scope.TRANSIENT,
 };
