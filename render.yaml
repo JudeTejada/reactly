@@ -1,0 +1,46 @@
+# Render Blueprint
+# https://render.com/docs/blueprint-spec
+
+services:
+  - type: web
+    name: reactly-backend
+    runtime: docker
+    region: oregon # or singapore for Asia
+    plan: free
+    dockerfilePath: ./apps/backend/Dockerfile
+    dockerContext: .
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false # Set manually in Render dashboard
+      - key: REDIS_HOST
+        sync: false
+      - key: REDIS_PORT
+        value: 6379
+      - key: REDIS_PASSWORD
+        sync: false
+      - key: CLERK_SECRET_KEY
+        sync: false
+      - key: CLERK_PUBLISHABLE_KEY
+        sync: false
+      - key: CLERK_WEBHOOK_SECRET
+        sync: false
+      - key: GLM_API_KEY
+        sync: false
+      - key: GLM_BASE_URL
+        value: https://api.aimlapi.com/v1
+      - key: ALLOWED_ORIGINS
+        sync: false
+      - key: API_KEY_DETERMINISTIC_SECRET
+        sync: false
+      - key: API_KEY_ENCRYPTION_SECRET
+        sync: false
+      - key: API_KEY_ENCRYPTION_SALT_ROUNDS
+        value: 12
+      - key: API_KEY_ENCRYPTION_ALGORITHM
+        value: aes-256-cbc
+    healthCheckPath: /health
+    autoDeploy: true

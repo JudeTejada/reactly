@@ -1,12 +1,46 @@
+# Dependencies
 node_modules
-npm-debug.log
+**/node_modules
+
+# Build outputs (except what we need)
 dist
+!apps/backend/dist
+!packages/shared/dist
+
+# Development files
+*.log
+*.md
 .git
 .gitignore
-README.md
-.env
-.env.local
-.env.example
-.dockerignore
+.env*
+!.env.example
+
+# IDE
+.vscode
+.idea
+*.swp
+*.swo
+
+# Test files
+test
+**/*.test.ts
+**/*.spec.ts
 coverage
-.nyc_output
+jest.config.js
+
+# Docker
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Turbo
+.turbo
+
+# Other apps we don't need
+apps/web
+apps/widget
+
+# Misc
+*.log
+backend.log
+migration.log

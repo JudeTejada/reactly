@@ -18,19 +18,24 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "type-check": "tsc --noEmit"
+    "type-check": "tsc --noEmit",
+    "deploy": "pnpm build && pnpm deploy:r2 && pnpm deploy:worker",
+    "deploy:r2": "wrangler r2 object put reactly-widget-cdn/widget.umd.js --file dist/widget.umd.js && wrangler r2 object put reactly-widget-cdn/widget.es.js --file dist/widget.es.js",
+    "deploy:worker": "wrangler deploy"
   },
   "dependencies": {
+    "@reactly/shared": "workspace:*",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "@reactly/shared": "workspace:*"
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20251211.0",
     "@types/react": "^18.3.5",
     "@types/react-dom": "^18.3.0",
     "@vitejs/plugin-react": "^4.3.1",
     "typescript": "^5.5.4",
     "vite": "^5.4.4",
-    "vite-plugin-css-injected-by-js": "^3.5.1"
+    "vite-plugin-css-injected-by-js": "^3.5.1",
+    "wrangler": "^4.53.0"
   }
 }
