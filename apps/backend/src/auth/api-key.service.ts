@@ -19,7 +19,7 @@ export class ApiKeyService {
     this.encryptionSecret = this.configService.get(
       "API_KEY_ENCRYPTION_SECRET"
     )!;
-    this.saltRounds = this.configService.get("API_KEY_ENCRYPTION_SALT_ROUNDS")!;
+    this.saltRounds = parseInt(this.configService.get("API_KEY_ENCRYPTION_SALT_ROUNDS")!);
     this.algorithm = this.configService.get("API_KEY_ENCRYPTION_ALGORITHM")!;
   }
 

@@ -55,7 +55,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import type { SentimentType, FeedbackCategory } from "@reactly/shared";
-import { cn } from "@/lib/utils";
 
 export default function DashboardPage() {
   const { data: overview, isLoading: overviewLoading } = useAnalyticsOverview();
@@ -156,7 +155,7 @@ export default function DashboardPage() {
     })) || [];
 
   // Mini chart data for stat cards
-  const feedbackTrendData = chartData.slice(-7); 
+  const feedbackTrendData = chartData.slice(-7);
   const averageRatingData = chartData.slice(-7).map((d) => ({
     date: d.date,
     rating: 3.5 + Math.random() * 1.5, // Simulated rating trend
@@ -390,7 +389,7 @@ export default function DashboardPage() {
                         axisLine={false}
                         tickMargin={10}
                       />
-                      <Tooltip 
+                      <Tooltip
                         contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                         labelStyle={{ color: 'hsl(var(--muted-foreground))' }}
                       />
@@ -490,7 +489,7 @@ export default function DashboardPage() {
                     <h2 className="text-xl font-semibold tracking-tight">Recent Feedback</h2>
                     <p className="text-sm text-muted-foreground">Latest comments from your users</p>
                  </div>
-                 
+
                  {/* Filters Toolbar */}
                  <div className="flex flex-wrap items-center gap-2">
                     <div className="relative w-full sm:w-64">
