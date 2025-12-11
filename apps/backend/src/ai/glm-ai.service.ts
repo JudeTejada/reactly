@@ -309,7 +309,9 @@ NO markdown, NO explanations, JSON only`;
    * Generate insights from feedback data using GLM AI
    */
   async generateInsights(prompt: string): Promise<InsightData> {
-    this.logger.debug("Generating insights using GLM AI");
+    const startTime = Date.now();
+    this.logger.log(`[PERF] Starting GLM AI insights generation`);
+    this.logger.debug(`[PERF] Prompt length: ${prompt.length} characters`);
 
     const response = await fetch(`${this.baseUrl}/paas/v4/chat/completions`, {
       method: "POST",
@@ -341,6 +343,8 @@ NO markdown, NO explanations, JSON only`;
       const errorText = await response.text();
       throw new Error(`GLM API error (${response.status}): ${errorText}`);
     }
+
+    this.logger.log(`[PERF] GLM API response received in ${Date.now() - startTime}ms`);
 
     const data: GlmResponse = await response.json();
 

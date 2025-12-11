@@ -85,19 +85,26 @@ export function useGenerateInsights(
         if (
           status.status === "completed" ||
           status.status === "failed" ||
-          status.status === "cancelled"
+          status.status === "cancelled" ||
+          status.status === "not_found"
         ) {
-          // Job finished, clear stored job
+          // Job finished or not found, stop polling and clear stored job
+          clearInterval(interval);
+          setIsPolling(false);
           setCurrentJobId(null);
           setStoredJob(null);
         }
       } catch (error) {
         console.error("Error polling job status:", error);
+        // On error, stop polling to prevent infinite error loops
+        clearInterval(interval);
+        setIsPolling(false);
       }
     }, JOB_POLLING_INTERVAL);
 
     return () => {
       clearInterval(interval);
+      setIsPolling(false);
     };
   }, [currentJobId]);
 
@@ -130,24 +137,24 @@ export function useGenerateInsights(
     queryKey: ["insights", "job-status", currentJobId],
     queryFn: () =>
       currentJobId ? api.getInsightsJobStatus(currentJobId) : null,
-    enabled: !!currentJobId,
+    enabled: !!currentJobId && isPolling,
     refetchInterval: isPolling ? JOB_POLLING_INTERVAL : false,
     retry: 3,
   });
 
-  // Check job completion and fetch results
+  // Extract result from jobStatus when completed (no separate API call needed)
   const jobResult = useQuery({
     queryKey: ["insights", "job-result", currentJobId],
-    queryFn: async () => {
-      if (!currentJobId) return null;
-      const status = await api.getInsightsJobStatus(currentJobId);
-      if (status.status === "completed" && status.result) {
-        return status.result;
+    queryFn: () => {
+      // Use the cached result from jobStatus instead of making another API call
+      if (jobStatus.data?.status === "completed" && jobStatus.data?.result) {
+        return jobStatus.data.result;
       }
       return null;
     },
     enabled: !!currentJobId && jobStatus.data?.status === "completed",
-    refetchInterval: isPolling ? JOB_POLLING_INTERVAL : false,
+    // No refetchInterval needed - we just extract from cached jobStatus
+    staleTime: Infinity,
   });
 
   const isProcessing = !!(

@@ -59,10 +59,15 @@ export class InsightsService {
     startDate?: Date,
     endDate?: Date
   ): Promise<InsightsResult> {
-    this.logger.log(`Generating insights for user: ${clerkUserId}`);
+    const startTime = Date.now();
+    this.logger.log(`[PERF] Starting insights generation for user: ${clerkUserId}`);
 
     const internalUserId = await this.getUserInternalId.execute(clerkUserId);
+    this.logger.debug(`[PERF] getUserInternalId: ${Date.now() - startTime}ms`);
+
     const userProjects = await this.getUserProjects.execute(internalUserId);
+    this.logger.debug(`[PERF] getUserProjects: ${Date.now() - startTime}ms (${userProjects.length} projects)`);
+
     const projectIds = userProjects.map((p) => p.id);
 
     if (projectIds.length === 0) {
@@ -75,6 +80,7 @@ export class InsightsService {
       startDate,
       endDate
     );
+    this.logger.debug(`[PERF] getFeedback: ${Date.now() - startTime}ms (${allFeedback.length} records)`);
 
     if (allFeedback.length === 0) {
       return this.emptyInsights();
@@ -83,8 +89,10 @@ export class InsightsService {
     const typedFeedback = allFeedback as Feedback[];
     const statistics = this.calculateStatistics(typedFeedback);
     const feedbackText = this.formatFeedbackForAnalysis(typedFeedback);
+    this.logger.debug(`[PERF] formatFeedback: ${Date.now() - startTime}ms (prompt: ${feedbackText.length} chars)`);
 
     const aiInsights = await this.generateAIInsights(feedbackText, statistics);
+    this.logger.log(`[PERF] AI insights generated: ${Date.now() - startTime}ms`);
 
     const result: InsightsResult = {
       summary: aiInsights.summary,
@@ -100,6 +108,7 @@ export class InsightsService {
       endDate,
     });
 
+    this.logger.log(`[PERF] Total insights generation time: ${Date.now() - startTime}ms`);
     return result;
   }
 
@@ -124,13 +133,19 @@ export class InsightsService {
   }
 
   private formatFeedbackForAnalysis(feedback: Feedback[]): string {
+    const MAX_TEXT_LENGTH = 500;
     return feedback
       .map((f, idx) => {
+        // Truncate long feedback text to keep prompt size manageable
+        const truncatedText =
+          f.text.length > MAX_TEXT_LENGTH
+            ? f.text.substring(0, MAX_TEXT_LENGTH) + '...'
+            : f.text;
         return `Feedback #${idx + 1}:
 Rating: ${f.rating}/5
 Sentiment: ${f.sentiment}
 Category: ${f.category}
-Text: "${f.text}"
+Text: "${truncatedText}"
 Date: ${f.createdAt.toISOString()}
 ---`;
       })
