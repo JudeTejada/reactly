@@ -9,6 +9,10 @@ services:
     plan: free
     dockerfilePath: ./apps/backend/Dockerfile
     dockerContext: .
+    buildFilter:
+      paths:
+        - apps/backend/**
+        - packages/shared/**
     envVars:
       - key: NODE_ENV
         value: production
@@ -42,5 +46,5 @@ services:
         value: 12
       - key: API_KEY_ENCRYPTION_ALGORITHM
         value: aes-256-cbc
-    healthCheckPath: /health
+    healthCheckPath: /api/health
     autoDeploy: true

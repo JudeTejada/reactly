@@ -1,71 +1,73 @@
 # ================================
-# Stage 1: Build Stage
+# Base Stage - Common Dependencies
 # ================================
-FROM node:22-alpine AS builder
+FROM node:22-alpine AS base
 
-# Install pnpm
-RUN corepack enable && corepack prepare pnpm@9.7.0 --activate
+RUN corepack enable && corepack prepare pnpm@9.7.0 --activate && \
+    apk add --no-cache libc6-compat curl
 
-# Set working directory
+ENV PNPM_HOME="/root/.pnpm-store"
+ENV PATH="$PNPM_HOME/bin:$PATH"
+
 WORKDIR /app
 
-# Copy root package files for workspace setup
+# ================================
+# Dependencies Stage - Install Once
+# ================================
+FROM base AS dependencies
+
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 COPY turbo.json ./
 
-# Copy all package.json files to leverage Docker cache
 COPY apps/backend/package.json ./apps/backend/
 COPY packages/shared/package.json ./packages/shared/
 
-# Install all dependencies
-RUN pnpm install --frozen-lockfile
+RUN --mount=type=cache,target=/root/.pnpm-store \
+    pnpm install --frozen-lockfile
 
-# Copy source code
+# ================================
+# Builder Stage - Build Applications
+# ================================
+FROM dependencies AS builder
+
 COPY apps/backend ./apps/backend
 COPY packages/shared ./packages/shared
 
-# Build the shared package first (backend depends on it)
 RUN pnpm --filter @reactly/shared build
-
-# Build the backend application
 RUN pnpm --filter @reactly/backend build
 
 # ================================
-# Stage 2: Production Stage
+# Production Stage - Minimal Runtime
 # ================================
 FROM node:22-alpine AS production
 
-# Install pnpm
 RUN corepack enable && corepack prepare pnpm@9.7.0 --activate
 
-# Set working directory
 WORKDIR /app
 
-# Copy root package files
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
-
-# Copy package.json files for production install
 COPY apps/backend/package.json ./apps/backend/
 COPY packages/shared/package.json ./packages/shared/
 
-# Install production dependencies only
-RUN pnpm install --frozen-lockfile --prod
+COPY --from=dependencies /app/node_modules ./node_modules
+COPY --from=dependencies /app/apps/backend/node_modules ./apps/backend/node_modules
+COPY --from=dependencies /app/packages/shared/node_modules ./packages/shared/node_modules
 
-# Copy built application from builder stage
 COPY --from=builder /app/apps/backend/dist ./apps/backend/dist
 COPY --from=builder /app/packages/shared/dist ./packages/shared/dist
 
-# Set environment variables
 ENV NODE_ENV=production
 ENV PORT=10000
+ENV NODE_OPTIONS="--max-old-space-size=512"
 
-# Expose the port Render expects
 EXPOSE 10000
 
-# Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD wget --no-verbose --tries=1 --spider http://localhost:10000/health || exit 1
+  CMD curl -f http://localhost:10000/health || exit 1
 
-# Start the application
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nestjs -u 1001
+USER nestjs
+
 WORKDIR /app/apps/backend
 CMD ["node", "dist/main.js"]
