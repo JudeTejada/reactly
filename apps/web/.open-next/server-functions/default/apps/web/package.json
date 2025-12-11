@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "build:cloudflare": "npx @opennextjs/cloudflare build",
+    "build:deps": "pnpm --filter @reactly/shared build",
+    "build:cloudflare": "pnpm build:deps && npx @opennextjs/cloudflare build",
     "preview:cloudflare": "npx @opennextjs/cloudflare preview",
     "deploy:cloudflare": "npx @opennextjs/cloudflare deploy"
   },
