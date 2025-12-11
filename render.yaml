@@ -16,11 +16,11 @@ services:
         value: 10000
       - key: DATABASE_URL
         sync: false # Set manually in Render dashboard
-      - key: REDIS_HOST
+      - key: UPSTASH_REDIS_HOST
         sync: false
-      - key: REDIS_PORT
+      - key: UPSTASH_REDIS_PORT
         value: 6379
-      - key: REDIS_PASSWORD
+      - key: UPSTASH_REDIS_PASSWORD
         sync: false
       - key: CLERK_SECRET_KEY
         sync: false

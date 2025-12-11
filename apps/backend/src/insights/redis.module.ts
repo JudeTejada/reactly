@@ -12,17 +12,24 @@ import { redisStore } from "cache-manager-redis-yet";
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const redisHost = configService.get("REDIS_HOST", "localhost");
-        const redisPort = configService.get("REDIS_PORT", 6379);
-        const redisPassword = configService.get("REDIS_PASSWORD");
+        const redisHost = configService.get(
+          "UPSTASH_REDIS_HOST",
+          "localhost"
+        );
+        const redisPort = configService.get("UPSTASH_REDIS_PORT", 6379);
+        const redisPassword = configService.get("UPSTASH_REDIS_PASSWORD");
+        // Enable TLS for Upstash (detects upstash.io in hostname)
+        const isUpstash = redisHost.includes("upstash.io");
 
         return {
           store: await redisStore({
             socket: {
               host: redisHost,
               port: redisPort,
-              ...(redisPassword && { password: redisPassword }),
+              // Enable TLS for Upstash connections (node-redis uses tls: true)
+              ...(isUpstash && { tls: true }),
             },
+            password: redisPassword || undefined,
             ttl: 24 * 60 * 60 * 1000, // 24 hours
           }),
         };
@@ -32,8 +39,11 @@ import { redisStore } from "cache-manager-redis-yet";
       imports: [ConfigModule],
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => {
-        const redisHost = configService.get("REDIS_HOST");
-        const redisPort = configService.get("REDIS_PORT", 6379);
+        const redisHost = configService.get("UPSTASH_REDIS_HOST");
+        const redisPort = configService.get("UPSTASH_REDIS_PORT", 6379);
+        const redisPassword = configService.get("UPSTASH_REDIS_PASSWORD");
+        // Enable TLS for Upstash (detects upstash.io in hostname)
+        const isUpstash = redisHost?.includes("upstash.io");
 
         // Only configure BullMQ if Redis is available
         if (redisHost) {
@@ -41,7 +51,11 @@ import { redisStore } from "cache-manager-redis-yet";
             connection: {
               host: redisHost,
               port: redisPort,
-              password: configService.get("REDIS_PASSWORD") || undefined,
+              password: redisPassword || undefined,
+              // BullMQ requires maxRetriesPerRequest to be null
+              maxRetriesPerRequest: null,
+              // Enable TLS for Upstash connections (ioredis uses tls: {})
+              ...(isUpstash && { tls: {} }),
             },
           };
         }
@@ -63,3 +77,5 @@ import { redisStore } from "cache-manager-redis-yet";
   exports: [CacheModule, BullModule],
 })
 export class RedisModule {}
+
+
