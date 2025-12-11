@@ -100,7 +100,6 @@ export default function LandingPage() {
 
   return (
     <div className="flex flex-col">
-      {/* Hero Section */}
       <section className="relative overflow-hidden py-20 sm:py-32 border-b">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
           <motion.div
@@ -151,8 +150,6 @@ export default function LandingPage() {
           </motion.div>
         </div>
       </section>
-
-      {/* Stats Section */}
       <section className="py-16 border-b bg-muted/30">
         <div className="container mx-auto px-4 md:px-6 max-w-7xl">
           <motion.div
