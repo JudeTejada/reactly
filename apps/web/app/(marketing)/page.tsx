@@ -13,7 +13,6 @@ import {
   Star,
   CheckCircle2,
   ArrowRight,
-  TrendingUp
 } from "lucide-react";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
