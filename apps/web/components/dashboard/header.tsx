@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect } from "react";
 import { UserButton } from "@clerk/nextjs";
 import { Bell, Menu, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -11,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useProjects } from "@/hooks/use-projects";
+import { useProjectStore } from "@/stores/use-project-store";
 import { useRouter } from "next/navigation";
 
 interface DashboardHeaderProps {
@@ -20,6 +22,16 @@ interface DashboardHeaderProps {
 export function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
   const { data: projects } = useProjects();
   const router = useRouter();
+  const { selectedProjectId, setSelectedProjectId } = useProjectStore();
+
+  // Auto-select first project if none is selected
+  useEffect(() => {
+    if (projects && projects.length > 0 && !selectedProjectId) {
+      setSelectedProjectId(projects[0].id);
+    }
+  }, [projects, selectedProjectId, setSelectedProjectId]);
+
+  const currentProjectId = selectedProjectId || projects?.[0]?.id;
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-4 border-b bg-background/95 px-6 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -31,10 +43,13 @@ export function DashboardHeader({ onMenuClick }: DashboardHeaderProps) {
       >
         <Menu className="h-5 w-5" />
       </Button>
-      
+
       <div className="flex flex-1 items-center gap-4">
         {projects && projects.length > 0 ? (
-          <Select defaultValue={projects[0]?.id}>
+          <Select
+            value={currentProjectId}
+            onValueChange={setSelectedProjectId}
+          >
             <SelectTrigger className="w-[200px] border-none bg-transparent shadow-none focus:ring-0 hover:bg-accent/50 h-9 px-2 font-medium">
               <SelectValue placeholder="Select project" />
             </SelectTrigger>

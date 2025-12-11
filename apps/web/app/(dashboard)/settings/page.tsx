@@ -56,87 +56,9 @@ export default function SettingsPage() {
           </CardContent>
         </Card>
 
-        <Card className="border-border/50 shadow-sm">
-            <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                 <div className="h-10 w-10 rounded-full bg-green-500/10 flex items-center justify-center text-green-600">
-                    <CreditCard className="h-5 w-5" />
-                 </div>
-                 <div className="space-y-1">
-                    <CardTitle>Current Plan</CardTitle>
-                    <CardDescription>Your subscription details and limits</CardDescription>
-                 </div>
-            </CardHeader>
-          <CardContent className="pt-6">
-            <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 border-b border-border/40 pb-6 mb-6">
-               <div>
-                    <div className="flex items-center gap-3 mb-2">
-                        <h3 className="text-xl font-semibold capitalize">{currentPlan} Plan</h3>
-                         <Badge variant="secondary" className="rounded-full px-3">Active</Badge>
-                    </div>
-                    <p className="text-sm text-muted-foreground">You are currently on the {currentPlan} tier.</p>
-               </div>
-               {currentPlan === "free" && (
-                <Button className="shrink-0">Upgrade to Pro</Button>
-              )}
-            </div>
 
-            <div className="space-y-4">
-              <p className="text-sm font-medium text-foreground">Plan Features:</p>
-              <div className="grid sm:grid-cols-2 gap-3">
-                <div className="flex items-start gap-3 text-sm p-3 rounded-md bg-green-500/5 text-foreground/80">
-                  <CheckCircle2 className="h-5 w-5 text-green-600 shrink-0" />
-                  <span>
-                    {typeof planDetails.projects === "number" && planDetails.projects < 0
-                      ? "Unlimited projects"
-                      : `${planDetails.projects} project${planDetails.projects > 1 ? "s" : ""}`}
-                  </span>
-                </div>
-                <div className="flex items-start gap-3 text-sm p-3 rounded-md bg-green-500/5 text-foreground/80">
-                  <CheckCircle2 className="h-5 w-5 text-green-600 shrink-0" />
-                  <span>
-                    {typeof planDetails.feedback === "number" && planDetails.feedback < 0
-                      ? "Unlimited feedback"
-                      : `${planDetails.feedback.toLocaleString()} feedback items/month`}
-                  </span>
-                </div>
-                {planDetails.features.map((feature) => (
-                  <div key={feature} className="flex items-start gap-3 text-sm p-3 rounded-md bg-green-500/5 text-foreground/80">
-                    <CheckCircle2 className="h-5 w-5 text-green-600 shrink-0" />
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
 
-        <Card className="border-destructive/30 bg-destructive/5 shadow-none">
-            <CardHeader className="flex flex-row items-center gap-4 pb-2">
-                 <div className="h-10 w-10 rounded-full bg-destructive/10 flex items-center justify-center text-destructive">
-                    <ShieldAlert className="h-5 w-5" />
-                 </div>
-                 <div className="space-y-1">
-                    <CardTitle className="text-destructive">Danger Zone</CardTitle>
-                    <CardDescription className="text-destructive/70">Irreversible actions for your account</CardDescription>
-                 </div>
-            </CardHeader>
-          <CardContent className="pt-6">
-            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 p-4 border border-destructive/20 bg-background/50 rounded-lg">
-              <div>
-                <p className="font-medium text-foreground">Delete Account</p>
-                <p className="text-sm text-muted-foreground">
-                  Permanently delete your account and all associated data
-                </p>
-              </div>
-              <Button variant="destructive" disabled className="shrink-0">
-                Delete Account
-              </Button>
-            </div>
-            <p className="text-xs text-destructive/60 mt-4 text-center sm:text-left">
-              * Contact support to request account deletion
-            </p>
-          </CardContent>
-        </Card>
+      
       </div>
     </div>
   );

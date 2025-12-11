@@ -3,6 +3,7 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { StatCard } from "@/components/dashboard/stat-card";
 import { useAnalyticsOverview, useAnalyticsTrends } from "@/hooks/use-analytics";
+import { useProjectStore } from "@/stores/use-project-store";
 import { MessageSquare, Star, TrendingUp, TrendingDown } from "lucide-react";
 import {
   ChartContainer,
@@ -25,8 +26,11 @@ import {
 import { sentimentChartConfig, categoryChartConfig } from "@/lib/chart-config";
 
 export default function AnalyticsPage() {
-  const { data: overview, isLoading: overviewLoading } = useAnalyticsOverview();
-  const { data: trends, isLoading: trendsLoading } = useAnalyticsTrends({ days: 30 });
+  const { selectedProjectId } = useProjectStore();
+  const projectId = selectedProjectId || undefined;
+
+  const { data: overview, isLoading: overviewLoading } = useAnalyticsOverview({ projectId });
+  const { data: trends, isLoading: trendsLoading } = useAnalyticsTrends({ projectId, days: 30 });
 
   if (overviewLoading || trendsLoading) {
     return (

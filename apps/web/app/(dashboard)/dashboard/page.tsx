@@ -14,6 +14,7 @@ import {
   useInsights,
   useGenerateInsights,
 } from "@/hooks/use-analytics";
+import { useProjectStore } from "@/stores/use-project-store";
 import {
   MessageSquare,
   Star,
@@ -57,17 +58,21 @@ import {
 import type { SentimentType, FeedbackCategory } from "@reactly/shared";
 
 export default function DashboardPage() {
-  const { data: overview, isLoading: overviewLoading } = useAnalyticsOverview();
+  const { selectedProjectId } = useProjectStore();
+  const projectId = selectedProjectId || undefined;
+
+  const { data: overview, isLoading: overviewLoading } = useAnalyticsOverview({ projectId });
   const { data: recentFeedback, isLoading: feedbackLoading } =
-    useRecentFeedback({ limit: 50 });
+    useRecentFeedback({ projectId, limit: 50 });
   const { data: trends, isLoading: trendsLoading } = useAnalyticsTrends({
+    projectId,
     days: 30,
   });
   const {
     data: insights,
     isLoading: insightsLoading,
     refetch: refetchInsights,
-  } = useInsights();
+  } = useInsights({ projectId });
 
   const {
     data: generatedInsights,
@@ -79,7 +84,7 @@ export default function DashboardPage() {
     createJob,
     cancelJob,
     isCancelling,
-  } = useGenerateInsights();
+  } = useGenerateInsights({ projectId });
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSentiment, setSelectedSentiment] = useState<
@@ -252,10 +257,7 @@ export default function DashboardPage() {
                 icon={Inbox}
                 title="No feedback yet"
                 description="Create a project and embed the widget to start collecting feedback."
-                action={{
-                  label: "Create Your First Project",
-                  onClick: () => (window.location.href = "/projects"),
-                }}
+
               />
             </CardContent>
           </Card>
@@ -263,7 +265,7 @@ export default function DashboardPage() {
       ) : hasData && overview ? (
         <>
           {/* Stats Overview */}
-          <motion.div variants={itemVariants} className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          <motion.div variants={itemVariants} className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
             <StatCard
               title="Total Feedback"
               value={overview.total.toLocaleString()}
@@ -305,7 +307,7 @@ export default function DashboardPage() {
             />
             <StatCard
               title="Positive Sentiment"
-              value={`${Math.round((overview.sentimentDistribution.positive / overview.total) * 100)}%`}
+              value={ overview?.sentimentDistribution.positive ? `${Math.round((overview.sentimentDistribution.positive / overview.total) * 100)}%` : "0%"}
               description="Based on AI analysis"
               icon={TrendingUp}
               chart={
@@ -323,24 +325,7 @@ export default function DashboardPage() {
                 </ResponsiveContainer>
               }
             />
-            <StatCard
-              title="Categories"
-              value={Object.keys(overview.categoryBreakdown).length}
-              description="Active types"
-              icon={Activity}
-              chart={
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart data={categoryChartData}>
-                    <Bar
-                      dataKey="count"
-                      fill="hsl(var(--primary))"
-                      radius={[2, 2, 0, 0]}
-                      fillOpacity={0.8}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              }
-            />
+
           </motion.div>
 
           {/* AI Insights */}

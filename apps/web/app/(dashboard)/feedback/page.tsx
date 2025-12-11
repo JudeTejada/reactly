@@ -30,17 +30,20 @@ import { RatingStars } from "@/components/dashboard/rating-stars";
 import { CategoryBadge } from "@/components/dashboard/category-badge";
 import { EmptyState } from "@/components/dashboard/empty-state";
 import { useFeedback, useDeleteFeedback } from "@/hooks/use-feedback";
+import { useProjectStore } from "@/stores/use-project-store";
 import { Search, Download, Trash2, Inbox, Filter, ArrowLeft, ArrowRight } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import type { SentimentType, FeedbackCategory } from "@reactly/shared";
 
 export default function FeedbackPage() {
+  const { selectedProjectId } = useProjectStore();
   const [search, setSearch] = useState("");
   const [sentiment, setSentiment] = useState<SentimentType | "all">("all");
   const [category, setCategory] = useState<FeedbackCategory | "all">("all");
   const [page, setPage] = useState(1);
 
   const filters = {
+    projectId: selectedProjectId || undefined,
     search: search || undefined,
     sentiment: sentiment !== "all" ? sentiment : undefined,
     category: category !== "all" ? category : undefined,
@@ -62,17 +65,17 @@ export default function FeedbackPage() {
 
     const csv = [
       ["Date", "User", "Email", "Rating", "Sentiment", "Category", "Text"].join(
-        "," 
+        ","
       ),
       ...data.items.map((item) =>
         [
           new Date(item.createdAt).toLocaleDateString(),
-          `"${item.userName}"`, 
-          `"${item.userEmail}"`, 
+          `"${item.userName}"`,
+          `"${item.userEmail}"`,
           item.rating,
           item.sentiment,
           item.category,
-          `"${item.text.replace(/"/g, '""')}"`, 
+          `"${item.text.replace(/"/g, '""')}"`,
         ].join(",")
       ),
     ].join("\n");
