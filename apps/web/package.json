@@ -3,13 +3,13 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
+    "dev": "node init && next dev",
+    "build": "node init && next build",
+    "start": "node init && next start",
     "lint": "next lint",
     "type-check": "tsc --noEmit",
-    "build:deps": "pnpm --filter @reactly/shared build",
-    "build:cloudflare": "pnpm build:deps && npx @opennextjs/cloudflare build",
+    "build:deps": "node init && pnpm --filter @reactly/shared build",
+    "build:cloudflare": "node init && pnpm build:deps && npx @opennextjs/cloudflare build",
     "preview:cloudflare": "npx @opennextjs/cloudflare preview",
     "deploy:cloudflare": "npx @opennextjs/cloudflare deploy"
   },
